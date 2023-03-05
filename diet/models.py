@@ -1,7 +1,7 @@
 from django.db import models
 
 
-class food(models.Model):
+class Food(models.Model):
     CATEGORY_FOOD = 'F'
     CATEGORY_BEVERAGE = 'B'
     CATEGORY_SEASONING = 'S'
@@ -22,19 +22,19 @@ class food(models.Model):
     protein = models.IntegerField()
 
 
-class custom_food(food):
+class CustomFood(Food):
     # trainee =
     pass
 
 
-class recipe(models.Model):
+class Recipe(models.Model):
     # trainee =
     name = models.CharField(max_length=150)
     instructions = models.TextField()
     # image =
 
 
-class meal(models.Model):
+class Meal(models.Model):
     # trainee =
     name = models.CharField(max_length=150)
     time_eaten = models.DateTimeField(auto_now=True)
