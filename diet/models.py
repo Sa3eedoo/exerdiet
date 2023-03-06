@@ -1,4 +1,5 @@
 from django.db import models
+from core.models import Trainee
 
 
 class Food(models.Model):
@@ -15,26 +16,36 @@ class Food(models.Model):
     category = models.CharField(max_length=1,
                                 choices=CATEGORY_CHOICES,
                                 default=CATEGORY_FOOD)
-    # image =
     calories = models.IntegerField()
     carbs = models.IntegerField()
     fats = models.IntegerField()
     protein = models.IntegerField()
-
-
-class CustomFood(Food):
-    # trainee =
-    pass
-
-
-class Recipe(models.Model):
-    # trainee =
-    name = models.CharField(max_length=150)
-    instructions = models.TextField()
     # image =
 
 
+class CustomFood(Food):
+    trainee = models.OneToOneField(Trainee, on_delete=models.CASCADE)
+
+
+class Recipe(models.Model):
+    name = models.CharField(max_length=150)
+    instructions = models.TextField()
+    # image =
+    trainee = models.OneToOneField(Trainee, on_delete=models.CASCADE)
+    super_recipe = models.ManyToManyField(
+        'self', symmetrical=False, related_name='recipes'
+    )
+
+
 class Meal(models.Model):
-    # trainee =
     name = models.CharField(max_length=150)
     time_eaten = models.DateTimeField(auto_now=True)
+    trainee = models.OneToOneField(Trainee, on_delete=models.CASCADE)
+    recipes = models.ManyToManyField(Recipe, related_name='meals')
+
+
+class FoodInstance(models.Model):
+    portion = models.IntegerField()
+    food = models.OneToOneField(Food, on_delete=models.PROTECT)
+    recipes = models.ManyToManyField(Recipe, related_name='foodinstances')
+    meals = models.ManyToManyField(Meal, related_name='foodinstances')
