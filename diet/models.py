@@ -24,14 +24,14 @@ class Food(models.Model):
 
 
 class CustomFood(Food):
-    trainee = models.OneToOneField(Trainee, on_delete=models.CASCADE)
+    trainee = models.ForeignKey(Trainee, on_delete=models.CASCADE)
 
 
 class Recipe(models.Model):
     name = models.CharField(max_length=150)
     instructions = models.TextField()
     # image =
-    trainee = models.OneToOneField(Trainee, on_delete=models.CASCADE)
+    trainee = models.ForeignKey(Trainee, on_delete=models.CASCADE)
     super_recipe = models.ManyToManyField(
         'self', symmetrical=False, related_name='recipes'
     )
@@ -40,7 +40,7 @@ class Recipe(models.Model):
 class Meal(models.Model):
     name = models.CharField(max_length=150)
     time_eaten = models.DateTimeField(auto_now=True)
-    trainee = models.OneToOneField(Trainee, on_delete=models.CASCADE)
+    trainee = models.ForeignKey(Trainee, on_delete=models.CASCADE)
     recipes = models.ManyToManyField(Recipe, related_name='meals')
 
 
