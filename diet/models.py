@@ -3,19 +3,15 @@ from core.models import Trainee
 
 
 class Food(models.Model):
-    CATEGORY_FOOD = 'F'
-    CATEGORY_BEVERAGE = 'B'
-    CATEGORY_SEASONING = 'S'
-    CATEGORY_CHOICES = [
-        (CATEGORY_FOOD, 'Food'),
-        (CATEGORY_BEVERAGE, 'Beverage'),
-        (CATEGORY_SEASONING, 'Seasoning')
-    ]
+    class Category(models.TextChoices):
+        FOOD = 'F', 'Food'
+        BEVERAGE = 'B', 'Beverage'
+        SEASONING = 'S', 'Seasoning'
 
     name = models.CharField(max_length=150)
     category = models.CharField(max_length=1,
-                                choices=CATEGORY_CHOICES,
-                                default=CATEGORY_FOOD)
+                                choices=Category.choices,
+                                default=Category.FOOD)
     calories = models.DecimalField(max_digits=5, decimal_places=1)
     carbs = models.DecimalField(max_digits=5, decimal_places=1)
     fats = models.DecimalField(max_digits=5, decimal_places=1)
@@ -42,7 +38,7 @@ class Recipe(models.Model):
         Trainee, on_delete=models.CASCADE, related_name='recipes'
     )
     super_recipes = models.ManyToManyField(
-        'self', symmetrical=False, related_name='recipes', null=True, blank=True
+        'self', symmetrical=False, related_name='recipes'
     )
 
 
@@ -52,8 +48,7 @@ class Meal(models.Model):
     trainee = models.ForeignKey(
         Trainee, on_delete=models.CASCADE, related_name='meals'
     )
-    recipes = models.ManyToManyField(
-        Recipe, related_name='meals', null=True, blank=True)
+    recipes = models.ManyToManyField(Recipe, related_name='meals')
 
 
 class FoodInstance(models.Model):
@@ -62,9 +57,7 @@ class FoodInstance(models.Model):
         Food, on_delete=models.CASCADE, related_name='food_instances'
     )
     recipes = models.ManyToManyField(Recipe, related_name='food_instances')
-    meals = models.ManyToManyField(
-        Meal, related_name='food_instances', null=True, blank=True
-    )
+    meals = models.ManyToManyField(Meal, related_name='food_instances')
 
     class Meta:
         db_table = 'diet_food_instance'
