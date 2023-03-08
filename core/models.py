@@ -59,4 +59,5 @@ class Trainee(models.Model):
     goal = models.CharField(max_length=1,
                             choices=GOAL_CHOICES,
                             default=GOAL_KEEP)
+    image = models.ImageField(upload_to='core/images/trainees')
     user = models.OneToOneField(User, on_delete=models.CASCADE)

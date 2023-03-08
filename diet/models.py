@@ -20,7 +20,7 @@ class Food(models.Model):
     carbs = models.IntegerField()
     fats = models.IntegerField()
     protein = models.IntegerField()
-    # image =
+    image = models.ImageField(upload_to='diet/images/foods')
 
 
 class CustomFood(Food):
@@ -32,7 +32,7 @@ class CustomFood(Food):
 class Recipe(models.Model):
     name = models.CharField(max_length=150)
     instructions = models.TextField()
-    # image =
+    image = models.ImageField(upload_to='diet/images/recipes')
     trainee = models.ForeignKey(
         Trainee, on_delete=models.CASCADE, related_name='recipes'
     )
