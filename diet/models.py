@@ -16,28 +16,33 @@ class Food(models.Model):
     category = models.CharField(max_length=1,
                                 choices=CATEGORY_CHOICES,
                                 default=CATEGORY_FOOD)
-    calories = models.IntegerField()
-    carbs = models.IntegerField()
-    fats = models.IntegerField()
-    protein = models.IntegerField()
-    image = models.ImageField(upload_to='diet/images/foods')
+    calories = models.DecimalField(max_digits=5, decimal_places=1)
+    carbs = models.DecimalField(max_digits=5, decimal_places=1)
+    fats = models.DecimalField(max_digits=5, decimal_places=1)
+    protein = models.DecimalField(max_digits=5, decimal_places=1)
+    image = models.ImageField(
+        upload_to='diet/images/foods', null=True, blank=True)
 
 
 class CustomFood(Food):
     trainee = models.ForeignKey(
-        Trainee, on_delete=models.CASCADE, related_name='customfoods'
+        Trainee, on_delete=models.CASCADE, related_name='custom_foods'
     )
+
+    class Meta:
+        db_table = 'diet_custom_food'
 
 
 class Recipe(models.Model):
-    name = models.CharField(max_length=150)
-    instructions = models.TextField()
-    image = models.ImageField(upload_to='diet/images/recipes')
+    name = models.CharField(max_length=150, null=True, blank=True)
+    instructions = models.TextField(null=True, blank=True)
+    image = models.ImageField(
+        upload_to='diet/images/recipes', null=True, blank=True)
     trainee = models.ForeignKey(
         Trainee, on_delete=models.CASCADE, related_name='recipes'
     )
-    super_recipe = models.ManyToManyField(
-        'self', symmetrical=False, related_name='recipes'
+    super_recipes = models.ManyToManyField(
+        'self', symmetrical=False, related_name='recipes', null=True, blank=True
     )
 
 
@@ -47,11 +52,19 @@ class Meal(models.Model):
     trainee = models.ForeignKey(
         Trainee, on_delete=models.CASCADE, related_name='meals'
     )
-    recipes = models.ManyToManyField(Recipe, related_name='meals')
+    recipes = models.ManyToManyField(
+        Recipe, related_name='meals', null=True, blank=True)
 
 
 class FoodInstance(models.Model):
-    portion = models.IntegerField()
-    food = models.OneToOneField(Food, on_delete=models.PROTECT)
-    recipes = models.ManyToManyField(Recipe, related_name='foodinstances')
-    meals = models.ManyToManyField(Meal, related_name='foodinstances')
+    quantity = models.DecimalField(max_digits=5, decimal_places=1)
+    food = models.ForeignKey(
+        Food, on_delete=models.CASCADE, related_name='food_instances'
+    )
+    recipes = models.ManyToManyField(Recipe, related_name='food_instances')
+    meals = models.ManyToManyField(
+        Meal, related_name='food_instances', null=True, blank=True
+    )
+
+    class Meta:
+        db_table = 'diet_food_instance'
