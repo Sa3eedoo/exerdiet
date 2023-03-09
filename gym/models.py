@@ -33,19 +33,24 @@ class CustomExercise(Exercise):
 
 
 class Workout(models.Model):
-    trainee = models.ForeignKey(
-        Trainee, on_delete=models.CASCADE, related_name='custom_exercises'
-    )
     name = models.CharField(max_length=150)
     image = models.ImageField(
         upload_to='gym/images/workouts', null=True, blank=True)
+    trainee = models.ForeignKey(
+        Trainee, on_delete=models.CASCADE, related_name='workouts'
+    )
+    super_workouts = models.ManyToManyField(
+        'self', symmetrical=False, related_name='child_workouts'
+    )
 
 
 class PerformedWorkout(models.Model):
-
     time_performed = models.DateTimeField(auto_now=True)
     trainee = models.ForeignKey(
         Trainee, on_delete=models.CASCADE, related_name='performed_workouts'
+    )
+    workouts = models.ManyToManyField(
+        Workout, related_name='performed_workouts'
     )
 
     class Meta:
@@ -53,7 +58,7 @@ class PerformedWorkout(models.Model):
 
 
 class ExerciseInstance(models.Model):
-    duration = models.PositiveBigIntegerField()
+    duration = models.PositiveIntegerField()
     sets = models.PositiveSmallIntegerField()
     exercise = models.ForeignKey(
         Exercise, on_delete=models.CASCADE, related_name='exercise_instances'
