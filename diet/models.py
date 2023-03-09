@@ -38,7 +38,7 @@ class Recipe(models.Model):
         Trainee, on_delete=models.CASCADE, related_name='recipes'
     )
     super_recipes = models.ManyToManyField(
-        'self', symmetrical=False, related_name='recipes'
+        'self', symmetrical=False, related_name='child_recipes'
     )
 
 
