@@ -1,0 +1,69 @@
+1- ctrl + ` -> terminal
+
+2- ctrl + shift + m -> problems
+
+3- ctrl + shift + p -> command pallete
+
+4- alt + shift + f -> format
+
+5- ctrl + alt + n -> run
+
+6- alt + up or down -> shift code
+
+7- shift + alt + down -> duplicate
+
+8- ctrl + k + c -> comment
+
+9- ctrl + k + u -> uncomment
+
+* ctrl + / -> comment, uncomment
+
+10- fn + left -> line start
+
+11- fn + right -> line end
+
+12- fn + up -> page start
+
+13- fn + down -> page end
+
+14- f9 -> add break point
+
+15- f5 -> run up to break point (continue)
+
+16- f10 -> execute one statment at a time (step over)
+
+17- f11 -> (step in)
+
+18- shift + f11 -> (step out)
+
+19- shift + f5 -> stop debuger
+
+20- ctrl + space -> suggest
+
+21- ctrl + b -> expand/unexpand explorer
+
+22- ctrl + L -> clear terminal, select line of code
+
+23- ctrl + p -> search files
+
+24- ctrl + f5 -> run without debugging
+
+25- f2 -> rename
+
+26- ctrl + t -> go to symbol in workspace
+
+27- ctrl + shift + o -> go to symbol in editor
+
+28- ctrl + . -> code action ex: import
+
+29- alt + shift + right arrow -> expand selection
+
+30- alt + shift + left arrow -> shrink selection
+
+31- alt + left arrow -> go back
+
+32- alt + right arrow -> go forward
+
+33- ctrl + ] -> indent
+
+34- ctrl + [ -> unindent
