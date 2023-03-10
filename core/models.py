@@ -5,6 +5,9 @@ from django.contrib.auth.models import AbstractUser
 class User(AbstractUser):
     email = models.EmailField(unique=True)
 
+    def __str__(self) -> str:
+        return self.username
+
 
 class Trainee(models.Model):
     class ActivityLevel(models.TextChoices):
@@ -40,3 +43,6 @@ class Trainee(models.Model):
         upload_to='core/images/trainees', null=True, blank=True
     )
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return self.user.username
