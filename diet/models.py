@@ -19,6 +19,9 @@ class Food(models.Model):
     image = models.ImageField(
         upload_to='diet/images/foods', null=True, blank=True)
 
+    def __str__(self) -> str:
+        return self.name
+
 
 class CustomFood(Food):
     trainee = models.ForeignKey(
@@ -29,6 +32,9 @@ class CustomFood(Food):
         db_table = 'diet_custom_food'
         verbose_name = "Custom Food"
         verbose_name_plural = "Custom Foods"
+
+    def __str__(self) -> str:
+        return self.name
 
 
 class Recipe(models.Model):
@@ -43,6 +49,9 @@ class Recipe(models.Model):
         'self', symmetrical=False, related_name='child_recipes'
     )
 
+    def __str__(self) -> str:
+        return self.name
+
 
 class Meal(models.Model):
     name = models.CharField(max_length=150)
@@ -51,6 +60,9 @@ class Meal(models.Model):
         Trainee, on_delete=models.CASCADE, related_name='meals'
     )
     recipes = models.ManyToManyField(Recipe, related_name='meals')
+
+    def __str__(self) -> str:
+        return self.name + self.time_eaten
 
 
 class FoodInstance(models.Model):
@@ -65,3 +77,6 @@ class FoodInstance(models.Model):
         db_table = 'diet_food_instance'
         verbose_name = "Food Instance"
         verbose_name_plural = "Food Instances"
+
+    def __str__(self) -> str:
+        return self.food.name + self.quantity
