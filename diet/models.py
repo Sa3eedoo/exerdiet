@@ -27,6 +27,8 @@ class CustomFood(Food):
 
     class Meta:
         db_table = 'diet_custom_food'
+        verbose_name = "Custom Food"
+        verbose_name_plural = "Custom Foods"
 
 
 class Recipe(models.Model):
@@ -61,3 +63,5 @@ class FoodInstance(models.Model):
 
     class Meta:
         db_table = 'diet_food_instance'
+        verbose_name = "Food Instance"
+        verbose_name_plural = "Food Instances"
