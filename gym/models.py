@@ -1,5 +1,4 @@
 from django.db import models
-
 from core.models import Trainee
 
 
@@ -21,6 +20,9 @@ class Exercise(models.Model):
 
     image = models.ImageField(
         upload_to='gym/images/exercises', null=True, blank=True)
+    
+    def __str__(self) -> str:
+        return self.name
 
 
 class CustomExercise(Exercise):
@@ -30,6 +32,11 @@ class CustomExercise(Exercise):
 
     class Meta:
         db_table = 'gym_custom_exercise'
+        verbose_name = "Custom Exercise"
+        verbose_name_plural = "Custom Exercises"
+
+    def __str__(self) -> str:
+        return self.name
 
 
 class Workout(models.Model):
@@ -43,6 +50,8 @@ class Workout(models.Model):
         'self', symmetrical=False, related_name='child_workouts'
     )
 
+    def __str__(self) -> str:
+        return self.name
 
 class PerformedWorkout(models.Model):
     time_performed = models.DateTimeField(auto_now=True)
@@ -56,6 +65,9 @@ class PerformedWorkout(models.Model):
     class Meta:
         db_table = 'gym_performed_workout'
 
+    def __str__(self) -> str:
+        return self.name + self.time_performed
+
 
 class ExerciseInstance(models.Model):
     duration = models.PositiveIntegerField()
@@ -67,3 +79,11 @@ class ExerciseInstance(models.Model):
         Workout, related_name='exercise_instances')
     performed_workouts = models.ManyToManyField(
         PerformedWorkout, related_name='exercise_instances')
+    
+    class Meta:
+        db_table = 'gym_exercise_instance'
+        verbose_name = "Exercise Instance"
+        verbose_name_plural = "Exercises Instance"
+
+    def __str__(self) -> str:
+        return self.exercise.name + self.quantity
