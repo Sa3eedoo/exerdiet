@@ -6,7 +6,7 @@ from . import models
 
 @admin.register(models.Exercise)
 class ExerciseAdmin(admin.ModelAdmin):
-    list_display = ['name', 'calorie_burned_level', 'calories_burned',
+    list_display = ['name', 'calories_burned_level', 'calories_burned',
                     'is_repetitive', 'body_part']
     list_editable = ['calories_burned', 'is_repetitive', 'body_part']
     list_per_page = 10
@@ -14,7 +14,7 @@ class ExerciseAdmin(admin.ModelAdmin):
     search_fields = ['name']
 
     @admin.display(ordering='calories_burned')
-    def calorie_burned_level(self, exercise):
+    def calories_burned_level(self, exercise):
         if exercise.calories_burned == 0:
             return 'Zero'
         elif exercise.calories_burned < 100:
