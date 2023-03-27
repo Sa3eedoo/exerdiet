@@ -38,7 +38,7 @@ class CustomFood(Food):
 
 
 class Recipe(models.Model):
-    name = models.CharField(max_length=150, null=True, blank=True)
+    name = models.CharField(max_length=150)
     instructions = models.TextField(null=True, blank=True)
     image = models.ImageField(
         upload_to='diet/images/recipes', null=True, blank=True)
