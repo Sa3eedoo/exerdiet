@@ -20,7 +20,7 @@ class Exercise(models.Model):
 
     image = models.ImageField(
         upload_to='gym/images/exercises', null=True, blank=True)
-    
+
     def __str__(self) -> str:
         return self.name
 
@@ -53,6 +53,7 @@ class Workout(models.Model):
     def __str__(self) -> str:
         return self.name
 
+
 class PerformedWorkout(models.Model):
     time_performed = models.DateTimeField(auto_now=True)
     trainee = models.ForeignKey(
@@ -79,7 +80,7 @@ class ExerciseInstance(models.Model):
         Workout, related_name='exercise_instances')
     performed_workouts = models.ManyToManyField(
         PerformedWorkout, related_name='exercise_instances')
-    
+
     class Meta:
         db_table = 'gym_exercise_instance'
         verbose_name = "Exercise Instance"
