@@ -129,7 +129,7 @@ class FoodAdmin(admin.ModelAdmin):
     list_editable = ['calories', 'carbs', 'fats', 'protein', 'category']
     list_filter = ['category', CalorieLevelFilter,
                    CarbLevelFilter, FatLevelFilter, ProteinLevelFilter]
-    list_per_page = 10
+    list_per_page = 100
     ordering = ['name']
     search_fields = ['name']
 
@@ -143,18 +143,20 @@ class FoodAdmin(admin.ModelAdmin):
             return 'Medium'
         return 'High'
 
-    def get_queryset(self, request):
-        return super().get_queryset(request).exclude(customfood__isnull=False)
+    # def get_queryset(self, request):
+    #     return super().get_queryset(request).exclude(customfood__isnull=False)
 
 
 @admin.register(models.CustomFood)
 class CustomFoodAdmin(admin.ModelAdmin):
+    autocomplete_fields = ['trainee']
     list_display = ['name', 'trainee_user_name', 'calorie_level',
                     'calories', 'carbs', 'fats', 'protein', 'category']
     list_filter = ['category', CalorieLevelFilter,
                    CarbLevelFilter, FatLevelFilter, ProteinLevelFilter]
     list_select_related = ['trainee__user']
-    list_per_page = 10
+    list_per_page = 100
+    ordering = ['name']
     search_fields = ['name', 'trainee__user__username']
 
     def trainee_user_name(self, custom_food):
@@ -173,3 +175,47 @@ class CustomFoodAdmin(admin.ModelAdmin):
         elif food.calories < CALORIE_LEVEL_HIGH:
             return 'Medium'
         return 'High'
+
+
+@admin.register(models.FoodInstance)
+class FoodInstanceAdmin(admin.ModelAdmin):
+    autocomplete_fields = ['food', 'recipe', 'meal']
+    list_display = ['food_name', 'quantity', 'recipe_name', 'meal_name']
+    list_display_links = ['quantity']
+    list_per_page = 100
+    list_select_related = ['food', 'recipe', 'meal']
+    ordering = ['food__name']
+    search_fields = ['food__name']
+
+    def food_name(self, food_instacne):
+        url = (
+            reverse('admin:diet_food_changelist') +
+            str(food_instacne.food.id)
+        )
+        return format_html('<a href="{}">{}</a>', url, food_instacne.food)
+
+    def recipe_name(self, food_instacne):
+        url = (
+            reverse('admin:diet_recipe_changelist') +
+            str(food_instacne.recipe.id)
+        )
+        return format_html('<a href="{}">{}</a>', url, food_instacne.recipe)
+
+    def meal_name(self, food_instacne):
+        if food_instacne.meal:
+            url = (
+                reverse('admin:diet_meal_changelist') +
+                str(food_instacne.meal.id)
+            )
+            return format_html('<a href="{}">{}</a>', url, food_instacne.meal)
+        return food_instacne.meal
+
+
+@admin.register(models.Recipe)
+class RecipeInstanceAdmin(admin.ModelAdmin):
+    search_fields = ['name']
+
+
+@admin.register(models.Meal)
+class MealInstanceAdmin(admin.ModelAdmin):
+    search_fields = ['name']
