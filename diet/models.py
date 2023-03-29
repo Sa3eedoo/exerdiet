@@ -1,3 +1,4 @@
+from django.core.validators import MinValueValidator
 from django.db import models
 from core.models import Trainee
 
@@ -12,10 +13,14 @@ class Food(models.Model):
     category = models.CharField(max_length=1,
                                 choices=Category.choices,
                                 default=Category.FOOD)
-    calories = models.DecimalField(max_digits=5, decimal_places=1)
-    carbs = models.DecimalField(max_digits=5, decimal_places=1)
-    fats = models.DecimalField(max_digits=5, decimal_places=1)
-    protein = models.DecimalField(max_digits=5, decimal_places=1)
+    calories = models.DecimalField(
+        max_digits=5, decimal_places=1, validators=[MinValueValidator(0)])
+    carbs = models.DecimalField(
+        max_digits=5, decimal_places=1, validators=[MinValueValidator(0)])
+    fats = models.DecimalField(
+        max_digits=5, decimal_places=1, validators=[MinValueValidator(0)])
+    protein = models.DecimalField(
+        max_digits=5, decimal_places=1, validators=[MinValueValidator(0)])
     image = models.ImageField(
         upload_to='diet/images/foods', null=True, blank=True)
 
@@ -62,16 +67,21 @@ class Meal(models.Model):
     recipes = models.ManyToManyField(Recipe, related_name='meals')
 
     def __str__(self) -> str:
-        return self.name + self.time_eaten
+        return self.name + ' / ' + str(self.trainee) + ' / ' + str(self.time_eaten)
 
 
 class FoodInstance(models.Model):
-    quantity = models.DecimalField(max_digits=5, decimal_places=1)
+    quantity = models.DecimalField(
+        max_digits=5, decimal_places=1, validators=[MinValueValidator(1)])
     food = models.ForeignKey(
         Food, on_delete=models.CASCADE, related_name='food_instances'
     )
-    recipes = models.ManyToManyField(Recipe, related_name='food_instances')
-    meals = models.ManyToManyField(Meal, related_name='food_instances')
+    recipe = models.ForeignKey(
+        Recipe, on_delete=models.CASCADE, related_name='food_instances'
+    )
+    meal = models.ForeignKey(
+        Meal, on_delete=models.CASCADE, related_name='food_instances', null=True, blank=True
+    )
 
     class Meta:
         db_table = 'diet_food_instance'
@@ -79,4 +89,4 @@ class FoodInstance(models.Model):
         verbose_name_plural = "Food Instances"
 
     def __str__(self) -> str:
-        return self.food.name + self.quantity
+        return self.food.name + ' (' + str(self.quantity) + 'gm/ml)'
