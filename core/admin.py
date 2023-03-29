@@ -14,8 +14,12 @@ class UserAdmin(BaseUserAdmin):
             },
         ),
     )
+    search_fields = ['username__istartswith',
+                     'first_name__istartswith', 'last_name__istartswith']
 
 
 @admin.register(models.Trainee)
 class TraineeAdmin(admin.ModelAdmin):
     list_select_related = ['user']
+    search_fields = ['user__username__istartswith',
+                     'user__first_name__istartswith', 'user__last_name__istartswith']
