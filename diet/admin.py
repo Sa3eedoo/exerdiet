@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.db.models import Count
 from django.utils.html import format_html
 from django.urls import reverse
 from . import models
@@ -150,16 +151,17 @@ class FoodAdmin(admin.ModelAdmin):
 @admin.register(models.CustomFood)
 class CustomFoodAdmin(admin.ModelAdmin):
     autocomplete_fields = ['trainee']
-    list_display = ['name', 'trainee_user_name', 'calorie_level',
+    list_display = ['name', 'trainee_username', 'calorie_level',
                     'calories', 'carbs', 'fats', 'protein', 'category']
     list_filter = ['category', CalorieLevelFilter,
                    CarbLevelFilter, FatLevelFilter, ProteinLevelFilter]
     list_select_related = ['trainee__user']
     list_per_page = 100
     ordering = ['name']
-    search_fields = ['name', 'trainee__user__username']
+    search_fields = ['name', 'trainee__user__username__istartswith']
 
-    def trainee_user_name(self, custom_food):
+    @admin.display(ordering='trainee__user__username')
+    def trainee_username(self, custom_food):
         url = (
             reverse('admin:core_trainee_changelist') +
             str(custom_food.trainee.id)
@@ -183,10 +185,14 @@ class FoodInstanceAdmin(admin.ModelAdmin):
     list_display = ['food_name', 'quantity', 'recipe_name', 'meal_name']
     list_display_links = ['quantity']
     list_per_page = 100
-    list_select_related = ['food', 'recipe', 'meal']
+    list_select_related = [
+        'food', 'recipe__trainee__user', 'meal__trainee__user'
+    ]
     ordering = ['food__name']
-    search_fields = ['food__name']
+    search_fields = ['food__name', 'recipe__name',
+                     'meal__trainee__user__username__istartswith']
 
+    @admin.display(ordering='food__name')
     def food_name(self, food_instacne):
         url = (
             reverse('admin:diet_food_changelist') +
@@ -194,13 +200,17 @@ class FoodInstanceAdmin(admin.ModelAdmin):
         )
         return format_html('<a href="{}">{}</a>', url, food_instacne.food)
 
+    @admin.display(ordering='recipe__name')
     def recipe_name(self, food_instacne):
-        url = (
-            reverse('admin:diet_recipe_changelist') +
-            str(food_instacne.recipe.id)
-        )
-        return format_html('<a href="{}">{}</a>', url, food_instacne.recipe)
+        if food_instacne.recipe:
+            url = (
+                reverse('admin:diet_recipe_changelist') +
+                str(food_instacne.recipe.id)
+            )
+            return format_html('<a href="{}">{}</a>', url, food_instacne.recipe)
+        return food_instacne.recipe
 
+    @admin.display(ordering='meal__name')
     def meal_name(self, food_instacne):
         if food_instacne.meal:
             url = (
@@ -211,11 +221,72 @@ class FoodInstanceAdmin(admin.ModelAdmin):
         return food_instacne.meal
 
 
+class FoodInstanceRecipeInline(admin.TabularInline):
+    model = models.FoodInstance
+    autocomplete_fields = ['food']
+    exclude = ['meal']
+    extra = 1
+    fields = ['food', 'quantity']
+
+
 @admin.register(models.Recipe)
-class RecipeInstanceAdmin(admin.ModelAdmin):
-    search_fields = ['name']
+class RecipeAdmin(admin.ModelAdmin):
+    autocomplete_fields = ['trainee']
+    list_display = ['name', 'trainee_username', 'eaten_count', 'instructions']
+    list_select_related = ['trainee__user']
+    list_per_page = 100
+    ordering = ['name']
+    search_fields = ['name', 'trainee__user__username__istartswith']
+    inlines = [FoodInstanceRecipeInline]
+
+    @admin.display(ordering='trainee__user__username')
+    def trainee_username(self, recipe):
+        url = (
+            reverse('admin:core_trainee_changelist') +
+            str(recipe.trainee.id)
+        )
+        return format_html('<a href="{}">{}</a>', url, recipe.trainee)
+
+    @admin.display(ordering='eaten_count')
+    def eaten_count(self, recipe):
+        return recipe.eaten_count
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).annotate(eaten_count=Count('meals'))
+
+
+class FoodInstanceMealInline(admin.TabularInline):
+    model = models.FoodInstance
+    autocomplete_fields = ['food']
+    exclude = ['recipe']
+    extra = 1
+    fields = ['food', 'quantity']
+
+
+class RecipeMealInline(admin.TabularInline):
+    model = models.Recipe.meals.through
+    autocomplete_fields = ['recipe']
+    extra = 1
+    verbose_name = "Recipe"
+    verbose_name_plural = "Recipes"
 
 
 @admin.register(models.Meal)
-class MealInstanceAdmin(admin.ModelAdmin):
-    search_fields = ['name']
+class MealAdmin(admin.ModelAdmin):
+    autocomplete_fields = ['trainee']
+    exclude = ['recipes']
+    list_display = ['name', 'trainee_username', 'time_eaten']
+    list_filter = ['time_eaten']
+    list_per_page = 100
+    list_select_related = ['trainee__user']
+    inlines = [RecipeMealInline, FoodInstanceMealInline]
+    ordering = ['time_eaten']
+    search_fields = ['name', 'trainee__user__username__istartswith']
+
+    @admin.display(ordering='trainee__user__username')
+    def trainee_username(self, recipe):
+        url = (
+            reverse('admin:core_trainee_changelist') +
+            str(recipe.trainee.id)
+        )
+        return format_html('<a href="{}">{}</a>', url, recipe.trainee)
