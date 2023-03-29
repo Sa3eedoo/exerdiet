@@ -39,7 +39,7 @@ class CustomFood(Food):
         verbose_name_plural = "Custom Foods"
 
     def __str__(self) -> str:
-        return self.name
+        return self.name + ' / ' + str(self.trainee)
 
 
 class Recipe(models.Model):
@@ -50,12 +50,9 @@ class Recipe(models.Model):
     trainee = models.ForeignKey(
         Trainee, on_delete=models.CASCADE, related_name='recipes'
     )
-    super_recipes = models.ManyToManyField(
-        'self', symmetrical=False, related_name='child_recipes'
-    )
 
     def __str__(self) -> str:
-        return self.name
+        return self.name + ' / ' + str(self.trainee)
 
 
 class Meal(models.Model):
@@ -64,7 +61,7 @@ class Meal(models.Model):
     trainee = models.ForeignKey(
         Trainee, on_delete=models.CASCADE, related_name='meals'
     )
-    recipes = models.ManyToManyField(Recipe, related_name='meals')
+    recipes = models.ManyToManyField(Recipe, related_name='meals', blank=True)
 
     def __str__(self) -> str:
         return self.name + ' / ' + str(self.trainee) + ' / ' + str(self.time_eaten)
@@ -77,7 +74,7 @@ class FoodInstance(models.Model):
         Food, on_delete=models.CASCADE, related_name='food_instances'
     )
     recipe = models.ForeignKey(
-        Recipe, on_delete=models.CASCADE, related_name='food_instances'
+        Recipe, on_delete=models.CASCADE, related_name='food_instances', null=True, blank=True
     )
     meal = models.ForeignKey(
         Meal, on_delete=models.CASCADE, related_name='food_instances', null=True, blank=True
