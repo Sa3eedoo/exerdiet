@@ -44,6 +44,7 @@ class UserAdmin(BaseUserAdmin):
     list_filter = ("is_staff", "is_superuser", "is_active",
                    "groups", TraineeStatusFilter)
     list_per_page = 100
+    list_select_related = ['trainee']
     search_fields = ['username__istartswith', 'first_name__istartswith',
                      'last_name__istartswith', 'email']
 
