@@ -25,7 +25,7 @@ class Food(models.Model):
         upload_to='diet/images/foods', null=True, blank=True)
 
     def __str__(self) -> str:
-        return self.name
+        return self.name + ' (' + str(self.calories) + ' cals/100gm)'
 
 
 class CustomFood(Food):
@@ -86,4 +86,4 @@ class FoodInstance(models.Model):
         verbose_name_plural = "Food Instances"
 
     def __str__(self) -> str:
-        return self.food.name + ' (' + str(self.quantity) + 'gm/ml)'
+        return self.food.name + ' (' + str(self.quantity) + ' gm/ml)'
