@@ -1,3 +1,4 @@
+from django.core.validators import MinValueValidator
 from django.db import models
 from core.models import Trainee
 
@@ -14,15 +15,17 @@ class Exercise(models.Model):
 
     name = models.CharField(max_length=150)
     body_part = models.CharField(max_length=2,
-                                 choices=BodyPart.choices)
-    calories_burned = models.DecimalField(max_digits=5, decimal_places=1)
+                                 choices=BodyPart.choices,
+                                 default=BodyPart.CARDIO)
+    calories_burned = models.DecimalField(
+        max_digits=5, decimal_places=1, validators=[MinValueValidator(0)])
     is_repetitive = models.BooleanField()
 
     image = models.ImageField(
         upload_to='gym/images/exercises', null=True, blank=True)
 
     def __str__(self) -> str:
-        return self.name
+        return self.name + ' (' + str(self.calories_burned) + 'cal)'
 
 
 class CustomExercise(Exercise):
@@ -36,25 +39,24 @@ class CustomExercise(Exercise):
         verbose_name_plural = "Custom Exercises"
 
     def __str__(self) -> str:
-        return self.name
+        return self.name + ' / ' + str(self.trainee)
 
 
 class Workout(models.Model):
     name = models.CharField(max_length=150)
+    instructions = models.TextField(null=True, blank=True)
     image = models.ImageField(
         upload_to='gym/images/workouts', null=True, blank=True)
     trainee = models.ForeignKey(
         Trainee, on_delete=models.CASCADE, related_name='workouts'
     )
-    super_workouts = models.ManyToManyField(
-        'self', symmetrical=False, related_name='child_workouts'
-    )
 
     def __str__(self) -> str:
-        return self.name
+        return self.name + ' / ' + str(self.trainee)
 
 
 class PerformedWorkout(models.Model):
+    name = models.CharField(max_length=150)
     time_performed = models.DateTimeField(auto_now=True)
     trainee = models.ForeignKey(
         Trainee, on_delete=models.CASCADE, related_name='performed_workouts'
@@ -63,11 +65,8 @@ class PerformedWorkout(models.Model):
         Workout, related_name='performed_workouts'
     )
 
-    class Meta:
-        db_table = 'gym_performed_workout'
-
     def __str__(self) -> str:
-        return self.name + self.time_performed
+        return self.name + ' / ' + str(self.trainee) + ' / ' + str(self.time_performed)
 
 
 class ExerciseInstance(models.Model):
@@ -76,10 +75,12 @@ class ExerciseInstance(models.Model):
     exercise = models.ForeignKey(
         Exercise, on_delete=models.CASCADE, related_name='exercise_instances'
     )
-    workouts = models.ManyToManyField(
-        Workout, related_name='exercise_instances')
-    performed_workouts = models.ManyToManyField(
-        PerformedWorkout, related_name='exercise_instances')
+    workout = models.ForeignKey(
+        Workout, on_delete=models.CASCADE, related_name='exercise_instances', null=True, blank=True
+    )
+    performed_workout = models.ForeignKey(
+        PerformedWorkout, on_delete=models.CASCADE, related_name='exercise_instances', null=True, blank=True
+    )
 
     class Meta:
         db_table = 'gym_exercise_instance'
@@ -87,4 +88,4 @@ class ExerciseInstance(models.Model):
         verbose_name_plural = "Exercises Instance"
 
     def __str__(self) -> str:
-        return self.exercise.name + self.quantity
+        return self.exercise.name + ' (' + str(self.sets) + ')'
