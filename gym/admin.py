@@ -78,7 +78,7 @@ class CustomExerciseAdmin(admin.ModelAdmin):
             str(custom_exercise.trainee.id)
         )
         return format_html('<a href="{}">{}</a>', url, custom_exercise.trainee)
-    
+
     @admin.display(ordering='calories_burned')
     def calories_burned_level(self, exercise):
         if exercise.calories_burned == 0:
@@ -90,11 +90,11 @@ class CustomExerciseAdmin(admin.ModelAdmin):
         return 'High'
 
 
-
 @admin.register(models.ExerciseInstance)
 class ExerciseInstanceAdmin(admin.ModelAdmin):
-    autocomplete_fields = ['exercise', 'workout', 'performed_workout'] 
-    list_display = ['exercise_name', 'duration', 'sets', 'workout_name', 'performed_workout_name']
+    autocomplete_fields = ['exercise', 'workout', 'performed_workout']
+    list_display = ['exercise_name', 'duration', 'sets',
+                    'workout_name', 'performed_workout_name']
     list_display_links = ['duration', 'sets']
     list_per_page = 100
     list_select_related = [
@@ -103,7 +103,7 @@ class ExerciseInstanceAdmin(admin.ModelAdmin):
     ordering = ['exercise__name']
     search_fields = ['food__name', 'workouts__name',
                      'performed_workout__trainee__user__username__istartswith']
-    
+
     @admin.display(ordering='exercise__name')
     def exercise_name(self, exercise_instacne):
         url = (
@@ -131,13 +131,15 @@ class ExerciseInstanceAdmin(admin.ModelAdmin):
             )
             return format_html('<a href="{}">{}</a>', url, exercise_instacne.performed_workout)
         return exercise_instacne.performed_workout
-    
+
+
 class ExerciseInstanceWorkoutInline(admin.TabularInline):
     model = models.ExerciseInstance
     autocomplete_fields = ['exercise']
     exclude = ['performed_workout']
     extra = 1
     fields = ['exercise', 'duration', 'sets']
+
 
 @admin.register(models.Workout)
 class WorkoutAdmin(admin.ModelAdmin):
@@ -163,7 +165,7 @@ class WorkoutAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request):
         return super().get_queryset(request).annotate(performed_count=Count('performed_workouts'))
-    
+
 
 class ExerciseInstancePerformedWorkoutInline(admin.TabularInline):
     model = models.ExerciseInstance
@@ -189,7 +191,8 @@ class PerformedWorkoutAdmin(admin.ModelAdmin):
     list_filter = ['time_performed']
     list_per_page = 100
     list_select_related = ['trainee__user']
-    inlines = [WorkoutPerformedWorkoutInline, ExerciseInstancePerformedWorkoutInline]
+    inlines = [WorkoutPerformedWorkoutInline,
+               ExerciseInstancePerformedWorkoutInline]
     ordering = ['time_performed']
     search_fields = ['name', 'trainee__user__username__istartswith']
 
