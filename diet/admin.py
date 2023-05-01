@@ -193,32 +193,32 @@ class FoodInstanceAdmin(admin.ModelAdmin):
                      'meal__trainee__user__username__istartswith']
 
     @admin.display(ordering='food__name')
-    def food_name(self, food_instacne):
+    def food_name(self, food_instance):
         url = (
             reverse('admin:diet_food_changelist') +
-            str(food_instacne.food.id)
+            str(food_instance.food.id)
         )
-        return format_html('<a href="{}">{}</a>', url, food_instacne.food)
+        return format_html('<a href="{}">{}</a>', url, food_instance.food)
 
     @admin.display(ordering='recipe__name')
-    def recipe_name(self, food_instacne):
-        if food_instacne.recipe:
+    def recipe_name(self, food_instance):
+        if food_instance.recipe:
             url = (
                 reverse('admin:diet_recipe_changelist') +
-                str(food_instacne.recipe.id)
+                str(food_instance.recipe.id)
             )
-            return format_html('<a href="{}">{}</a>', url, food_instacne.recipe)
-        return food_instacne.recipe
+            return format_html('<a href="{}">{}</a>', url, food_instance.recipe)
+        return food_instance.recipe
 
     @admin.display(ordering='meal__name')
-    def meal_name(self, food_instacne):
-        if food_instacne.meal:
+    def meal_name(self, food_instance):
+        if food_instance.meal:
             url = (
                 reverse('admin:diet_meal_changelist') +
-                str(food_instacne.meal.id)
+                str(food_instance.meal.id)
             )
-            return format_html('<a href="{}">{}</a>', url, food_instacne.meal)
-        return food_instacne.meal
+            return format_html('<a href="{}">{}</a>', url, food_instance.meal)
+        return food_instance.meal
 
 
 class FoodInstanceRecipeInline(admin.TabularInline):
