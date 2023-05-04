@@ -1,3 +1,9 @@
-from django.shortcuts import render
+from rest_framework.viewsets import GenericViewSet
+from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, UpdateModelMixin
+from .models import Trainee
+from .serializers import TraineeSerializer
 
-# Create your views here.
+
+class TraineeViewSet(CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, GenericViewSet):
+    queryset = Trainee.objects.all()
+    serializer_class = TraineeSerializer
