@@ -15,10 +15,11 @@ class UserSerializer(BaseUserSerializer):
 
 
 class TraineeSerializer(serializers.ModelSerializer):
+    user_id = serializers.IntegerField(read_only=True)
     activity_level = serializers.CharField(source='get_activity_level_display')
     goal = serializers.CharField(source='get_goal_display')
 
     class Meta:
         model = Trainee
-        fields = ['id', 'birthdate', 'height', 'weight', 'daily_calories_needs', 'daily_water_needs',
+        fields = ['id', 'user_id', 'birthdate', 'height', 'weight', 'daily_calories_needs', 'daily_water_needs',
                   'daily_water_intake', 'carbs_ratio', 'fats_ratio', 'protein_ratio', 'daily_streak', 'activity_level', 'goal']
