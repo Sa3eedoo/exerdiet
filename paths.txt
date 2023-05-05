@@ -1,5 +1,6 @@
 /auth/users/
 /auth/users/me/
+/auth/users/<id>/
 /auth/users/confirm/
 /auth/users/resend_activation/
 /auth/users/set_password/
@@ -13,4 +14,5 @@
 /auth/jwt/verify/
 
 /core/trainee/
-/core/trainee/id
+/core/trainee/me/
+/core/trainee/<id>/
