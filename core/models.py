@@ -30,7 +30,6 @@ class Trainee(models.Model):
                                  validators=[MinValueValidator(0)])
     # TODO: add defalut value
     daily_calories_needs = models.PositiveIntegerField(blank=True)
-    daily_calories_intake = models.PositiveIntegerField(default=0, blank=True)
     # TODO: add defalut value
     daily_water_needs = models.PositiveIntegerField(blank=True)
     daily_water_intake = models.PositiveIntegerField(default=0, blank=True)
