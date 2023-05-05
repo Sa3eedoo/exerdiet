@@ -1,18 +1,17 @@
 from django.shortcuts import get_object_or_404
 from rest_framework.decorators import action
-from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, UpdateModelMixin
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.viewsets import GenericViewSet
+from rest_framework.viewsets import ModelViewSet
 from .models import Trainee
 from .serializers import TraineeSerializer
 
 
-class TraineeViewSet(CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, GenericViewSet):
+class TraineeViewSet(ModelViewSet):
     queryset = Trainee.objects.all()
     serializer_class = TraineeSerializer
-    permission_classes = IsAdminUser
+    permission_classes = [IsAdminUser]
 
     @action(detail=False, methods=['GET', 'PUT', 'PATCH'], permission_classes=[IsAuthenticated])
     def me(self, request):
