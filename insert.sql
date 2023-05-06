@@ -6,7 +6,7 @@ VALUES
 ('amandajohnson', 'pbkdf2_sha256$150000$3Qy/bLD0nBrv$1Czg4CF4rjU+4Lk5jBr0W8l4J4Y/R5nb5KjD5UW0Ehc=', 'Amanda', 'Johnson', 'amandajohnson@example.com', 1, 1, 0, '2022-01-01 00:00:00'),
 ('markwilson', 'pbkdf2_sha256$150000$y5G5J5COE+YY$SvPn/26Jwz70P8boNH75YUIY+Jjg9hyxjyzas3IqNmlU=', 'Mark', 'Wilson', 'markwilson@example.com', 0, 1, 0, '2022-01-01 00:00:00');
 
-INSERT INTO core_trainee (birthdate, height, weight, daily_calories_needs, daily_water_intake, daily_water_needs, carbs_ratio, fats_ratio, protein_ratio, was_active_today, daily_streak, activity_level, goal, user_id)
+INSERT INTO core_trainee (birthdate, height, weight, daily_calories_needs, water_intake_today, daily_water_needs, carbs_ratio, fats_ratio, protein_ratio, was_active_today, daily_streak, activity_level, goal, user_id)
 VALUES
   ('1990-12-15', 168.5, 65.0, 1800.0, 2500, 2000, 0.4, 0.4, 0.2, 1, 2, 'M', 'L', 1),
   ('1998-08-01', 186.0, 80.0, 2200.0, 3000, 3500, 0.3, 0.5, 0.2, 0, 1, 'L', 'L', 2),
