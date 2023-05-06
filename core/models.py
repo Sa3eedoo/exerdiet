@@ -30,18 +30,15 @@ class Trainee(models.Model):
                                  validators=[MinValueValidator(0)])
     daily_calories_needs = models.PositiveIntegerField(default=0, blank=True)
     daily_water_needs = models.PositiveIntegerField(default=0, blank=True)
-    daily_water_intake = models.PositiveIntegerField(default=0, blank=True)
-    # TODO: add defalut value
+    water_intake_today = models.PositiveIntegerField(default=0, blank=True)
     carbs_ratio = models.DecimalField(max_digits=2, decimal_places=2,
-                                      blank=True,
+                                      default=0.0, blank=True,
                                       validators=[MinValueValidator(0), MaxValueValidator(1)])
-    # TODO: add defalut value
     fats_ratio = models.DecimalField(max_digits=2, decimal_places=2,
-                                     blank=True,
+                                     default=0.0, blank=True,
                                      validators=[MinValueValidator(0), MaxValueValidator(1)])
-    # TODO: add defalut value
     protein_ratio = models.DecimalField(max_digits=2, decimal_places=2,
-                                        blank=True,
+                                        default=0.0, blank=True,
                                         validators=[MinValueValidator(0), MaxValueValidator(1)])
     was_active_today = models.BooleanField(default=False, blank=True)
     daily_streak = models.PositiveSmallIntegerField(default=0, blank=True)
@@ -73,15 +70,22 @@ class Trainee(models.Model):
     def full_name(self):
         return self.user.first_name + ' ' + self.user.last_name
 
-    def calculate_daily_calories_needs(self):
+    def calculate_default_daily_calories_needs(self):
         return 2500
 
-    def calculate_daily_water_needs(self):
+    def calculate_default_daily_water_needs(self):
         return 3000
 
+    def calculate_default_macronutrients(self):
+        return [0.5, 0.3, 0.2]
+
     def save(self, *args, **kwargs):
-        if not self.pk and not self.daily_calories_needs:
-            self.daily_calories_needs = self.calculate_daily_calories_needs()
-        if not self.pk and not self.daily_water_needs:
-            self.daily_water_needs = self.calculate_daily_water_needs()
+        if not self.daily_calories_needs:
+            self.daily_calories_needs = self.calculate_default_daily_calories_needs()
+        if not self.daily_water_needs:
+            self.daily_water_needs = self.calculate_default_daily_water_needs()
+        if not self.carbs_ratio and not self.fats_ratio and not self.protein_ratio:
+            self.carbs_ratio, self.fats_ratio, self.protein_ratio = self.calculate_default_macronutrients()
+        if self.daily_streak == None:
+            self.daily_streak = 0
         super().save(*args, **kwargs)
