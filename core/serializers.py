@@ -22,4 +22,16 @@ class TraineeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Trainee
         fields = ['id', 'user_id', 'birthdate', 'height', 'weight', 'daily_calories_needs', 'daily_water_needs',
-                  'daily_water_intake', 'carbs_ratio', 'fats_ratio', 'protein_ratio', 'daily_streak', 'activity_level', 'goal']
+                  'water_intake_today', 'carbs_ratio', 'fats_ratio', 'protein_ratio', 'daily_streak', 'activity_level', 'goal']
+
+
+class TraineeCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Trainee
+        fields = ['birthdate', 'height', 'weight', 'activity_level', 'goal']
+
+    def create(self, validated_data):
+        trainee = Trainee(**validated_data)
+        trainee.user_id = self.context['user_id']
+        trainee.save()
+        return trainee

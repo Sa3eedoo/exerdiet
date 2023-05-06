@@ -5,12 +5,19 @@ from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 from .models import Trainee
 from .permissions import IsAuthenticatedAndNotTrainee, IsAuthenticatedAndTrainee
-from .serializers import TraineeSerializer
+from .serializers import TraineeSerializer, TraineeCreateSerializer
 
 
 class TraineeViewSet(CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, GenericViewSet):
     queryset = Trainee.objects.all()
-    serializer_class = TraineeSerializer
+
+    def get_serializer_class(self):
+        if self.request.method == 'POST':
+            return TraineeCreateSerializer
+        return TraineeSerializer
+
+    def get_serializer_context(self):
+        return {'user_id': self.request.user.id}
 
     def get_permissions(self):
         if self.request.method == 'POST':

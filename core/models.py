@@ -88,4 +88,8 @@ class Trainee(models.Model):
             self.carbs_ratio, self.fats_ratio, self.protein_ratio = self.calculate_default_macronutrients()
         if self.daily_streak == None:
             self.daily_streak = 0
+        if not self.activity_level:
+            self.activity_level = self.ActivityLevel.MEDIUM
+        if not self.goal:
+            self.goal = self.Goal.KEEP
         super().save(*args, **kwargs)
