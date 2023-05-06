@@ -1,4 +1,5 @@
 from datetime import date
+from typing import Any, Optional
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.urls import reverse
@@ -165,7 +166,7 @@ class AgeFilter(admin.SimpleListFilter):
 @admin.register(models.Trainee)
 class TraineeAdmin(admin.ModelAdmin):
     autocomplete_fields = ['user']
-    exclude = ['daily_water_intake', 'was_active_today']
+    exclude = ['water_intake_today', 'was_active_today']
     actions = ['make_active', 'make_inactive', 'clear_streak']
     list_display = ['name', 'username', 'age', 'height', 'weight',
                     'calorie_level', 'activity_level', 'goal', 'was_active_today', 'streak',]
@@ -176,6 +177,16 @@ class TraineeAdmin(admin.ModelAdmin):
     ordering = ['user__first_name', 'user__last_name']
     search_fields = ['user__username__istartswith', 'user__first_name__istartswith',
                      'user__last_name__istartswith', 'user__email']
+
+    def get_form(self, request: Any, obj: Any | None = ..., change: bool = ..., **kwargs: Any) -> Any:
+        form = super().get_form(request, obj, change, **kwargs)
+        form.base_fields['daily_calories_needs'].initial = None
+        form.base_fields['daily_water_needs'].initial = None
+        form.base_fields['carbs_ratio'].initial = None
+        form.base_fields['fats_ratio'].initial = None
+        form.base_fields['protein_ratio'].initial = None
+        form.base_fields['daily_streak'].initial = None
+        return form
 
     @admin.display(ordering='birthdate')
     def name(self, trainee):
