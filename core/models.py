@@ -23,7 +23,12 @@ class Trainee(models.Model):
         KEEP = 'K', 'Keep weight'
         LOSE = 'L', 'Lose weight'
 
+    class Gender(models.TextChoices):
+        MALE = 'M', 'Male'
+        FEMALE = 'F', 'Female'
+
     birthdate = models.DateField()
+    gender = models.CharField(max_length=1, choices=Gender.choices)
     height = models.DecimalField(max_digits=4, decimal_places=1,
                                  validators=[MinValueValidator(0)])
     weight = models.DecimalField(max_digits=4, decimal_places=1,

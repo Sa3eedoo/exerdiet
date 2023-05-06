@@ -21,14 +21,15 @@ class TraineeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Trainee
-        fields = ['id', 'user_id', 'birthdate', 'height', 'weight', 'daily_calories_needs', 'daily_water_needs',
+        fields = ['id', 'user_id', 'birthdate', 'gender', 'height', 'weight', 'daily_calories_needs', 'daily_water_needs',
                   'water_intake_today', 'carbs_ratio', 'fats_ratio', 'protein_ratio', 'daily_streak', 'activity_level', 'goal']
 
 
 class TraineeCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Trainee
-        fields = ['birthdate', 'height', 'weight', 'activity_level', 'goal']
+        fields = ['birthdate', 'gender', 'height',
+                  'weight', 'activity_level', 'goal']
 
     def create(self, validated_data):
         trainee = Trainee(**validated_data)

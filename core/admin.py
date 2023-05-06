@@ -168,7 +168,7 @@ class TraineeAdmin(admin.ModelAdmin):
     autocomplete_fields = ['user']
     exclude = ['water_intake_today', 'was_active_today']
     actions = ['make_active', 'make_inactive', 'clear_streak']
-    list_display = ['name', 'username', 'age', 'height', 'weight',
+    list_display = ['name', 'username', 'age', 'gender', 'height', 'weight',
                     'calorie_level', 'activity_level', 'goal', 'was_active_today', 'streak',]
     list_filter = [CalorieLevelFilter, AgeFilter,
                    'activity_level', 'goal', 'was_active_today']
