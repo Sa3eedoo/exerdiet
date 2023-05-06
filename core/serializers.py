@@ -15,10 +15,9 @@ class UserSerializer(BaseUserSerializer):
 
 
 class TraineeSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
     user_id = serializers.IntegerField(read_only=True)
     daily_streak = serializers.IntegerField(read_only=True)
-    activity_level = serializers.CharField(source='get_activity_level_display')
-    goal = serializers.CharField(source='get_goal_display')
 
     class Meta:
         model = Trainee
