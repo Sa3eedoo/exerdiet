@@ -28,10 +28,8 @@ class Trainee(models.Model):
                                  validators=[MinValueValidator(0)])
     weight = models.DecimalField(max_digits=4, decimal_places=1,
                                  validators=[MinValueValidator(0)])
-    # TODO: add defalut value
-    daily_calories_needs = models.PositiveIntegerField(blank=True)
-    # TODO: add defalut value
-    daily_water_needs = models.PositiveIntegerField(blank=True)
+    daily_calories_needs = models.PositiveIntegerField(default=0, blank=True)
+    daily_water_needs = models.PositiveIntegerField(default=0, blank=True)
     daily_water_intake = models.PositiveIntegerField(default=0, blank=True)
     # TODO: add defalut value
     carbs_ratio = models.DecimalField(max_digits=2, decimal_places=2,
@@ -74,3 +72,16 @@ class Trainee(models.Model):
 
     def full_name(self):
         return self.user.first_name + ' ' + self.user.last_name
+
+    def calculate_daily_calories_needs(self):
+        return 2500
+
+    def calculate_daily_water_needs(self):
+        return 3000
+
+    def save(self, *args, **kwargs):
+        if not self.pk and not self.daily_calories_needs:
+            self.daily_calories_needs = self.calculate_daily_calories_needs()
+        if not self.pk and not self.daily_water_needs:
+            self.daily_water_needs = self.calculate_daily_water_needs()
+        super().save(*args, **kwargs)
