@@ -1,19 +1,25 @@
 from django.shortcuts import get_object_or_404
 from rest_framework.decorators import action
-from rest_framework.permissions import IsAdminUser, IsAuthenticated
+from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, UpdateModelMixin
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.viewsets import ModelViewSet
+from rest_framework.viewsets import GenericViewSet
 from .models import Trainee
+from .permissions import IsAuthenticatedAndNotTrainee
 from .serializers import TraineeSerializer
 
 
-class TraineeViewSet(ModelViewSet):
+class TraineeViewSet(CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, GenericViewSet):
     queryset = Trainee.objects.all()
     serializer_class = TraineeSerializer
-    permission_classes = [IsAdminUser]
 
-    @action(detail=False, methods=['GET', 'PUT', 'PATCH'], permission_classes=[IsAuthenticated])
+    def get_permissions(self):
+        if self.request.method == 'POST':
+            return [IsAuthenticatedAndNotTrainee()]
+        return [IsAuthenticated()]
+
+    @action(detail=False, methods=['GET', 'PUT', 'PATCH'])
     def me(self, request):
         if request.user.is_authenticated:
             trainee = get_object_or_404(Trainee, user_id=request.user.id)
