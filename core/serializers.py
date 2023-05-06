@@ -18,10 +18,14 @@ class TraineeSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     user_id = serializers.IntegerField(read_only=True)
     daily_streak = serializers.IntegerField(read_only=True)
+    calories_intake_today = serializers.SerializerMethodField()
+
+    def get_calories_intake_today(self, trainee: Trainee):
+        return 0
 
     class Meta:
         model = Trainee
-        fields = ['id', 'user_id', 'birthdate', 'gender', 'height', 'weight', 'daily_calories_needs', 'daily_water_needs',
+        fields = ['id', 'user_id', 'birthdate', 'gender', 'height', 'weight', 'daily_calories_needs', 'calories_intake_today', 'daily_water_needs',
                   'water_intake_today', 'carbs_ratio', 'fats_ratio', 'protein_ratio', 'daily_streak', 'activity_level', 'goal']
 
 
