@@ -165,8 +165,7 @@ class AgeFilter(admin.SimpleListFilter):
 @admin.register(models.Trainee)
 class TraineeAdmin(admin.ModelAdmin):
     autocomplete_fields = ['user']
-    exclude = ['daily_calories_intake',
-               'daily_water_intake', 'was_active_today']
+    exclude = ['daily_water_intake', 'was_active_today']
     actions = ['make_active', 'make_inactive', 'clear_streak']
     list_display = ['name', 'username', 'age', 'height', 'weight',
                     'calorie_level', 'activity_level', 'goal', 'was_active_today', 'streak',]
