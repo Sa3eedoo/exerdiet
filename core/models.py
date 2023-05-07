@@ -36,7 +36,9 @@ class Trainee(models.Model):
     weight = models.DecimalField(max_digits=4, decimal_places=1,
                                  validators=[MinValueValidator(0)])
     daily_calories_needs = models.PositiveIntegerField(default=0, blank=True)
+    is_daily_calories_needs_custom = models.BooleanField(default=False)
     daily_water_needs = models.PositiveIntegerField(default=0, blank=True)
+    is_daily_water_needs_custom = models.BooleanField(default=False)
     water_intake_today = models.PositiveIntegerField(default=0, blank=True)
     carbs_ratio = models.DecimalField(max_digits=2, decimal_places=2,
                                       default=0.5, blank=True,
@@ -47,6 +49,7 @@ class Trainee(models.Model):
     protein_ratio = models.DecimalField(max_digits=2, decimal_places=2,
                                         default=0.3, blank=True,
                                         validators=[MinValueValidator(0), MaxValueValidator(1)])
+    is_macronutrients_ratios_custom = models.BooleanField(default=False)
     was_active_today = models.BooleanField(default=False, blank=True)
     daily_streak = models.PositiveSmallIntegerField(default=0, blank=True)
     activity_level = models.CharField(max_length=1,
@@ -116,11 +119,13 @@ class Trainee(models.Model):
     def save(self, *args, **kwargs):
         if not self.activity_level:
             self.activity_level = self.ActivityLevel.MEDIUM
-        if not self.daily_calories_needs:
+        if not self.goal:
+            self.goal = self.Goal.KEEP
+        if not self.daily_calories_needs or not self.is_daily_calories_needs_custom:
             self.daily_calories_needs = self.calculate_daily_calories_needs()
-        if not self.daily_water_needs:
+        if not self.daily_water_needs or not self.is_daily_water_needs_custom:
             self.daily_water_needs = self.calculate_daily_water_needs()
-        if not self.carbs_ratio and not self.fats_ratio and not self.protein_ratio:
+        if (not self.carbs_ratio and not self.fats_ratio and not self.protein_ratio) or not self.is_macronutrients_ratios_custom:
             self.carbs_ratio, self.fats_ratio, self.protein_ratio = self.get_default_macronutrients_ratios()
         if self.daily_streak == None:
             self.daily_streak = 0
