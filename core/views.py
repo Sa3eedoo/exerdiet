@@ -23,7 +23,7 @@ class TraineeViewSet(CreateModelMixin, GenericViewSet):
     def get_permissions(self):
         if self.request.method == 'POST':
             return [IsAuthenticatedAndNotTrainee()]
-        if self.action == 'me':
+        if self.action in ['me', 'reset_daily_calories_needs', 'reset_daily_water_needs', 'reset_macronutrients_ratios']:
             return [IsAuthenticatedAndTrainee()]
         return [IsAuthenticated()]
 
@@ -43,3 +43,27 @@ class TraineeViewSet(CreateModelMixin, GenericViewSet):
         elif request.method == 'DELETE':
             trainee.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
+
+    @action(detail=False, methods=['GET'])
+    def reset_daily_calories_needs(self, request):
+        trainee = Trainee.objects.get(user_id=request.user.id)
+        trainee.daily_calories_needs = trainee.calculate_daily_calories_needs()
+        serializer = TraineeSerializer(trainee)
+        trainee.save()
+        return Response(serializer.data)
+
+    @action(detail=False, methods=['GET'])
+    def reset_daily_water_needs(self, request):
+        trainee = Trainee.objects.get(user_id=request.user.id)
+        trainee.daily_water_needs = trainee.calculate_daily_water_needs()
+        serializer = TraineeSerializer(trainee)
+        trainee.save()
+        return Response(serializer.data)
+
+    @action(detail=False, methods=['GET'])
+    def reset_macronutrients_ratios(self, request):
+        trainee = Trainee.objects.get(user_id=request.user.id)
+        trainee.carbs_ratio, trainee.fats_ratio, trainee.protein_ratio = trainee.get_default_macronutrients_ratios()
+        serializer = TraineeSerializer(trainee)
+        trainee.save()
+        return Response(serializer.data)
