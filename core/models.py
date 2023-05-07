@@ -99,7 +99,12 @@ class Trainee(models.Model):
         elif self.activity_level == self.ActivityLevel.EXTRA:
             total_calories = bmr * 1.9
 
-        return int(total_calories)
+        if self.goal == self.Goal.KEEP:
+            return int(total_calories)
+        if self.goal == self.Goal.LOSE:
+            return int(total_calories * 0.9)
+        if self.goal == self.Goal.GAIN:
+            return int(total_calories * 1.1)
 
     def calculate_daily_water_needs(self):
         weight = float(self.weight)
