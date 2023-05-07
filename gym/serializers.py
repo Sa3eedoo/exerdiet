@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Exercise, CustomExercise
+from .models import Exercise, CustomExercise, Workout
 
 class ExerciseSerializer(serializers.ModelSerializer):
     body_part = serializers.CharField(source='get_body_part_display')
@@ -39,3 +39,19 @@ class CustomExerciseSerializer(serializers.ModelSerializer):
         elif exercise.calories_burned < CALORIE_BURNED_LEVEL_HIGH:
             return 'Medium'
         return 'High'
+    
+    
+class WorkoutSerializer(serializers.ModelSerializer):
+    performed_workouts_count = serializers.SerializerMethodField()
+    trainee_name = serializers.SerializerMethodField()
+
+    def get_trainee_name(self, workout: Workout()):
+        return workout.trainee.full_name()
+
+    def get_performed_workouts_count(self, workout: Workout()):
+        return workout.performed_workouts.count()
+
+    class Meta:
+        model = Workout
+        fields = ['id', 'name', 'instructions', 'image', 'trainee', 'trainee_name', 'performed_workouts', 'performed_workouts_count']
+        read_only_fields = ['performed_workouts']
