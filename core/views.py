@@ -47,7 +47,7 @@ class TraineeViewSet(CreateModelMixin, GenericViewSet):
     @action(detail=False, methods=['GET'])
     def reset_daily_calories_needs(self, request):
         trainee = Trainee.objects.get(user_id=request.user.id)
-        trainee.daily_calories_needs = trainee.calculate_daily_calories_needs()
+        trainee.is_daily_calories_needs_custom = False
         serializer = TraineeSerializer(trainee)
         trainee.save()
         return Response(serializer.data)
@@ -55,7 +55,7 @@ class TraineeViewSet(CreateModelMixin, GenericViewSet):
     @action(detail=False, methods=['GET'])
     def reset_daily_water_needs(self, request):
         trainee = Trainee.objects.get(user_id=request.user.id)
-        trainee.daily_water_needs = trainee.calculate_daily_water_needs()
+        trainee.is_daily_water_needs_custom = False
         serializer = TraineeSerializer(trainee)
         trainee.save()
         return Response(serializer.data)
@@ -63,7 +63,7 @@ class TraineeViewSet(CreateModelMixin, GenericViewSet):
     @action(detail=False, methods=['GET'])
     def reset_macronutrients_ratios(self, request):
         trainee = Trainee.objects.get(user_id=request.user.id)
-        trainee.carbs_ratio, trainee.fats_ratio, trainee.protein_ratio = trainee.get_default_macronutrients_ratios()
+        trainee.is_macronutrients_ratios_custom = False
         serializer = TraineeSerializer(trainee)
         trainee.save()
         return Response(serializer.data)
