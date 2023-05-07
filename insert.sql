@@ -82,3 +82,56 @@ VALUES
     (3, 19, 1),
     (2, 20, 2);
     
+
+    
+
+INSERT INTO gym_exercise (name, body_part, calories_burned, is_repetitive, image) VALUES
+    ('Bench Press', 'CH', 250.0, TRUE, NULL),
+    ('Deadlift', 'BK', 400.5, FALSE, NULL),
+    ('Bicep Curl', 'AR', 100.0, TRUE, NULL),
+    ('Squat', 'LG', 300.0, FALSE, NULL),
+    ('Treadmill', 'CR', 200.5, TRUE, NULL),
+    ('Shoulder Press', 'SH', 225.0, TRUE, NULL),
+    ('Crunch', 'AB', 75.0, TRUE, NULL);
+
+
+
+INSERT INTO gym_custom_exercise (exercise_ptr_id, trainee_id) VALUES 
+    (2, 1),
+    (3, 2),
+    (4, 2),
+    (5, 3),
+    (6, 3),
+    (7, 4);
+
+
+INSERT INTO gym_workout (name, instructions, image, trainee_id) VALUES
+    ('Chest Day', '5 sets of 5 reps each for bench press, incline bench press, and dumbbell flyes', NULL, 1),
+    ('Back Day', '4 sets of 8 reps each for lat pulldowns, barbell rows, and pull-ups', NULL, 1),
+    ('Arm Day', '3 sets of 10 reps each for bicep curls, tricep extensions, and hammer curls', NULL, 2),
+    ('Leg Day', '4 sets of 8 reps each for squats, leg press, and lunges', NULL, 2),
+    ('Cardio Day', '45 minutes on the treadmill, 30 minutes on the elliptical', NULL, 3),
+    ('Shoulder Day', '3 sets of 12 reps each for shoulder press, upright rows, and lateral raises', NULL, 3),
+    ('Ab Day', '4 sets of 15 reps each for crunches, Russian twists, and leg raises', NULL, 4);
+
+
+INSERT INTO gym_performedworkout (name, time_performed, trainee_id) VALUES
+    ('Chest Day', '2023-05-05 09:00:00', 1),
+    ('Back Day', '2023-05-04 10:30:00', 1),
+    ('Arm Day', '2023-05-05 15:00:00', 2),
+    ('Leg Day', '2023-05-03 13:15:00', 2),
+    ('Cardio Day', '2023-05-06 08:00:00', 3),
+    ('Shoulder Day', '2023-05-04 11:30:00', 3);
+
+
+INSERT INTO gym_exercise_instance (duration, sets, exercise_id, workout_id, performed_workout_id) VALUES
+    (60, 3, 7, 1, 4),
+    (45, 3, 6, 1, 5),
+    (30, 4, 1, 1, 6),
+    (90, 3, 2, 2, 1),
+    (30, 2, 3, NULL, 5),
+    (60, 4, 4, 2, 2),
+    (60, 3, 5, NULL, 4),
+    (45, 3, 7, 3, 3),
+    (30, 4, 1, 3, NULL),
+    (60, 3, 6, NULL, 4);
