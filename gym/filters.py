@@ -1,5 +1,5 @@
 from django_filters import rest_framework as filters
-from .models import Exercise, CustomExercise, Workout
+from .models import Exercise, CustomExercise, Workout, PerformedWorkout
 
 class ExerciseFilter(filters.FilterSet):
     
@@ -92,4 +92,14 @@ class WorkoutFilter(filters.FilterSet):
             'name': ['exact', 'icontains'],
             'trainee': ['exact'],
             'performed_workouts': ['exact']
+        }
+        
+class PerformedWorkoutFilter(filters.FilterSet):
+    class Meta:
+        model = PerformedWorkout
+        fields = {
+            'name': ['exact', 'icontains'],
+            'trainee': ['exact'],
+            'workouts': ['exact'],
+            'exercise_instances': ['exact'],
         }
