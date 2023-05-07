@@ -13,6 +13,7 @@ drf-nested-routers = "*"
 django-filter = "*"
 djoser = "*"
 djangorestframework-simplejwt = "*"
+gunicorn = "*"
 
 [dev-packages]
 flake8 = "*"
