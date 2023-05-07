@@ -38,10 +38,11 @@ class TraineeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Trainee
-        fields = ['birthdate', 'gender', 'height', 'weight', 'daily_calories_needs', 'calories_intake_today',
-                  'calories_burned_today', 'daily_water_needs', 'water_intake_today', 'carbs_ratio',
-                  'fats_ratio', 'protein_ratio', 'carbs_calories', 'fats_calories', 'protein_calories',
-                  'daily_streak', 'activity_level', 'goal']
+        fields = ['birthdate', 'gender', 'height', 'weight', 'daily_calories_needs',
+                  'is_daily_calories_needs_custom', 'calories_intake_today', 'calories_burned_today',
+                  'daily_water_needs', 'is_daily_water_needs_custom', 'water_intake_today', 'carbs_ratio',
+                  'fats_ratio', 'protein_ratio', 'is_macronutrients_ratios_custom', 'carbs_calories',
+                  'fats_calories', 'protein_calories', 'daily_streak', 'activity_level', 'goal']
 
 
 class TraineeCreateSerializer(serializers.ModelSerializer):
