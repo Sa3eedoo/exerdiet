@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Exercise, CustomExercise, Workout
+from .models import Exercise, CustomExercise, Workout, PerformedWorkout
 
 class ExerciseSerializer(serializers.ModelSerializer):
     body_part = serializers.CharField(source='get_body_part_display')
@@ -55,3 +55,9 @@ class WorkoutSerializer(serializers.ModelSerializer):
         model = Workout
         fields = ['id', 'name', 'instructions', 'image', 'trainee', 'trainee_name', 'performed_workouts', 'performed_workouts_count']
         read_only_fields = ['performed_workouts']
+        
+
+class PerformedWorkoutSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PerformedWorkout
+        fields = ['id', 'name', 'time_performed', 'trainee', 'workouts', 'exercise_instances']
