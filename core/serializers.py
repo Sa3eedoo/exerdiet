@@ -1,3 +1,4 @@
+from decimal import Decimal
 from rest_framework import serializers
 from djoser.serializers import UserCreateSerializer as BaseUserCreateSerializer, UserSerializer as BaseUserSerializer
 from .models import Trainee
@@ -20,6 +21,9 @@ class TraineeSerializer(serializers.ModelSerializer):
     carbs_calories = serializers.SerializerMethodField(read_only=True)
     fats_calories = serializers.SerializerMethodField(read_only=True)
     protein_calories = serializers.SerializerMethodField(read_only=True)
+    carbs_grams = serializers.SerializerMethodField(read_only=True)
+    fats_grams = serializers.SerializerMethodField(read_only=True)
+    protein_grams = serializers.SerializerMethodField(read_only=True)
 
     def get_calories_intake_today(self, trainee: Trainee):
         return 0
@@ -36,13 +40,23 @@ class TraineeSerializer(serializers.ModelSerializer):
     def get_protein_calories(self, trainee: Trainee):
         return int(trainee.daily_calories_needs * trainee.protein_ratio)
 
+    def get_carbs_grams(self, trainee: Trainee):
+        return Decimal(round(trainee.daily_calories_needs * trainee.carbs_ratio / 4, 1))
+
+    def get_fats_grams(self, trainee: Trainee):
+        return Decimal(round(trainee.daily_calories_needs * trainee.fats_ratio / 9, 1))
+
+    def get_protein_grams(self, trainee: Trainee):
+        return Decimal(round(trainee.daily_calories_needs * trainee.protein_ratio / 4, 1))
+
     class Meta:
         model = Trainee
         fields = ['birthdate', 'gender', 'height', 'weight', 'daily_calories_needs',
                   'is_daily_calories_needs_custom', 'calories_intake_today', 'calories_burned_today',
                   'daily_water_needs', 'is_daily_water_needs_custom', 'water_intake_today', 'carbs_ratio',
                   'fats_ratio', 'protein_ratio', 'is_macronutrients_ratios_custom', 'carbs_calories',
-                  'fats_calories', 'protein_calories', 'daily_streak', 'activity_level', 'goal']
+                  'fats_calories', 'protein_calories', 'carbs_grams', 'fats_grams', 'protein_grams',
+                  'daily_streak', 'activity_level', 'goal']
 
 
 class TraineeCreateSerializer(serializers.ModelSerializer):
