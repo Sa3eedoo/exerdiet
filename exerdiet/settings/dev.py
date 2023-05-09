@@ -10,6 +10,6 @@ DATABASES = {
         'NAME': 'exerdiet',
         'HOST': 'localhost',
         'USER': 'root',
-        'PASSWORD': 'RrRSs@$5'
+        'PASSWORD': '1234'
     }
 }
