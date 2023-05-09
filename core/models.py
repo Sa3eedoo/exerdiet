@@ -119,16 +119,23 @@ class Trainee(models.Model):
     def save(self, *args, **kwargs):
         if not self.activity_level:
             self.activity_level = self.ActivityLevel.MEDIUM
+
         if not self.goal:
             self.goal = self.Goal.KEEP
+
         if not self.daily_calories_needs or not self.is_daily_calories_needs_custom:
+            self.is_daily_calories_needs_custom = False
             self.daily_calories_needs = self.calculate_daily_calories_needs()
+
         if not self.daily_water_needs or not self.is_daily_water_needs_custom:
+            self.is_daily_water_needs_custom = False
             self.daily_water_needs = self.calculate_daily_water_needs()
-        if (not self.carbs_ratio and not self.fats_ratio and not self.protein_ratio) or not self.is_macronutrients_ratios_custom:
+
+        if not self.carbs_ratio or not self.fats_ratio or not self.protein_ratio or not self.is_macronutrients_ratios_custom:
+            self.is_macronutrients_ratios_custom = False
             self.carbs_ratio, self.fats_ratio, self.protein_ratio = self.get_default_macronutrients_ratios()
+
         if self.daily_streak == None:
             self.daily_streak = 0
-        if not self.goal:
-            self.goal = self.Goal.KEEP
+
         super().save(*args, **kwargs)
