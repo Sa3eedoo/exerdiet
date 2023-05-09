@@ -14,5 +14,8 @@ DATABASES = {
         'USER': 'exerdiet',
         'PASSWORD': os.environ['DATABASE_PASSWORD'],
         'HOST': 'exerdiet.mysql.pythonanywhere-services.com',
+        'OPTIONS': {
+            'sql_mode': 'STRICT_TRANS_TABLES',
+        },
     }
 }
