@@ -73,3 +73,21 @@ class TraineeCreateSerializer(serializers.ModelSerializer):
         trainee.user_id = self.context['user_id']
         trainee.save()
         return trainee
+
+
+class TraineeUpdateCaloriesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Trainee
+        fields = ['daily_calories_needs']
+
+
+class TraineeUpdateWaterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Trainee
+        fields = ['daily_water_needs']
+
+
+class TraineeUpdateMacronutrientsRatiosSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Trainee
+        fields = ['carbs_ratio', 'fats_ratio', 'protein_ratio']
