@@ -35,11 +35,12 @@ class Trainee(models.Model):
                                  validators=[MinValueValidator(0)])
     weight = models.DecimalField(max_digits=4, decimal_places=1,
                                  validators=[MinValueValidator(0)])
-    daily_calories_needs = models.PositiveIntegerField(default=0, blank=True)
+    daily_calories_needs = models.IntegerField(
+        default=0, blank=True, validators=[MinValueValidator(0)])
     is_daily_calories_needs_custom = models.BooleanField(default=False)
-    daily_water_needs = models.PositiveIntegerField(default=0, blank=True)
+    daily_water_needs = models.IntegerField(
+        default=0, blank=True, validators=[MinValueValidator(0)])
     is_daily_water_needs_custom = models.BooleanField(default=False)
-    water_intake_today = models.PositiveIntegerField(default=0, blank=True)
     carbs_ratio = models.DecimalField(max_digits=2, decimal_places=2,
                                       default=0.5, blank=True,
                                       validators=[MinValueValidator(0), MaxValueValidator(1)])
@@ -51,7 +52,8 @@ class Trainee(models.Model):
                                         validators=[MinValueValidator(0), MaxValueValidator(1)])
     is_macronutrients_ratios_custom = models.BooleanField(default=False)
     was_active_today = models.BooleanField(default=False, blank=True)
-    daily_streak = models.PositiveSmallIntegerField(default=0, blank=True)
+    daily_streak = models.SmallIntegerField(
+        default=0, blank=True, validators=[MinValueValidator(0)])
     activity_level = models.CharField(max_length=1,
                                       choices=ActivityLevel.choices,
                                       default=ActivityLevel.MEDIUM,
