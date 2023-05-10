@@ -20,3 +20,4 @@ application = get_wsgi_application()
 
 # /static/	/home/exerdiet/exerdiet/static	 
 # /media/	/home/exerdiet/exerdiet/static/media
+# set -a; source ~/exerdiet/.env; set +a
