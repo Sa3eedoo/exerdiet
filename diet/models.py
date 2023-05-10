@@ -86,3 +86,11 @@ class FoodInstance(models.Model):
 
     def __str__(self) -> str:
         return self.food.name + ' (' + str(self.quantity) + ' gm/ml)'
+
+
+class Water(models.Model):
+    amount = models.PositiveIntegerField()
+    drinking_date = models.DateField(auto_now=True)
+    trainee = models.ForeignKey(
+        Trainee, on_delete=models.CASCADE, related_name='water'
+    )
