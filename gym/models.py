@@ -17,8 +17,7 @@ class Exercise(models.Model):
     body_part = models.CharField(max_length=2,
                                  choices=BodyPart.choices,
                                  default=BodyPart.CARDIO)
-    calories_burned = models.DecimalField(
-        max_digits=5, decimal_places=1, validators=[MinValueValidator(0)])
+    calories_burned = models.IntegerField(validators=[MinValueValidator(0)])
     is_repetitive = models.BooleanField()
 
     image = models.ImageField(
