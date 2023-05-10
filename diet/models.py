@@ -13,14 +13,13 @@ class Food(models.Model):
     category = models.CharField(max_length=1,
                                 choices=Category.choices,
                                 default=Category.FOOD)
-    calories = models.DecimalField(
-        max_digits=5, decimal_places=1, validators=[MinValueValidator(0)])
+    calories = models.IntegerField(validators=[MinValueValidator(0)])
     carbs = models.DecimalField(
-        max_digits=5, decimal_places=1, validators=[MinValueValidator(0)])
+        max_digits=3, decimal_places=1, validators=[MinValueValidator(0)])
     fats = models.DecimalField(
-        max_digits=5, decimal_places=1, validators=[MinValueValidator(0)])
+        max_digits=3, decimal_places=1, validators=[MinValueValidator(0)])
     protein = models.DecimalField(
-        max_digits=5, decimal_places=1, validators=[MinValueValidator(0)])
+        max_digits=3, decimal_places=1, validators=[MinValueValidator(0)])
     image = models.ImageField(
         upload_to='diet/images/foods', null=True, blank=True)
 
