@@ -5,6 +5,9 @@ from .models import Trainee
 
 
 class UserCreateSerializer(BaseUserCreateSerializer):
+    first_name = serializers.CharField(required=True)
+    last_name = serializers.CharField(required=True)
+
     class Meta(BaseUserCreateSerializer.Meta):
         fields = ['username', 'password', 'email', 'first_name', 'last_name']
 
