@@ -18,30 +18,33 @@ class UserSerializer(BaseUserSerializer):
 
 
 class TraineeSerializer(serializers.ModelSerializer):
+    daily_calories_needs = serializers.IntegerField(read_only=True)
+    daily_water_needs = serializers.IntegerField(read_only=True)
+    carbs_ratio = serializers.DecimalField(
+        read_only=True, max_digits=4, decimal_places=1)
+    fats_ratio = serializers.DecimalField(
+        read_only=True, max_digits=4, decimal_places=1)
+    protein_ratio = serializers.DecimalField(
+        read_only=True, max_digits=4, decimal_places=1)
     daily_streak = serializers.IntegerField(read_only=True)
     calories_intake_today = serializers.SerializerMethodField(read_only=True)
     calories_burned_today = serializers.SerializerMethodField(read_only=True)
-    carbs_calories = serializers.SerializerMethodField(read_only=True)
-    fats_calories = serializers.SerializerMethodField(read_only=True)
-    protein_calories = serializers.SerializerMethodField(read_only=True)
+    water_intake_today = serializers.SerializerMethodField(read_only=True)
     carbs_grams = serializers.SerializerMethodField(read_only=True)
     fats_grams = serializers.SerializerMethodField(read_only=True)
     protein_grams = serializers.SerializerMethodField(read_only=True)
 
+    # TODO: implement
     def get_calories_intake_today(self, trainee: Trainee):
         return 0
 
+    # TODO: implement
     def get_calories_burned_today(self, trainee: Trainee):
         return 0
 
-    def get_carbs_calories(self, trainee: Trainee):
-        return int(trainee.daily_calories_needs * trainee.carbs_ratio)
-
-    def get_fats_calories(self, trainee: Trainee):
-        return int(trainee.daily_calories_needs * trainee.fats_ratio)
-
-    def get_protein_calories(self, trainee: Trainee):
-        return int(trainee.daily_calories_needs * trainee.protein_ratio)
+    # TODO: implement
+    def get_water_intake_today(self, trainee: Trainee):
+        return 0
 
     def get_carbs_grams(self, trainee: Trainee):
         return Decimal(round(trainee.daily_calories_needs * trainee.carbs_ratio / 4, 1))
@@ -55,11 +58,10 @@ class TraineeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Trainee
         fields = ['birthdate', 'gender', 'height', 'weight', 'daily_calories_needs',
-                  'is_daily_calories_needs_custom', 'calories_intake_today', 'calories_burned_today',
-                  'daily_water_needs', 'is_daily_water_needs_custom', 'water_intake_today', 'carbs_ratio',
-                  'fats_ratio', 'protein_ratio', 'is_macronutrients_ratios_custom', 'carbs_calories',
-                  'fats_calories', 'protein_calories', 'carbs_grams', 'fats_grams', 'protein_grams',
-                  'daily_streak', 'activity_level', 'goal']
+                  'calories_intake_today', 'calories_burned_today', 'daily_water_needs',
+                  'water_intake_today', 'carbs_ratio', 'fats_ratio', 'protein_ratio',
+                  'carbs_grams', 'fats_grams', 'protein_grams',
+                  'activity_level', 'goal', 'daily_streak']
 
 
 class TraineeCreateSerializer(serializers.ModelSerializer):
@@ -73,6 +75,13 @@ class TraineeCreateSerializer(serializers.ModelSerializer):
         trainee.user_id = self.context['user_id']
         trainee.save()
         return trainee
+
+
+class TraineeUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Trainee
+        fields = ['birthdate', 'gender', 'height',
+                  'weight', 'activity_level', 'goal']
 
 
 class TraineeUpdateCaloriesSerializer(serializers.ModelSerializer):
