@@ -290,3 +290,21 @@ class MealAdmin(admin.ModelAdmin):
             str(recipe.trainee.id)
         )
         return format_html('<a href="{}">{}</a>', url, recipe.trainee)
+
+
+@admin.register(models.Water)
+class WaterAdmin(admin.ModelAdmin):
+    autocomplete_fields = ['trainee']
+    list_display = ['amount', 'trainee_username', 'drinking_date']
+    list_per_page = 100
+    list_select_related = ['trainee__user']
+    ordering = ['trainee__user__username']
+    search_fields = ['trainee__user__username__istartswith']
+
+    @admin.display(ordering='trainee__user__username')
+    def trainee_username(self, custom_food):
+        url = (
+            reverse('admin:core_trainee_changelist') +
+            str(custom_food.trainee.id)
+        )
+        return format_html('<a href="{}">{}</a>', url, custom_food.trainee)
