@@ -56,8 +56,8 @@ class ExerciseAdmin(admin.ModelAdmin):
             return 'Medium'
         return 'High'
 
-    # def get_queryset(self, request):
-    #     return super().get_queryset(request).exclude(customexercise__isnull=False)
+    def get_queryset(self, request):
+        return super().get_queryset(request).exclude(customexercise__isnull=False)
 
 
 @admin.register(models.CustomExercise)
