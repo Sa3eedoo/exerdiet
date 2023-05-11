@@ -52,7 +52,7 @@ class TraineeSerializer(serializers.ModelSerializer):
                         total_calories += food_instance.food.calories * food_instance.quantity / 100
                 for food_instance in meal.food_instances.all():
                     total_calories += food_instance.food.calories * food_instance.quantity / 100
-            return int(total_calories)
+            return int(round(total_calories))
 
     def get_calories_burned_today(self, trainee: Trainee):
         total_calories = 0
@@ -71,7 +71,7 @@ class TraineeSerializer(serializers.ModelSerializer):
                 for exercise_instance in performed_workout.exercise_instances.all():
                     total_calories += exercise_instance.exercise.calories_burned * \
                         exercise_instance.duration * exercise_instance.sets / 60
-            return int(total_calories)
+            return int(round(total_calories))
 
     def get_water_intake_today(self, trainee: Trainee):
         total_water = 0
