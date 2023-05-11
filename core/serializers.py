@@ -1,6 +1,9 @@
+from datetime import date
 from decimal import Decimal
 from rest_framework import serializers
 from djoser.serializers import UserCreateSerializer as BaseUserCreateSerializer, UserSerializer as BaseUserSerializer
+from diet.models import Meal, Water
+from gym.models import PerformedWorkout
 from .models import Trainee
 
 
@@ -34,17 +37,54 @@ class TraineeSerializer(serializers.ModelSerializer):
     fats_grams = serializers.SerializerMethodField(read_only=True)
     protein_grams = serializers.SerializerMethodField(read_only=True)
 
-    # TODO: implement
     def get_calories_intake_today(self, trainee: Trainee):
-        return 0
+        total_calories = 0
+        today = date.today()
+        meals_today = Meal.objects.filter(
+            trainee=trainee, time_eaten__date=today)
 
-    # TODO: implement
+        if not meals_today:
+            return total_calories
+        else:
+            for meal in meals_today:
+                for recipe in meal.recipes.all():
+                    for food_instance in recipe.food_instances.all():
+                        total_calories += food_instance.food.calories * food_instance.quantity / 100
+                for food_instance in meal.food_instances.all():
+                    total_calories += food_instance.food.calories * food_instance.quantity / 100
+            return int(total_calories)
+
     def get_calories_burned_today(self, trainee: Trainee):
-        return 0
+        total_calories = 0
+        today = date.today()
+        performed_workout_today = PerformedWorkout.objects.filter(
+            trainee=trainee, time_performed__date=today)
 
-    # TODO: implement
+        if not performed_workout_today:
+            return total_calories
+        else:
+            for performed_workout in performed_workout_today:
+                for workout in performed_workout.workouts.all():
+                    for exercise_instance in workout.exercise_instances.all():
+                        total_calories += exercise_instance.exercise.calories_burned * \
+                            exercise_instance.duration * exercise_instance.sets / 60
+                for exercise_instance in performed_workout.exercise_instances.all():
+                    total_calories += exercise_instance.exercise.calories_burned * \
+                        exercise_instance.duration * exercise_instance.sets / 60
+            return int(total_calories)
+
     def get_water_intake_today(self, trainee: Trainee):
-        return 0
+        total_water = 0
+        today = date.today()
+        waters_today = Water.objects.filter(
+            trainee=trainee, drinking_date=today)
+
+        if not waters_today:
+            return total_water
+        else:
+            for water in waters_today:
+                total_water += water.amount
+            return int(total_water)
 
     def get_carbs_grams(self, trainee: Trainee):
         return Decimal(round(trainee.daily_calories_needs * trainee.carbs_ratio / 4, 1))
