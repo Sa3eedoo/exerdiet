@@ -144,8 +144,8 @@ class FoodAdmin(admin.ModelAdmin):
             return 'Medium'
         return 'High'
 
-    # def get_queryset(self, request):
-    #     return super().get_queryset(request).exclude(customfood__isnull=False)
+    def get_queryset(self, request):
+        return super().get_queryset(request).exclude(customfood__isnull=False)
 
 
 @admin.register(models.CustomFood)
