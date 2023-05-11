@@ -1,4 +1,5 @@
 from .common import *
+from datetime import timedelta
 
 DEBUG = True
 
@@ -12,4 +13,9 @@ DATABASES = {
         'USER': 'root',
         'PASSWORD': '1234'
     }
+}
+
+SIMPLE_JWT = {
+    'AUTH_HEADER_TYPES': ('JWT',),
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=1)
 }

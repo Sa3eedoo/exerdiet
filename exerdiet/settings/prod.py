@@ -1,5 +1,6 @@
 import os
 from .common import *
+from datetime import timedelta
 
 DEBUG = False
 
@@ -18,4 +19,9 @@ DATABASES = {
             'sql_mode': 'STRICT_TRANS_TABLES',
         },
     }
+}
+
+SIMPLE_JWT = {
+    'AUTH_HEADER_TYPES': ('JWT',),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=20)
 }
