@@ -24,7 +24,7 @@ class Exercise(models.Model):
         upload_to='gym/images/exercises', null=True, blank=True)
 
     def __str__(self) -> str:
-        return self.name + ' (' + str(self.calories_burned) + 'cal)'
+        return self.name + ' (' + str(self.calories_burned) + 'cals/(60sec or 1rep))'
 
 
 class CustomExercise(Exercise):
