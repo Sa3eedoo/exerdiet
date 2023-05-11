@@ -92,5 +92,5 @@ class Water(models.Model):
     amount = models.PositiveIntegerField()
     drinking_date = models.DateField(auto_now=True)
     trainee = models.ForeignKey(
-        Trainee, on_delete=models.CASCADE, related_name='water'
+        Trainee, on_delete=models.CASCADE, related_name='waters'
     )
