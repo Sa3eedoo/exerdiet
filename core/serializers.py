@@ -64,7 +64,7 @@ class TraineeSerializer(serializers.ModelSerializer):
                   'activity_level', 'goal', 'daily_streak']
 
 
-class TraineeCreateSerializer(serializers.ModelSerializer):
+class TraineeCreateUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Trainee
         fields = ['birthdate', 'gender', 'height',
@@ -75,13 +75,6 @@ class TraineeCreateSerializer(serializers.ModelSerializer):
         trainee.user_id = self.context['user_id']
         trainee.save()
         return trainee
-
-
-class TraineeUpdateSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Trainee
-        fields = ['birthdate', 'gender', 'height',
-                  'weight', 'activity_level', 'goal']
 
 
 class TraineeUpdateCaloriesSerializer(serializers.ModelSerializer):

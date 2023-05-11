@@ -6,7 +6,7 @@ from rest_framework.viewsets import GenericViewSet
 from rest_framework import status
 from .models import Trainee
 from .permissions import IsAuthenticatedAndNotTrainee, IsAuthenticatedAndTrainee
-from .serializers import TraineeSerializer, TraineeCreateSerializer, TraineeUpdateSerializer, TraineeUpdateCaloriesSerializer, TraineeUpdateWaterSerializer, TraineeUpdateMacronutrientsRatiosSerializer
+from .serializers import TraineeSerializer, TraineeCreateUpdateSerializer, TraineeUpdateCaloriesSerializer, TraineeUpdateWaterSerializer, TraineeUpdateMacronutrientsRatiosSerializer
 
 
 class TraineeViewSet(CreateModelMixin, GenericViewSet):
@@ -14,10 +14,10 @@ class TraineeViewSet(CreateModelMixin, GenericViewSet):
 
     def get_serializer_class(self):
         if self.request.method == 'POST':
-            return TraineeCreateSerializer
+            return TraineeCreateUpdateSerializer
         elif self.request.method == 'PATCH':
             if self.action == 'me':
-                return TraineeUpdateSerializer
+                return TraineeCreateUpdateSerializer
             elif self.action == 'set_daily_calories_needs':
                 return TraineeUpdateCaloriesSerializer
             elif self.action == 'set_daily_water_needs':
