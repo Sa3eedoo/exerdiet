@@ -1,5 +1,7 @@
+from typing import Any
 from django.contrib import admin
 from django.db.models import Count
+from django.http.request import HttpRequest
 from django.utils.html import format_html
 from django.urls import reverse
 from . import models
@@ -147,6 +149,16 @@ class FoodAdmin(admin.ModelAdmin):
     def get_queryset(self, request):
         return super().get_queryset(request).exclude(customfood__isnull=False)
 
+    def get_form(self, request: Any, obj: Any | None = ..., change: bool = ..., **kwargs: Any) -> Any:
+        form = super().get_form(request, obj, change, **kwargs)
+
+        form.base_fields['calories'].widget.attrs['placeholder'] = 'cal/100gm'
+        form.base_fields['carbs'].widget.attrs['placeholder'] = 'grams/100gm'
+        form.base_fields['fats'].widget.attrs['placeholder'] = 'grams/100gm'
+        form.base_fields['protein'].widget.attrs['placeholder'] = 'grams/100gm'
+
+        return form
+
 
 @admin.register(models.CustomFood)
 class CustomFoodAdmin(admin.ModelAdmin):
@@ -177,6 +189,16 @@ class CustomFoodAdmin(admin.ModelAdmin):
         elif food.calories < CALORIE_LEVEL_HIGH:
             return 'Medium'
         return 'High'
+
+    def get_form(self, request: Any, obj: Any | None = ..., change: bool = ..., **kwargs: Any) -> Any:
+        form = super().get_form(request, obj, change, **kwargs)
+
+        form.base_fields['calories'].widget.attrs['placeholder'] = 'cal/100gm'
+        form.base_fields['carbs'].widget.attrs['placeholder'] = 'grams/100gm'
+        form.base_fields['fats'].widget.attrs['placeholder'] = 'grams/100gm'
+        form.base_fields['protein'].widget.attrs['placeholder'] = 'grams/100gm'
+
+        return form
 
 
 @admin.register(models.FoodInstance)
@@ -220,6 +242,13 @@ class FoodInstanceAdmin(admin.ModelAdmin):
             return format_html('<a href="{}">{}</a>', url, food_instance.meal)
         return food_instance.meal
 
+    def get_form(self, request: Any, obj: Any | None = ..., change: bool = ..., **kwargs: Any) -> Any:
+        form = super().get_form(request, obj, change, **kwargs)
+
+        form.base_fields['quantity'].widget.attrs['placeholder'] = 'in grams'
+
+        return form
+
 
 class FoodInstanceRecipeInline(admin.TabularInline):
     model = models.FoodInstance
@@ -227,6 +256,12 @@ class FoodInstanceRecipeInline(admin.TabularInline):
     exclude = ['meal']
     extra = 1
     fields = ['food', 'quantity']
+
+    def formfield_for_dbfield(self, db_field, request: HttpRequest | None, **kwargs: Any):
+        field = super().formfield_for_dbfield(db_field, request, **kwargs)
+        if db_field.name == 'quantity':
+            field.widget.attrs['placeholder'] = 'in grams'
+        return field
 
 
 @admin.register(models.Recipe)
@@ -261,6 +296,12 @@ class FoodInstanceMealInline(admin.TabularInline):
     exclude = ['recipe']
     extra = 1
     fields = ['food', 'quantity']
+
+    def formfield_for_dbfield(self, db_field, request: HttpRequest | None, **kwargs: Any):
+        field = super().formfield_for_dbfield(db_field, request, **kwargs)
+        if db_field.name == 'quantity':
+            field.widget.attrs['placeholder'] = 'in grams'
+        return field
 
 
 class RecipeMealInline(admin.TabularInline):
@@ -308,3 +349,10 @@ class WaterAdmin(admin.ModelAdmin):
             str(custom_food.trainee.id)
         )
         return format_html('<a href="{}">{}</a>', url, custom_food.trainee)
+
+    def get_form(self, request: Any, obj: Any | None = ..., change: bool = ..., **kwargs: Any) -> Any:
+        form = super().get_form(request, obj, change, **kwargs)
+
+        form.base_fields['amount'].widget.attrs['placeholder'] = 'in mL'
+
+        return form
