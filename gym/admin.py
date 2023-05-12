@@ -1,5 +1,7 @@
+from typing import Any
 from django.contrib import admin
 from django.db.models import Count
+from django.http import HttpRequest
 from django.utils.html import format_html
 from django.urls import reverse
 from . import models
@@ -59,6 +61,13 @@ class ExerciseAdmin(admin.ModelAdmin):
     def get_queryset(self, request):
         return super().get_queryset(request).exclude(customexercise__isnull=False)
 
+    def get_form(self, request: Any, obj: Any | None = ..., change: bool = ..., **kwargs: Any) -> Any:
+        form = super().get_form(request, obj, change, **kwargs)
+
+        form.base_fields['calories_burned'].widget.attrs['placeholder'] = '1m|10rep'
+
+        return form
+
 
 @admin.register(models.CustomExercise)
 class CustomExerciseAdmin(admin.ModelAdmin):
@@ -88,6 +97,13 @@ class CustomExerciseAdmin(admin.ModelAdmin):
         elif exercise.calories_burned < CALORIE_BURNED_LEVEL_HIGH:
             return 'Medium'
         return 'High'
+
+    def get_form(self, request: Any, obj: Any | None = ..., change: bool = ..., **kwargs: Any) -> Any:
+        form = super().get_form(request, obj, change, **kwargs)
+
+        form.base_fields['calories_burned'].widget.attrs['placeholder'] = '1m|10rep'
+
+        return form
 
 
 @admin.register(models.ExerciseInstance)
@@ -132,6 +148,13 @@ class ExerciseInstanceAdmin(admin.ModelAdmin):
             return format_html('<a href="{}">{}</a>', url, exercise_instacne.performed_workout)
         return exercise_instacne.performed_workout
 
+    def get_form(self, request: Any, obj: Any | None = ..., change: bool = ..., **kwargs: Any) -> Any:
+        form = super().get_form(request, obj, change, **kwargs)
+
+        form.base_fields['duration'].widget.attrs['placeholder'] = 'sec|reps'
+
+        return form
+
 
 class ExerciseInstanceWorkoutInline(admin.TabularInline):
     model = models.ExerciseInstance
@@ -139,6 +162,12 @@ class ExerciseInstanceWorkoutInline(admin.TabularInline):
     exclude = ['performed_workout']
     extra = 1
     fields = ['exercise', 'duration', 'sets']
+
+    def formfield_for_dbfield(self, db_field, request: HttpRequest | None, **kwargs: Any):
+        field = super().formfield_for_dbfield(db_field, request, **kwargs)
+        if db_field.name == 'duration':
+            field.widget.attrs['placeholder'] = 'sec|reps'
+        return field
 
 
 @admin.register(models.Workout)
@@ -173,6 +202,12 @@ class ExerciseInstancePerformedWorkoutInline(admin.TabularInline):
     exclude = ['workout']
     extra = 1
     fields = ['exercise', 'duration', 'sets']
+
+    def formfield_for_dbfield(self, db_field, request: HttpRequest | None, **kwargs: Any):
+        field = super().formfield_for_dbfield(db_field, request, **kwargs)
+        if db_field.name == 'duration':
+            field.widget.attrs['placeholder'] = 'sec|reps'
+        return field
 
 
 class WorkoutPerformedWorkoutInline(admin.TabularInline):
