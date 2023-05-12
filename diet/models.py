@@ -38,7 +38,7 @@ class CustomFood(Food):
         verbose_name_plural = "Custom Foods"
 
     def __str__(self) -> str:
-        return self.name + ' / ' + str(self.trainee)
+        return self.name + ' (' + str(self.calories) + ' cals/100gm)' + ' / ' + str(self.trainee)
 
 
 class Recipe(models.Model):
