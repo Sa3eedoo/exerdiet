@@ -38,7 +38,7 @@ class CustomExercise(Exercise):
         verbose_name_plural = "Custom Exercises"
 
     def __str__(self) -> str:
-        return self.name + ' / ' + str(self.trainee)
+        return self.name + ' (' + str(self.calories_burned) + 'cals/(60sec or 1rep))' + ' / ' + str(self.trainee)
 
 
 class Workout(models.Model):
