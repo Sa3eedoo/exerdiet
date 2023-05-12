@@ -51,7 +51,13 @@ class Recipe(models.Model):
     )
 
     def __str__(self) -> str:
-        return self.name + ' / ' + str(self.trainee)
+        return self.name + ' (' + str(self.get_total_calories()) + 'cals)' + ' / ' + str(self.trainee)
+
+    def get_total_calories(self):
+        total_calories = 0
+        for food_instance in self.food_instances.all():
+            total_calories += food_instance.food.calories * food_instance.quantity / 100
+        return int(total_calories)
 
 
 class Meal(models.Model):
@@ -63,7 +69,15 @@ class Meal(models.Model):
     recipes = models.ManyToManyField(Recipe, related_name='meals', blank=True)
 
     def __str__(self) -> str:
-        return self.name + ' / ' + str(self.trainee) + ' / ' + str(self.time_eaten)
+        return self.name + ' (' + str(self.get_total_calories()) + 'cals)' + ' / ' + str(self.trainee) + ' / ' + str(self.time_eaten)
+
+    def get_total_calories(self):
+        total_calories = 0
+        for recipe in self.recipes.all():
+            total_calories += recipe.get_total_calories()
+        for food_instance in self.food_instances.all():
+            total_calories += food_instance.food.calories * food_instance.quantity / 100
+        return int(total_calories)
 
 
 class FoodInstance(models.Model):
