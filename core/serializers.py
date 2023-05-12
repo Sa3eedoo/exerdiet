@@ -167,3 +167,15 @@ class TraineeUpdateMacronutrientsRatiosSerializer(serializers.ModelSerializer):
     class Meta:
         model = Trainee
         fields = ['carbs_ratio', 'fats_ratio', 'protein_ratio']
+
+    def validate(self, attrs):
+        carbs_ratio = attrs['carbs_ratio']
+        fats_ratio = attrs['fats_ratio']
+        protein_ratio = attrs['protein_ratio']
+
+        if ((carbs_ratio + fats_ratio + protein_ratio) != 1.0):
+            raise serializers.ValidationError(
+                'Macronutrients(carbs, fats, protein) ratios are not valid.'
+            )
+
+        return super().validate(attrs)
