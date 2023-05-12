@@ -38,12 +38,32 @@ class CalorieBurnedLevelFilter(admin.SimpleListFilter):
             return queryset.filter(calories_burned__gte=CALORIE_BURNED_LEVEL_HIGH)
 
 
+class CustomExerciseFilter(admin.SimpleListFilter):
+    title = 'is custom exercise'
+    parameter_name = 'is_custom_exercise'
+    FILTER_CUSTOM = '1'
+    FILTER_NOT_CUSTOM = '0'
+
+    def lookups(self, request, model_admin):
+        return [
+            (self.FILTER_CUSTOM, 'Custom Exercises'),
+            (self.FILTER_NOT_CUSTOM, 'Not Custom Exercises')
+        ]
+
+    def queryset(self, request, queryset):
+        if self.value() == self.FILTER_CUSTOM:
+            return queryset.filter(customexercise__isnull=False)
+        if self.value() == self.FILTER_NOT_CUSTOM:
+            return queryset.exclude(customexercise__isnull=False)
+
+
 @admin.register(models.Exercise)
 class ExerciseAdmin(admin.ModelAdmin):
     list_display = ['name', 'calories_burned_level', 'calories_burned',
                     'is_repetitive', 'body_part']
     list_editable = ['calories_burned', 'is_repetitive', 'body_part']
-    list_filter = ['is_repetitive', 'body_part', CalorieBurnedLevelFilter]
+    list_filter = [CustomExerciseFilter, 'is_repetitive',
+                   'body_part', CalorieBurnedLevelFilter]
     list_per_page = 100
     ordering = ['name']
     search_fields = ['name']
@@ -57,9 +77,6 @@ class ExerciseAdmin(admin.ModelAdmin):
         elif exercise.calories_burned < CALORIE_BURNED_LEVEL_HIGH:
             return 'Medium'
         return 'High'
-
-    def get_queryset(self, request):
-        return super().get_queryset(request).exclude(customexercise__isnull=False)
 
     def get_form(self, request: Any, obj: Any | None = ..., change: bool = ..., **kwargs: Any) -> Any:
         form = super().get_form(request, obj, change, **kwargs)
