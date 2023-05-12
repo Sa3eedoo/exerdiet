@@ -24,7 +24,8 @@ class Exercise(models.Model):
         upload_to='gym/images/exercises', null=True, blank=True)
 
     def __str__(self) -> str:
-        return self.name + ' (' + str(self.calories_burned) + 'cals/(60sec or 1rep))'
+        temp = '10rep' if self.is_repetitive else '60sec'
+        return self.name + ' (' + str(self.calories_burned) + 'cals/' + temp + ')'
 
 
 class CustomExercise(Exercise):
@@ -38,7 +39,8 @@ class CustomExercise(Exercise):
         verbose_name_plural = "Custom Exercises"
 
     def __str__(self) -> str:
-        return self.name + ' (' + str(self.calories_burned) + 'cals/(60sec or 1rep))' + ' / ' + str(self.trainee)
+        temp = '10rep' if self.is_repetitive else '60sec'
+        return self.name + ' (' + str(self.calories_burned) + 'cals/' + temp + ')' + ' / ' + str(self.trainee)
 
 
 class Workout(models.Model):
@@ -51,7 +53,18 @@ class Workout(models.Model):
     )
 
     def __str__(self) -> str:
-        return self.name + ' / ' + str(self.trainee)
+        return self.name + ' (' + str(self.get_total_calories()) + 'cals)' + ' / ' + str(self.trainee)
+
+    def get_total_calories(self):
+        total_calories = 0
+        for exercise_instance in self.exercise_instances.all():
+            if exercise_instance.exercise.is_repetitive:
+                total_calories += (exercise_instance.exercise.calories_burned *
+                                   exercise_instance.duration * exercise_instance.sets / 10)
+            else:
+                total_calories += (exercise_instance.exercise.calories_burned *
+                                   exercise_instance.duration * exercise_instance.sets / 60)
+        return int(total_calories)
 
 
 class PerformedWorkout(models.Model):
@@ -65,7 +78,21 @@ class PerformedWorkout(models.Model):
     )
 
     def __str__(self) -> str:
-        return self.name + ' / ' + str(self.trainee) + ' / ' + str(self.time_performed)
+        return self.name + ' (' + str(self.get_total_calories()) + 'cals)' + ' / ' + str(self.trainee) + ' / ' + str(self.time_performed)
+
+    def get_total_calories(self):
+        total_calories = 0
+        for workout in self.workouts.all():
+            total_calories += workout.get_total_calories()
+
+        for exercise_instance in self.exercise_instances.all():
+            if exercise_instance.exercise.is_repetitive:
+                total_calories += (exercise_instance.exercise.calories_burned *
+                                   exercise_instance.duration * exercise_instance.sets / 10)
+            else:
+                total_calories += (exercise_instance.exercise.calories_burned *
+                                   exercise_instance.duration * exercise_instance.sets / 60)
+        return int(total_calories)
 
 
 class ExerciseInstance(models.Model):
