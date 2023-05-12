@@ -56,7 +56,7 @@ class Recipe(models.Model):
     def get_total_calories(self):
         total_calories = 0
         for food_instance in self.food_instances.all():
-            total_calories += food_instance.food.calories * food_instance.quantity / 100
+            total_calories += food_instance.get_total_calories()
         return int(total_calories)
 
 
@@ -76,7 +76,7 @@ class Meal(models.Model):
         for recipe in self.recipes.all():
             total_calories += recipe.get_total_calories()
         for food_instance in self.food_instances.all():
-            total_calories += food_instance.food.calories * food_instance.quantity / 100
+            total_calories += food_instance.get_total_calories()
         return int(total_calories)
 
 
@@ -100,6 +100,12 @@ class FoodInstance(models.Model):
 
     def __str__(self) -> str:
         return self.food.name + ' (' + str(self.quantity) + ' gm/ml)'
+
+    def get_total_calories(self):
+        total_calories = 0
+        if self.food:
+            total_calories += self.food.calories * self.quantity / 100
+        return int(total_calories)
 
 
 class Water(models.Model):

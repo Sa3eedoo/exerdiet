@@ -58,12 +58,7 @@ class Workout(models.Model):
     def get_total_calories(self):
         total_calories = 0
         for exercise_instance in self.exercise_instances.all():
-            if exercise_instance.exercise.is_repetitive:
-                total_calories += (exercise_instance.exercise.calories_burned *
-                                   exercise_instance.duration * exercise_instance.sets / 10)
-            else:
-                total_calories += (exercise_instance.exercise.calories_burned *
-                                   exercise_instance.duration * exercise_instance.sets / 60)
+            total_calories += exercise_instance.get_total_calories()
         return int(total_calories)
 
 
@@ -84,14 +79,8 @@ class PerformedWorkout(models.Model):
         total_calories = 0
         for workout in self.workouts.all():
             total_calories += workout.get_total_calories()
-
         for exercise_instance in self.exercise_instances.all():
-            if exercise_instance.exercise.is_repetitive:
-                total_calories += (exercise_instance.exercise.calories_burned *
-                                   exercise_instance.duration * exercise_instance.sets / 10)
-            else:
-                total_calories += (exercise_instance.exercise.calories_burned *
-                                   exercise_instance.duration * exercise_instance.sets / 60)
+            total_calories += exercise_instance.get_total_calories()
         return int(total_calories)
 
 
@@ -115,3 +104,14 @@ class ExerciseInstance(models.Model):
 
     def __str__(self) -> str:
         return self.exercise.name + ' (' + str(self.sets) + ')'
+
+    def get_total_calories(self):
+        total_calories = 0
+        if self.exercise:
+            if self.exercise.is_repetitive:
+                total_calories += (self.exercise.calories_burned *
+                                   self.duration * self.sets / 10)
+            else:
+                total_calories += (self.exercise.calories_burned *
+                                   self.duration * self.sets / 60)
+        return int(total_calories)
