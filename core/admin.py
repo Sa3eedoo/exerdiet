@@ -1,7 +1,9 @@
 from datetime import date
 from typing import Any
+from django import forms
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from django.forms import ValidationError
 from django.urls import reverse
 from django.utils.html import format_html
 from . import models
@@ -163,11 +165,32 @@ class AgeFilter(admin.SimpleListFilter):
             return queryset.filter(birthdate__lt=self.old_min_birthdate)
 
 
+class TraineeAdminForm(forms.ModelForm):
+    class Meta:
+        model = models.Trainee
+        fields = '__all__'
+
+    def clean(self):
+        cleaned_data = super().clean()
+        carbs_ratio = cleaned_data.get('carbs_ratio')
+        fats_ratio = cleaned_data.get('fats_ratio')
+        protein_ratio = cleaned_data.get('protein_ratio')
+
+        if cleaned_data.get('is_macronutrients_ratios_custom'):
+            if carbs_ratio and fats_ratio and protein_ratio:
+                if ((carbs_ratio + fats_ratio + protein_ratio) != 1.0):
+                    raise ValidationError(
+                        'Macronutrients(carbs, fats, protein) ratios are not valid.'
+                    )
+        return cleaned_data
+
+
 @admin.register(models.Trainee)
 class TraineeAdmin(admin.ModelAdmin):
     autocomplete_fields = ['user']
     exclude = ['was_active_today']
     actions = ['make_active', 'make_inactive', 'clear_streak']
+    form = TraineeAdminForm
     list_display = ['name', 'username', 'age', 'gender', 'height', 'weight',
                     'calorie_level', 'activity_level', 'goal', 'was_active_today', 'streak',]
     list_filter = [CalorieLevelFilter, AgeFilter,
