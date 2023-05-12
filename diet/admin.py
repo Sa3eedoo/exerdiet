@@ -125,12 +125,31 @@ class ProteinLevelFilter(admin.SimpleListFilter):
             return queryset.filter(protein__gte=PROTEIN_LEVEL_HIGH)
 
 
+class CustomFoodFilter(admin.SimpleListFilter):
+    title = 'is custom food'
+    parameter_name = 'is_custom_food'
+    FILTER_CUSTOM = '1'
+    FILTER_NOT_CUSTOM = '0'
+
+    def lookups(self, request, model_admin):
+        return [
+            (self.FILTER_CUSTOM, 'Custom Food'),
+            (self.FILTER_NOT_CUSTOM, 'Not Custom Food')
+        ]
+
+    def queryset(self, request, queryset):
+        if self.value() == self.FILTER_CUSTOM:
+            return queryset.filter(customfood__isnull=False)
+        if self.value() == self.FILTER_NOT_CUSTOM:
+            return queryset.exclude(customfood__isnull=False)
+
+
 @admin.register(models.Food)
 class FoodAdmin(admin.ModelAdmin):
     list_display = ['name', 'calorie_level', 'calories',
                     'carbs', 'fats', 'protein', 'category']
     list_editable = ['calories', 'carbs', 'fats', 'protein', 'category']
-    list_filter = ['category', CalorieLevelFilter,
+    list_filter = [CustomFoodFilter, 'category', CalorieLevelFilter,
                    CarbLevelFilter, FatLevelFilter, ProteinLevelFilter]
     list_per_page = 100
     ordering = ['name']
@@ -145,9 +164,6 @@ class FoodAdmin(admin.ModelAdmin):
         elif food.calories < CALORIE_LEVEL_HIGH:
             return 'Medium'
         return 'High'
-
-    def get_queryset(self, request):
-        return super().get_queryset(request).exclude(customfood__isnull=False)
 
     def get_form(self, request: Any, obj: Any | None = ..., change: bool = ..., **kwargs: Any) -> Any:
         form = super().get_form(request, obj, change, **kwargs)
