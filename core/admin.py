@@ -1,5 +1,5 @@
 from datetime import date
-from typing import Any, Optional
+from typing import Any
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.urls import reverse
@@ -180,12 +180,23 @@ class TraineeAdmin(admin.ModelAdmin):
 
     def get_form(self, request: Any, obj: Any | None = ..., change: bool = ..., **kwargs: Any) -> Any:
         form = super().get_form(request, obj, change, **kwargs)
+
         form.base_fields['daily_calories_needs'].initial = None
         form.base_fields['daily_water_needs'].initial = None
         form.base_fields['carbs_ratio'].initial = None
         form.base_fields['fats_ratio'].initial = None
         form.base_fields['protein_ratio'].initial = None
         form.base_fields['daily_streak'].initial = None
+
+        form.base_fields['birthdate'].widget.attrs['placeholder'] = 'YYYY-MM-DD'
+        form.base_fields['height'].widget.attrs['placeholder'] = 'in cm'
+        form.base_fields['weight'].widget.attrs['placeholder'] = 'in kg'
+        form.base_fields['daily_calories_needs'].widget.attrs['placeholder'] = 'leave it'
+        form.base_fields['daily_water_needs'].widget.attrs['placeholder'] = 'leave it'
+        form.base_fields['carbs_ratio'].widget.attrs['placeholder'] = 'leave blank to be calculated'
+        form.base_fields['fats_ratio'].widget.attrs['placeholder'] = 'leave blank to be calculated'
+        form.base_fields['protein_ratio'].widget.attrs['placeholder'] = 'leave blank to be calculated'
+
         return form
 
     @admin.display(ordering='birthdate')
