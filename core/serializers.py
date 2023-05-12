@@ -47,11 +47,7 @@ class TraineeSerializer(serializers.ModelSerializer):
             return total_calories
         else:
             for meal in meals_today:
-                for recipe in meal.recipes.all():
-                    for food_instance in recipe.food_instances.all():
-                        total_calories += food_instance.food.calories * food_instance.quantity / 100
-                for food_instance in meal.food_instances.all():
-                    total_calories += food_instance.food.calories * food_instance.quantity / 100
+                total_calories += meal.get_total_calories()
             return int(total_calories)
 
     def get_calories_burned_today(self, trainee: Trainee):
@@ -64,21 +60,7 @@ class TraineeSerializer(serializers.ModelSerializer):
             return total_calories
         else:
             for performed_workout in performed_workout_today:
-
-                for workout in performed_workout.workouts.all():
-                    for exercise_instance in workout.exercise_instances.all():
-                        if exercise_instance.exercise.is_repetitive:
-                            total_calories += exercise_instance.exercise.calories_burned * \
-                                exercise_instance.duration * exercise_instance.sets
-                        total_calories += exercise_instance.exercise.calories_burned * \
-                            exercise_instance.duration * exercise_instance.sets / 60
-
-                for exercise_instance in performed_workout.exercise_instances.all():
-                    if exercise_instance.exercise.is_repetitive:
-                        total_calories += exercise_instance.exercise.calories_burned * \
-                            exercise_instance.duration * exercise_instance.sets
-                    total_calories += exercise_instance.exercise.calories_burned * \
-                        exercise_instance.duration * exercise_instance.sets / 60
+                total_calories += performed_workout.get_total_calories()
             return int(total_calories)
 
     def get_water_intake_today(self, trainee: Trainee):
