@@ -31,11 +31,14 @@ class TraineeSerializer(serializers.ModelSerializer):
         read_only=True, max_digits=4, decimal_places=1)
     daily_streak = serializers.IntegerField(read_only=True)
     calories_intake_today = serializers.SerializerMethodField(read_only=True)
+    carbs_intake_today = serializers.SerializerMethodField(read_only=True)
+    fats_intake_today = serializers.SerializerMethodField(read_only=True)
+    protein_intake_today = serializers.SerializerMethodField(read_only=True)
     calories_burned_today = serializers.SerializerMethodField(read_only=True)
     water_intake_today = serializers.SerializerMethodField(read_only=True)
-    carbs_grams = serializers.SerializerMethodField(read_only=True)
-    fats_grams = serializers.SerializerMethodField(read_only=True)
-    protein_grams = serializers.SerializerMethodField(read_only=True)
+    carbs_needs = serializers.SerializerMethodField(read_only=True)
+    fats_needs = serializers.SerializerMethodField(read_only=True)
+    protein_needs = serializers.SerializerMethodField(read_only=True)
 
     def get_calories_intake_today(self, trainee: Trainee):
         total_calories = 0
@@ -49,6 +52,45 @@ class TraineeSerializer(serializers.ModelSerializer):
             for meal in meals_today:
                 total_calories += meal.get_total_calories()
             return int(total_calories)
+
+    def get_carbs_intake_today(self, trainee: Trainee):
+        total_carbs = 0
+        today = date.today()
+        meals_today = Meal.objects.filter(
+            trainee=trainee, time_eaten__date=today)
+
+        if not meals_today:
+            return round(total_carbs, 1)
+        else:
+            for meal in meals_today:
+                total_carbs += meal.get_total_carbs()
+            return round(total_carbs, 1)
+
+    def get_fats_intake_today(self, trainee: Trainee):
+        total_fats = 0
+        today = date.today()
+        meals_today = Meal.objects.filter(
+            trainee=trainee, time_eaten__date=today)
+
+        if not meals_today:
+            return round(total_fats, 1)
+        else:
+            for meal in meals_today:
+                total_fats += meal.get_total_fats()
+            return round(total_fats, 1)
+
+    def get_protein_intake_today(self, trainee: Trainee):
+        total_protein = 0
+        today = date.today()
+        meals_today = Meal.objects.filter(
+            trainee=trainee, time_eaten__date=today)
+
+        if not meals_today:
+            return round(total_protein, 1)
+        else:
+            for meal in meals_today:
+                total_protein += meal.get_total_protein()
+            return round(total_protein, 1)
 
     def get_calories_burned_today(self, trainee: Trainee):
         total_calories = 0
@@ -76,21 +118,23 @@ class TraineeSerializer(serializers.ModelSerializer):
                 total_water += water.amount
             return int(total_water)
 
-    def get_carbs_grams(self, trainee: Trainee):
+    def get_carbs_needs(self, trainee: Trainee):
         return Decimal(round(trainee.daily_calories_needs * trainee.carbs_ratio / 4, 1))
 
-    def get_fats_grams(self, trainee: Trainee):
+    def get_fats_needs(self, trainee: Trainee):
         return Decimal(round(trainee.daily_calories_needs * trainee.fats_ratio / 9, 1))
 
-    def get_protein_grams(self, trainee: Trainee):
+    def get_protein_needs(self, trainee: Trainee):
         return Decimal(round(trainee.daily_calories_needs * trainee.protein_ratio / 4, 1))
 
     class Meta:
         model = Trainee
         fields = ['birthdate', 'gender', 'height', 'weight', 'daily_calories_needs',
-                  'calories_intake_today', 'calories_burned_today', 'daily_water_needs',
-                  'water_intake_today', 'carbs_ratio', 'fats_ratio', 'protein_ratio',
-                  'carbs_grams', 'fats_grams', 'protein_grams',
+                  'calories_intake_today', 'calories_burned_today',
+                  'daily_water_needs', 'water_intake_today',
+                  'carbs_ratio', 'fats_ratio', 'protein_ratio',
+                  'carbs_needs', 'fats_needs', 'protein_needs',
+                  'carbs_intake_today', 'fats_intake_today', 'protein_intake_today',
                   'activity_level', 'goal', 'daily_streak']
 
 
