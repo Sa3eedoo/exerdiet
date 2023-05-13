@@ -1,8 +1,9 @@
 from django_filters import rest_framework as filters
 from .models import Exercise, CustomExercise, Workout, PerformedWorkout
 
+
 class ExerciseFilter(filters.FilterSet):
-    
+
     FILTER_ZERO = '0'
     FILTER_LOW = 'low'
     FILTER_MED = 'medium'
@@ -41,8 +42,8 @@ class ExerciseFilter(filters.FilterSet):
             'calories_burned': ['exact', 'gte', 'lte'],
             'is_repetitive': ['exact'],
         }
-        
-        
+
+
 class CustomExerciseFilter(filters.FilterSet):
     FILTER_ZERO = '0'
     FILTER_LOW = 'low'
@@ -73,7 +74,7 @@ class CustomExerciseFilter(filters.FilterSet):
             return queryset.filter(calories_burned__gte=CALORIE_BURNED_LEVEL_HIGH)
         else:
             return queryset
-    
+
     class Meta:
         model = CustomExercise
         fields = {
@@ -83,8 +84,8 @@ class CustomExerciseFilter(filters.FilterSet):
             'is_repetitive': ['exact'],
             'trainee': ['exact'],
         }
-        
-        
+
+
 class WorkoutFilter(filters.FilterSet):
     class Meta:
         model = Workout
@@ -93,7 +94,8 @@ class WorkoutFilter(filters.FilterSet):
             'trainee': ['exact'],
             'performed_workouts': ['exact']
         }
-        
+
+
 class PerformedWorkoutFilter(filters.FilterSet):
     class Meta:
         model = PerformedWorkout
