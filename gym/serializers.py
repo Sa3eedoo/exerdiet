@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Exercise, CustomExercise, Workout, PerformedWorkout
+from .models import Exercise, CustomExercise, Workout, PerformedWorkout, ExerciseInstance
 
 class ExerciseSerializer(serializers.ModelSerializer):
     body_part = serializers.CharField(source='get_body_part_display')
@@ -41,9 +41,17 @@ class CustomExerciseSerializer(serializers.ModelSerializer):
         return 'High'
     
     
+class ExerciseInstanceSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ExerciseInstance
+        fields = '__all__'
+    
+    
 class WorkoutSerializer(serializers.ModelSerializer):
     performed_workouts_count = serializers.SerializerMethodField()
     trainee_name = serializers.SerializerMethodField()
+    exercise_instances = ExerciseInstanceSerializer(many=True)
 
     def get_trainee_name(self, workout: Workout()):
         return workout.trainee.full_name()
@@ -53,8 +61,15 @@ class WorkoutSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Workout
-        fields = ['id', 'name', 'instructions', 'image', 'trainee', 'trainee_name', 'performed_workouts', 'performed_workouts_count']
+        fields = ['id', 'name', 'instructions', 'image', 'exercise_instances', 'trainee', 'trainee_name', 'performed_workouts', 'performed_workouts_count']
         read_only_fields = ['performed_workouts']
+        
+    def create(self, validated_data):
+        exercise_instances = validated_data.pop('exercise_instances')
+        workout = Workout.objects.create(**validated_data)
+        for exercise_instance in exercise_instances:
+            ExerciseInstance.objects.create(workout=workout, **exercise_instance)
+        return workout
         
 
 class PerformedWorkoutSerializer(serializers.ModelSerializer):
