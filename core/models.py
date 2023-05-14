@@ -133,7 +133,7 @@ class Trainee(models.Model):
             self.is_daily_water_needs_custom = False
             self.daily_water_needs = self.calculate_daily_water_needs()
 
-        if not self.carbs_ratio or not self.fats_ratio or not self.protein_ratio or not self.is_macronutrients_ratios_custom:
+        if (not self.carbs_ratio and not self.fats_ratio and not self.protein_ratio) or not self.is_macronutrients_ratios_custom:
             self.is_macronutrients_ratios_custom = False
             self.carbs_ratio, self.fats_ratio, self.protein_ratio = self.get_default_macronutrients_ratios()
 
