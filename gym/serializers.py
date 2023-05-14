@@ -1,19 +1,20 @@
 from rest_framework import serializers
+from core.models import Trainee
 from .models import Exercise, CustomExercise, Workout, PerformedWorkout, ExerciseInstance
+
+CALORIE_BURNED_LEVEL_LOW = 100
+CALORIE_BURNED_LEVEL_HIGH = 250
 
 
 class ExerciseSerializer(serializers.ModelSerializer):
-    body_part = serializers.CharField(source='get_body_part_display')
     calorie_burned_level = serializers.SerializerMethodField()
 
     class Meta:
         model = Exercise
         fields = ['id', 'name', 'body_part', 'calories_burned',
-                  'image', 'is_repetitive', 'calorie_burned_level']
+                  'is_repetitive', 'calorie_burned_level', 'image']
 
     def get_calorie_burned_level(self, exercise: Exercise):
-        CALORIE_BURNED_LEVEL_LOW = 100
-        CALORIE_BURNED_LEVEL_HIGH = 250
         if exercise.calories_burned == 0:
             return 'Zero'
         elif exercise.calories_burned < CALORIE_BURNED_LEVEL_LOW:
@@ -24,18 +25,15 @@ class ExerciseSerializer(serializers.ModelSerializer):
 
 
 class CustomExerciseSerializer(serializers.ModelSerializer):
-    body_part_display = serializers.CharField(source='get_body_part_display',
-                                              read_only=True)
+    id = serializers.IntegerField(read_only=True)
     calorie_burned_level = serializers.SerializerMethodField()
 
     class Meta:
         model = CustomExercise
-        fields = ['id', 'trainee', 'name', 'body_part', 'body_part_display',
-                  'calories_burned', 'image', 'is_repetitive', 'calorie_burned_level']
+        fields = ['id', 'name', 'body_part', 'calories_burned',
+                  'is_repetitive', 'calorie_burned_level', 'image']
 
     def get_calorie_burned_level(self, exercise: CustomExercise):
-        CALORIE_BURNED_LEVEL_LOW = 100
-        CALORIE_BURNED_LEVEL_HIGH = 250
         if exercise.calories_burned == 0:
             return 'Zero'
         elif exercise.calories_burned < CALORIE_BURNED_LEVEL_LOW:
@@ -43,6 +41,21 @@ class CustomExerciseSerializer(serializers.ModelSerializer):
         elif exercise.calories_burned < CALORIE_BURNED_LEVEL_HIGH:
             return 'Medium'
         return 'High'
+
+    def create(self, validated_data):
+        user_id = self.context['user_id']
+        trainee = Trainee.objects.get(user_id=user_id)
+        custom_exercise = CustomExercise(**validated_data)
+        custom_exercise.trainee = trainee
+        custom_exercise.save()
+        return custom_exercise
+
+
+class CustomExerciseUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomExercise
+        fields = ['name', 'body_part', 'calories_burned',
+                  'is_repetitive', 'image']
 
 
 class ExerciseInstanceSerializer(serializers.ModelSerializer):
