@@ -42,36 +42,42 @@ class CustomExerciseCreateUpdateSerializer(serializers.ModelSerializer):
         return custom_exercise
 
 
+class SimpleExerciseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Exercise
+        fields = ['id', 'name', 'body_part']
+
+
 class ExerciseInstanceSerializer(serializers.ModelSerializer):
+    exercise = SimpleExerciseSerializer(read_only=True)
+    total_calories = serializers.SerializerMethodField(read_only=True)
+
+    def get_total_calories(self, exercise_instance: ExerciseInstance):
+        return exercise_instance.get_total_calories()
 
     class Meta:
         model = ExerciseInstance
-        fields = '__all__'
+        fields = ['exercise', 'duration', 'sets',  'total_calories']
 
 
 class WorkoutSerializer(serializers.ModelSerializer):
-    performed_workouts_count = serializers.SerializerMethodField()
-    trainee_name = serializers.SerializerMethodField()
-    exercise_instances = ExerciseInstanceSerializer(many=True)
+    exercise_instances = ExerciseInstanceSerializer(many=True, read_only=True)
+    total_calories = serializers.SerializerMethodField(read_only=True)
 
-    def get_trainee_name(self, workout: Workout()):
-        return workout.trainee.full_name()
-
-    def get_performed_workouts_count(self, workout: Workout()):
-        return workout.performed_workouts.count()
+    def get_total_calories(self, workout: Workout):
+        return workout.get_total_calories()
 
     class Meta:
         model = Workout
-        fields = ['id', 'name', 'instructions', 'image', 'exercise_instances',
-                  'trainee', 'trainee_name', 'performed_workouts', 'performed_workouts_count']
-        read_only_fields = ['performed_workouts']
+        fields = ['id', 'name', 'instructions', 'image',
+                  'exercise_instances', 'total_calories']
 
     def create(self, validated_data):
-        exercise_instances = validated_data.pop('exercise_instances')
-        workout = Workout.objects.create(**validated_data)
-        for exercise_instance in exercise_instances:
-            ExerciseInstance.objects.create(workout=workout,
-                                            **exercise_instance)
+        user_id = self.context['user_id']
+        trainee = Trainee.objects.get(user_id=user_id)
+        workout = Workout(**validated_data)
+        workout.trainee = trainee
+        workout.save()
         return workout
 
 

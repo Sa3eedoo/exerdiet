@@ -14,18 +14,16 @@ class ExerciseViewSet(ReadOnlyModelViewSet):
     queryset = Exercise.objects.\
         filter(customexercise__isnull=True).order_by('name')
     serializer_class = serializers.ExerciseSerializer
+    permission_classes = [IsAuthenticatedAndTrainee]
 
     # filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     # filterset_class = ExerciseFilter
 
-    permission_classes = [IsAuthenticatedAndTrainee]
-
 
 class CustomExerciseViewSet(ModelViewSet):
+    permission_classes = [IsAuthenticatedAndTrainee]
     # filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     # filterset_class = CustomExerciseFilter
-
-    permission_classes = [IsAuthenticatedAndTrainee]
 
     def get_queryset(self):
         user_id = self.request.user.id
@@ -41,41 +39,45 @@ class CustomExerciseViewSet(ModelViewSet):
         return {'user_id': self.request.user.id}
 
     def destroy(self, request, *args, **kwargs):
-        instance = self.get_object()
-        if instance.exercise_instances.exists():
+        custom_exercise = self.get_object()
+        if custom_exercise.exercise_instances.exists():
             return Response({'error': 'Exercise cannot be deleted because it is associated with a workout.'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
-        self.perform_destroy(instance)
+        self.perform_destroy(custom_exercise)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class WorkoutViewSet(ModelViewSet):
     serializer_class = serializers.WorkoutSerializer
+    permission_classes = [IsAuthenticatedAndTrainee]
 
     # filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     # filterset_class = WorkoutFilter
 
-    permission_classes = [IsAuthenticatedAndTrainee]
-
     def get_queryset(self):
         user_id = self.request.user.id
         trainee = Trainee.objects.get(user_id=user_id)
-        return Workout.objects.filter(trainee=trainee).order_by('name')
+        return Workout.objects.\
+            filter(trainee=trainee).\
+            prefetch_related('exercise_instances__exercise').\
+            order_by('name')
+
+    def get_serializer_context(self):
+        return {'user_id': self.request.user.id}
 
     def destroy(self, request, *args, **kwargs):
-        instance = self.get_object()
-        if instance.performed_workouts.exists():
+        workout = self.get_object()
+        if workout.performed_workouts.exists():
             return Response({'error': 'Workout cannot be deleted because it is associated with a performed workout.'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
-        self.perform_destroy(instance)
+        self.perform_destroy(workout)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class PerformedWorkoutViewSet(ModelViewSet):
     serializer_class = serializers.PerformedWorkoutSerializer
+    permission_classes = [IsAuthenticatedAndTrainee]
 
     # filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     # filterset_class = PerformedWorkoutFilter
-
-    permission_classes = [IsAuthenticatedAndTrainee]
 
     def get_queryset(self):
         user_id = self.request.user.id
