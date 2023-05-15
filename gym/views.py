@@ -33,9 +33,9 @@ class CustomExerciseViewSet(ModelViewSet):
         return CustomExercise.objects.filter(trainee=trainee).order_by('name')
 
     def get_serializer_class(self):
-        if self.request.method in ['PUT', 'PATCH']:
-            return serializers.CustomExerciseUpdateSerializer
-        return serializers.CustomExerciseSerializer
+        if self.request.method in ['POST', 'PUT', 'PATCH']:
+            return serializers.CustomExerciseCreateUpdateSerializer
+        return serializers.ExerciseSerializer
 
     def get_serializer_context(self):
         return {'user_id': self.request.user.id}
