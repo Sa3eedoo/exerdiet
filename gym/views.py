@@ -11,7 +11,8 @@ from . import serializers
 
 
 class ExerciseViewSet(ReadOnlyModelViewSet):
-    queryset = Exercise.objects.all()
+    queryset = Exercise.objects.\
+        filter(customexercise__isnull=True).order_by('name')
     serializer_class = serializers.ExerciseSerializer
 
     # filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
@@ -29,7 +30,7 @@ class CustomExerciseViewSet(ModelViewSet):
     def get_queryset(self):
         user_id = self.request.user.id
         trainee = Trainee.objects.get(user_id=user_id)
-        return CustomExercise.objects.filter(trainee=trainee).all()
+        return CustomExercise.objects.filter(trainee=trainee).order_by('name')
 
     def get_serializer_class(self):
         if self.request.method in ['PUT', 'PATCH']:
@@ -58,7 +59,7 @@ class WorkoutViewSet(ModelViewSet):
     def get_queryset(self):
         user_id = self.request.user.id
         trainee = Trainee.objects.get(user_id=user_id)
-        return Workout.objects.filter(trainee=trainee).all()
+        return Workout.objects.filter(trainee=trainee).order_by('name')
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
@@ -79,4 +80,4 @@ class PerformedWorkoutViewSet(ModelViewSet):
     def get_queryset(self):
         user_id = self.request.user.id
         trainee = Trainee.objects.get(user_id=user_id)
-        return PerformedWorkout.objects.filter(trainee=trainee).all()
+        return PerformedWorkout.objects.filter(trainee=trainee).order_by('name')
