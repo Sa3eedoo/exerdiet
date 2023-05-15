@@ -59,7 +59,7 @@ class CustomExerciseFilter(admin.SimpleListFilter):
 
 @admin.register(models.Exercise)
 class ExerciseAdmin(admin.ModelAdmin):
-    list_display = ['name', 'calories_burned_level', 'calories_burned',
+    list_display = ['id', 'name', 'calories_burned_level', 'calories_burned',
                     'is_repetitive', 'body_part']
     list_editable = ['calories_burned', 'is_repetitive', 'body_part']
     list_filter = [CustomExerciseFilter, 'is_repetitive',
@@ -89,7 +89,7 @@ class ExerciseAdmin(admin.ModelAdmin):
 @admin.register(models.CustomExercise)
 class CustomExerciseAdmin(admin.ModelAdmin):
     autocomplete_fields = ['trainee']
-    list_display = ['name', 'trainee_username', 'calories_burned_level', 'calories_burned',
+    list_display = ['id', 'name', 'trainee_username', 'calories_burned_level', 'calories_burned',
                     'is_repetitive', 'body_part']
     list_filter = ['body_part', 'is_repetitive', CalorieBurnedLevelFilter]
     list_select_related = ['trainee__user']
@@ -126,7 +126,7 @@ class CustomExerciseAdmin(admin.ModelAdmin):
 @admin.register(models.ExerciseInstance)
 class ExerciseInstanceAdmin(admin.ModelAdmin):
     autocomplete_fields = ['exercise', 'workout', 'performed_workout']
-    list_display = ['exercise_name', 'duration', 'sets',
+    list_display = ['id', 'exercise_name', 'duration', 'sets',
                     'workout_name', 'performed_workout_name']
     list_display_links = ['duration', 'sets']
     list_per_page = 100
@@ -190,7 +190,7 @@ class ExerciseInstanceWorkoutInline(admin.TabularInline):
 @admin.register(models.Workout)
 class WorkoutAdmin(admin.ModelAdmin):
     autocomplete_fields = ['trainee']
-    list_display = ['name', 'trainee_username', 'performed_count']
+    list_display = ['id', 'name', 'trainee_username', 'performed_count', 'is_public']
     list_select_related = ['trainee__user']
     list_per_page = 100
     ordering = ['name']
@@ -239,7 +239,7 @@ class WorkoutPerformedWorkoutInline(admin.TabularInline):
 class PerformedWorkoutAdmin(admin.ModelAdmin):
     autocomplete_fields = ['trainee']
     exclude = ['workouts']
-    list_display = ['name', 'trainee_username', 'time_performed']
+    list_display = ['id', 'name', 'trainee_username', 'time_performed']
     list_filter = ['time_performed']
     list_per_page = 100
     list_select_related = ['trainee__user']
