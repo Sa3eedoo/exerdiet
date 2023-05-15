@@ -46,6 +46,7 @@ class CustomExercise(Exercise):
 class Workout(models.Model):
     name = models.CharField(max_length=150)
     instructions = models.TextField(null=True, blank=True)
+    is_public = models.BooleanField(default=False)
     image = models.ImageField(
         upload_to='gym/images/workouts', null=True, blank=True)
     trainee = models.ForeignKey(
