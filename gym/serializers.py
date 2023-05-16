@@ -90,9 +90,14 @@ class ExerciseInstanceCreateSerializer(serializers.ModelSerializer):
         fields = ['id', 'exercise_id', 'duration', 'sets']
 
     def create(self, validated_data):
-        workout_id = self.context['workout_id']
-        exercise_instance = ExerciseInstance(workout_id=workout_id,
-                                             **validated_data)
+        workout_id = self.context.get('workout_id')
+        performed_workout_id = self.context.get('performed_workout_id')
+        if workout_id:
+            exercise_instance = ExerciseInstance(workout_id=workout_id,
+                                                 **validated_data)
+        if performed_workout_id:
+            exercise_instance = ExerciseInstance(performed_workout_id=performed_workout_id,
+                                                 **validated_data)
         exercise_instance.save()
         return exercise_instance
 
@@ -130,8 +135,71 @@ class WorkoutUpdateSerializer(serializers.ModelSerializer):
         fields = ['name', 'instructions', 'image']
 
 
+class SimpleWorkoutSerializer(serializers.ModelSerializer):
+    exercise_instances = ExerciseInstanceSerializer(many=True, read_only=True)
+    total_calories = serializers.SerializerMethodField(read_only=True)
+
+    def get_total_calories(self, workout: Workout):
+        return workout.get_total_calories()
+
+    class Meta:
+        model = Workout
+        fields = ['id', 'name', 'exercise_instances', 'total_calories']
+
+
 class PerformedWorkoutSerializer(serializers.ModelSerializer):
+    workouts = SimpleWorkoutSerializer(many=True, read_only=True)
+    exercise_instances = ExerciseInstanceSerializer(many=True, read_only=True)
+    total_calories = serializers.SerializerMethodField(read_only=True)
+    name = serializers.CharField(max_length=150, required=False)
+
+    def get_total_calories(self, performed_workout: PerformedWorkout):
+        return performed_workout.get_total_calories()
+
     class Meta:
         model = PerformedWorkout
         fields = ['id', 'name', 'time_performed',
-                  'trainee', 'workouts', 'exercise_instances']
+                  'workouts', 'exercise_instances', 'total_calories']
+
+    def create(self, validated_data):
+        user_id = self.context['user_id']
+        trainee = Trainee.objects.get(user_id=user_id)
+        performed_workout = PerformedWorkout(**validated_data)
+        performed_workout.trainee = trainee
+        performed_workout.save()
+        return performed_workout
+
+
+class PerformedWorkoutUpdateSerializer(serializers.ModelSerializer):
+    time_performed = serializers.DateTimeField()
+
+    class Meta:
+        model = PerformedWorkout
+        fields = ['name', 'time_performed']
+
+
+class PerformedWorkoutWorkoutCreateSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField()
+
+    def validate_id(self, workout_id):
+        user_id = self.context['user_id']
+        trainee = Trainee.objects.get(user_id=user_id)
+
+        if not Workout.objects.filter(id=workout_id, trainee=trainee).exists():
+            raise serializers.ValidationError(
+                'No workout with the given id was found.'
+            )
+        return workout_id
+
+    class Meta:
+        model = Workout
+        fields = ['id']
+
+    def create(self, validated_data):
+        workout_id = validated_data['id']
+        performed_workout_id = self.context['performed_workout_id']
+        workout = Workout.objects.get(id=workout_id)
+        performed_workout = PerformedWorkout.objects\
+            .get(id=performed_workout_id)
+        performed_workout.workouts.add(workout)
+        return workout
