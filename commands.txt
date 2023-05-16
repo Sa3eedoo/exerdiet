@@ -3,7 +3,7 @@ python manage.py loader --create-trainees --show-total
 python manage.py gym_loader --create-exercises --show-total 
 python manage.py gym_loader --create-workouts --show-total  
 python manage.py loader --create-food --show-total
-python manage.py fake_ratings 1000 --trainees 500 --show-total
+
 python manage.py seed_db
 
 
@@ -11,3 +11,6 @@ python manage.py createsuperuser
 python manage.py makemigrations 
 python manage.py migrate
 python manage.py runserver 
+
+python manage.py fake_ratings 1000 --trainees 500 --show-total
+python manage.py calculate_ratings
