@@ -1,12 +1,51 @@
+import csv
+import pytz
 import random
 from faker import Faker
-from datetime import datetime, timedelta
 from django.utils import timezone
+from django.conf import settings
+from datetime import datetime, timedelta
 from passlib.hash import pbkdf2_sha256
-import pytz
-
+from pprint import pprint
+from decimal import Decimal
 from core.models import User, Trainee
 
+
+FOOD_CSV = settings.DATA_DIR / "nutrition.csv"
+# DATA_DIR = settings.BASE_DIR / "data"
+
+def convert_to_decimal(string_value):
+    try:
+        numeric_part = string_value.strip("g")  # Remove the "g" unit
+        decimal_value = Decimal(numeric_part)
+        return decimal_value
+    except Exception as e:
+        print(f"Error converting string to decimal: {e}")
+        return None
+
+def load_food_data(limit=1):
+    with open(FOOD_CSV, newline='') as csvfile:
+        reader = csv.DictReader(csvfile)
+        dataset = []
+        for i, row in enumerate(reader):
+            _id = row.get("id")
+            try:
+                _id = int(_id)
+            except:
+                _id = None
+            data = {
+                "id": _id,
+                "name": row.get('name'),
+                "category": 'F',
+                "calories": convert_to_decimal(row.get('calories')),
+                "carbs": convert_to_decimal(row.get("carbohydrate")),
+                "fats": convert_to_decimal(row.get("fat")),
+                "protein": convert_to_decimal(row.get("protein")),
+            }
+            dataset.append(data)
+            if i +2 > limit:
+                break
+        return dataset
 
 fake = Faker()
 
