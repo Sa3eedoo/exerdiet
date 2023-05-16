@@ -6,9 +6,3 @@ class IsAuthenticatedAndNotTrainee(permissions.BasePermission):
     def has_permission(self, request, view):
         is_trainee = Trainee.objects.filter(user=request.user.id).exists()
         return bool(request.user and request.user.is_authenticated and not is_trainee)
-
-
-class IsAuthenticatedAndTrainee(permissions.BasePermission):
-    def has_permission(self, request, view):
-        is_trainee = Trainee.objects.filter(user=request.user.id).exists()
-        return bool(request.user and request.user.is_authenticated and is_trainee)

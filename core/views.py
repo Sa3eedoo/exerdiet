@@ -1,3 +1,4 @@
+from django.shortcuts import get_object_or_404
 from rest_framework.decorators import action
 from rest_framework.mixins import CreateModelMixin
 from rest_framework.permissions import IsAuthenticated
@@ -5,7 +6,7 @@ from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 from rest_framework import status
 from .models import Trainee
-from .permissions import IsAuthenticatedAndNotTrainee, IsAuthenticatedAndTrainee
+from .permissions import IsAuthenticatedAndNotTrainee
 from .serializers import TraineeSerializer, TraineeCreateUpdateSerializer, TraineeUpdateCaloriesSerializer, TraineeUpdateWaterSerializer, TraineeUpdateMacronutrientsRatiosSerializer
 
 
@@ -33,15 +34,11 @@ class TraineeViewSet(CreateModelMixin, GenericViewSet):
     def get_permissions(self):
         if self.request.method == 'POST':
             return [IsAuthenticatedAndNotTrainee()]
-        if self.action in ['me', 'reset_daily_calories_needs',
-                           'reset_daily_water_needs', 'reset_macronutrients_ratios',
-                           'set_daily_calories_needs', 'set_daily_water_needs', 'set_macronutrients_ratios']:
-            return [IsAuthenticatedAndTrainee()]
         return [IsAuthenticated()]
 
     @action(detail=False, methods=['GET', 'PATCH', 'DELETE'])
     def me(self, request):
-        trainee = Trainee.objects.get(user_id=request.user.id)
+        trainee = get_object_or_404(Trainee, user_id=request.user.id)
         if request.method == 'GET':
             serializer = TraineeSerializer(trainee)
             return Response(serializer.data)
@@ -58,7 +55,7 @@ class TraineeViewSet(CreateModelMixin, GenericViewSet):
 
     @action(detail=False, methods=['GET'])
     def reset_daily_calories_needs(self, request):
-        trainee = Trainee.objects.get(user_id=request.user.id)
+        trainee = get_object_or_404(Trainee, user_id=request.user.id)
         trainee.is_daily_calories_needs_custom = False
         serializer = TraineeUpdateCaloriesSerializer(trainee)
         trainee.save()
@@ -66,7 +63,7 @@ class TraineeViewSet(CreateModelMixin, GenericViewSet):
 
     @action(detail=False, methods=['GET', 'PATCH'])
     def set_daily_calories_needs(self, request):
-        trainee = Trainee.objects.get(user_id=request.user.id)
+        trainee = get_object_or_404(Trainee, user_id=request.user.id)
         if request.method == 'GET':
             serializer = TraineeUpdateCaloriesSerializer(trainee)
             return Response(serializer.data)
@@ -81,7 +78,7 @@ class TraineeViewSet(CreateModelMixin, GenericViewSet):
 
     @action(detail=False, methods=['GET'])
     def reset_daily_water_needs(self, request):
-        trainee = Trainee.objects.get(user_id=request.user.id)
+        trainee = get_object_or_404(Trainee, user_id=request.user.id)
         trainee.is_daily_water_needs_custom = False
         serializer = TraineeUpdateWaterSerializer(trainee)
         trainee.save()
@@ -89,7 +86,7 @@ class TraineeViewSet(CreateModelMixin, GenericViewSet):
 
     @action(detail=False, methods=['GET', 'PATCH'])
     def set_daily_water_needs(self, request):
-        trainee = Trainee.objects.get(user_id=request.user.id)
+        trainee = get_object_or_404(Trainee, user_id=request.user.id)
         if request.method == 'GET':
             serializer = TraineeUpdateWaterSerializer(trainee)
             return Response(serializer.data)
@@ -104,7 +101,7 @@ class TraineeViewSet(CreateModelMixin, GenericViewSet):
 
     @action(detail=False, methods=['GET'])
     def reset_macronutrients_ratios(self, request):
-        trainee = Trainee.objects.get(user_id=request.user.id)
+        trainee = get_object_or_404(Trainee, user_id=request.user.id)
         trainee.is_macronutrients_ratios_custom = False
         serializer = TraineeUpdateMacronutrientsRatiosSerializer(trainee)
         trainee.save()
@@ -112,7 +109,7 @@ class TraineeViewSet(CreateModelMixin, GenericViewSet):
 
     @action(detail=False, methods=['GET', 'PATCH'])
     def set_macronutrients_ratios(self, request):
-        trainee = Trainee.objects.get(user_id=request.user.id)
+        trainee = get_object_or_404(Trainee, user_id=request.user.id)
         if request.method == 'GET':
             serializer = TraineeUpdateMacronutrientsRatiosSerializer(trainee)
             return Response(serializer.data)
