@@ -103,7 +103,7 @@ class WorkoutExerciseInstanceViewSet(ModelViewSet):
 
 
 class PerformedWorkoutViewSet(ModelViewSet):
-    serializer_class = serializers.PerformedWorkoutSerializer
+    http_method_names = ['get', 'post', 'patch', 'delete', 'head', 'options']
     permission_classes = [IsAuthenticatedAndTrainee]
 
     # filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
@@ -112,4 +112,67 @@ class PerformedWorkoutViewSet(ModelViewSet):
     def get_queryset(self):
         user_id = self.request.user.id
         trainee = Trainee.objects.get(user_id=user_id)
-        return PerformedWorkout.objects.filter(trainee=trainee).order_by('name')
+        return PerformedWorkout.objects.\
+            filter(trainee=trainee).\
+            prefetch_related('workouts__exercise_instances__exercise').\
+            prefetch_related('exercise_instances__exercise').\
+            order_by('-time_performed')
+
+    def get_serializer_class(self):
+        if self.request.method == 'PATCH':
+            return serializers.PerformedWorkoutUpdateSerializer
+        return serializers.PerformedWorkoutSerializer
+
+    def get_serializer_context(self):
+        return {'user_id': self.request.user.id}
+
+
+class PerformedWorkoutWorkoutViewSet(ModelViewSet):
+    http_method_names = ['get', 'post', 'delete', 'head', 'options']
+
+    def get_queryset(self):
+        performed_workout_id = self.kwargs['performed_workout_pk']
+        return Workout.objects\
+            .filter(performed_workouts=performed_workout_id)\
+            .prefetch_related('exercise_instances__exercise')\
+            .order_by('name')
+
+    def get_serializer_class(self):
+        if self.request.method == 'POST':
+            return serializers.PerformedWorkoutWorkoutCreateSerializer
+        return serializers.SimpleWorkoutSerializer
+
+    def get_serializer_context(self):
+        return {'performed_workout_id': self.kwargs['performed_workout_pk'],
+                'user_id': self.request.user.id}
+
+    def destroy(self, request, *args, **kwargs):
+        workout = self.get_object()
+        performed_workout_id = self.kwargs['performed_workout_pk']
+        performed_workout = PerformedWorkout.objects\
+            .get(id=performed_workout_id)
+        performed_workout.workouts.remove(workout)
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class PerformedWorkoutExerciseInstanceViewSet(ModelViewSet):
+    http_method_names = ['get', 'post', 'patch', 'delete', 'head', 'options']
+
+    def get_queryset(self):
+        performed_workout_id = self.kwargs['performed_workout_pk']
+        return ExerciseInstance.objects\
+            .filter(performed_workout_id=performed_workout_id)\
+            .select_related('exercise')\
+            .order_by('id')
+
+    def get_serializer_class(self):
+        if self.request.method == 'POST':
+            return serializers.ExerciseInstanceCreateSerializer
+        if self.request.method == 'PATCH':
+            return serializers.ExerciseInstanceUpdateSerializer
+        return serializers.ExerciseInstanceSerializer
+
+    def get_serializer_context(self):
+        return {'performed_workout_id': self.kwargs['performed_workout_pk'],
+                'user_id': self.request.user.id}
