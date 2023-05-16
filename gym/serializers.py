@@ -31,7 +31,6 @@ class CustomExerciseCreateUpdateSerializer(serializers.ModelSerializer):
         model = CustomExercise
         fields = ['id', 'name', 'body_part',
                   'calories_burned', 'is_repetitive', 'image']
-        read_only_fields = ['id']
 
     def create(self, validated_data):
         user_id = self.context['user_id']
@@ -57,7 +56,43 @@ class ExerciseInstanceSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ExerciseInstance
-        fields = ['exercise', 'duration', 'sets',  'total_calories']
+        fields = ['id', 'exercise', 'duration', 'sets',  'total_calories']
+
+
+class ExerciseInstanceCreateSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+    exercise_id = serializers.IntegerField()
+
+    def validate_exercise_id(self, value):
+        user_id = self.context['user_id']
+        trainee = Trainee.objects.get(user_id=user_id)
+
+        if not Exercise.objects.filter(id=value).exists():
+            raise serializers.ValidationError(
+                'No exercise with the given id was found.'
+            )
+        if not CustomExercise.objects.filter(exercise_ptr_id=value, trainee=trainee).exists():
+            raise serializers.ValidationError(
+                'No exercise with the given id was found.'
+            )
+        return value
+
+    class Meta:
+        model = ExerciseInstance
+        fields = ['id', 'exercise_id', 'duration', 'sets']
+
+    def create(self, validated_data):
+        workout_id = self.context['workout_id']
+        exercise_instance = ExerciseInstance(workout_id=workout_id,
+                                             **validated_data)
+        exercise_instance.save()
+        return exercise_instance
+
+
+class ExerciseInstanceUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ExerciseInstance
+        fields = ['duration', 'sets']
 
 
 class WorkoutSerializer(serializers.ModelSerializer):
