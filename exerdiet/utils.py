@@ -94,9 +94,7 @@ def get_fake_trainees(count=10):
         
         try:
             fake_user = User.objects.create(**fake_users[0])
-            success_count += 1
         except IntegrityError:
-            error_count += 1
             continue
             
         trainee = Trainee()
