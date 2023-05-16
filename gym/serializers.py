@@ -24,7 +24,7 @@ class ExerciseSerializer(serializers.ModelSerializer):
         return 'High'
 
 
-class CustomExerciseCreateUpdateSerializer(serializers.ModelSerializer):
+class CustomExerciseCreateSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
 
     class Meta:
@@ -39,6 +39,13 @@ class CustomExerciseCreateUpdateSerializer(serializers.ModelSerializer):
         custom_exercise.trainee = trainee
         custom_exercise.save()
         return custom_exercise
+
+
+class CustomExerciseUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomExercise
+        fields = ['name', 'body_part',
+                  'calories_burned', 'is_repetitive', 'image']
 
 
 class SimpleExerciseSerializer(serializers.ModelSerializer):

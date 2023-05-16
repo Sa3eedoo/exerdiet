@@ -21,6 +21,7 @@ class ExerciseViewSet(ReadOnlyModelViewSet):
 
 
 class CustomExerciseViewSet(ModelViewSet):
+    http_method_names = ['get', 'post', 'patch', 'delete', 'head', 'options']
     permission_classes = [IsAuthenticatedAndTrainee]
     # filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     # filterset_class = CustomExerciseFilter
@@ -31,8 +32,10 @@ class CustomExerciseViewSet(ModelViewSet):
         return CustomExercise.objects.filter(trainee=trainee).order_by('name')
 
     def get_serializer_class(self):
-        if self.request.method in ['POST', 'PUT', 'PATCH']:
-            return serializers.CustomExerciseCreateUpdateSerializer
+        if self.request.method == 'POST':
+            return serializers.CustomExerciseCreateSerializer
+        if self.request.method == 'PATCH':
+            return serializers.CustomExerciseUpdateSerializer
         return serializers.ExerciseSerializer
 
     def get_serializer_context(self):
