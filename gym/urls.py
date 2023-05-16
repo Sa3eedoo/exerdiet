@@ -18,5 +18,15 @@ workouts_router.register('exercise_instances',
                          views.WorkoutExerciseInstanceViewSet,
                          basename='workouts-exercise_instances')
 
+performed_workouts_router = routers.NestedDefaultRouter(router,
+                                                        'performed_workouts',
+                                                        lookup='performed_workout')
+performed_workouts_router.register('workouts',
+                                   views.PerformedWorkoutWorkoutViewSet,
+                                   basename='performed_workouts-workouts')
+performed_workouts_router.register('exercise_instances',
+                                   views.PerformedWorkoutExerciseInstanceViewSet,
+                                   basename='performed_workouts-exercise_instances')
+
 # URLConf
-urlpatterns = router.urls + workouts_router.urls
+urlpatterns = router.urls + workouts_router.urls + performed_workouts_router.urls
