@@ -35,7 +35,8 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'gym',
     'diet',
-    'core'
+    'core',
+    'ratings'
 ]
 
 MIDDLEWARE = [
