@@ -8,33 +8,33 @@ VALUES
 
 INSERT INTO core_trainee (birthdate, height, weight, daily_calories_needs, daily_water_needs, carbs_ratio, fats_ratio, protein_ratio, was_active_today, daily_streak, activity_level, goal, user_id, gender, is_daily_calories_needs_custom, is_daily_water_needs_custom, is_macronutrients_ratios_custom)
 VALUES
-  ('1990-12-15', 168.5, 65.0, 1800.0, 2000, 0.4, 0.4, 0.2, 1, 2, 'M', 'L', 1, 'M', 0, 0, 0),
-  ('1998-08-01', 186.0, 80.0, 2200.0, 3500, 0.3, 0.5, 0.2, 0, 1, 'L', 'L', 2, 'M', 0, 0, 0),
-  ('1993-03-22', 174.0, 55.0, 1600.0, 2000, 0.5, 0.3, 0.2, 1, 5, 'M', 'G', 3, 'F', 0, 0, 0),
-  ('2000-11-07', 186.0, 75.0, 2000.0, 2500, 0.4, 0.4, 0.2, 0, 1, 'H', 'K', 4, 'M', 0, 0, 0),
-  ('1995-05-10', 172.0, 70.0, 2000.0, 2500, 0.5, 0.3, 0.2, 1, 3, 'H', 'G', 5, 'F', 0, 0, 0);
+  ('1990-12-15', 168.5, 65.0, 1800.0, 2000, 0.4, 0.4, 0.2, 1, 2, 'M', 'L', 2, 'M', 0, 0, 0),
+  ('1998-08-01', 186.0, 80.0, 2200.0, 3500, 0.3, 0.5, 0.2, 0, 1, 'L', 'L', 3, 'M', 0, 0, 0),
+  ('1993-03-22', 174.0, 55.0, 1600.0, 2000, 0.5, 0.3, 0.2, 1, 5, 'M', 'G', 4, 'F', 0, 0, 0),
+  ('2000-11-07', 186.0, 75.0, 2000.0, 2500, 0.4, 0.4, 0.2, 0, 1, 'H', 'K', 5, 'M', 0, 0, 0),
+  ('1995-05-10', 172.0, 70.0, 2000.0, 2500, 0.5, 0.3, 0.2, 1, 3, 'H', 'G', 6, 'F', 0, 0, 0);
   
-INSERT INTO `diet_food` (`id`, `name`, `category`, `calories`, `carbs`, `fats`, `protein`) VALUES
-(1, 'Grilled chicken breast', 'F', 180.0, 0.0, 4.0, 36.0),
-(2, 'Beef steak', 'F', 250.0, 0.0, 15.0, 28.0),
-(3, 'Salmon fillet', 'F', 220.0, 0.0, 13.0, 23.0),
-(4, 'Brown rice', 'F', 218.0, 46.0, 2.0, 5.0),
-(5, 'Quinoa', 'F', 120.0, 21.0, 2.0, 4.0),
-(6, 'Lentils', 'F', 230.0, 40.0, 1.5, 18.0),
-(7, 'Spinach', 'F', 23.0, 3.6, 0.4, 2.9),
-(8, 'Broccoli', 'F', 55.0, 10.0, 1.0, 4.0),
-(9, 'Carrots', 'F', 41.0, 10.0, 0.2, 1.0),
-(10, 'Apples', 'F', 95.0, 25.0, 0.3, 0.5),
-(11, 'Bananas', 'F', 105.0, 27.0, 0.4, 1.3),
-(12, 'Almonds', 'F', 575.0, 22.0, 49.0, 21.0),
-(13, 'Peanut butter', 'F', 190.0, 6.0, 16.0, 7.0),
-(14, 'Greek yogurt', 'F', 100.0, 7.0, 0.4, 18.0),
-(15, 'Whey protein powder', 'F', 120.0, 2.0, 1.0, 25.0),
-(16, 'Green tea', 'B', 0.0, 0.0, 0.0, 0.0),
-(17, 'Black coffee', 'B', 0.0, 0.0, 0.0, 0.0),
-(18, 'Orange juice', 'B', 112.0, 26.0, 0.5, 2.0),
-(19, 'Water', 'B', 0.0, 0.0, 0.0, 0.0),
-(20, 'Salt', 'S', 0.0, 0.0, 0.0, 0.0);
+INSERT INTO `diet_food` (`name`, `category`, `calories`, `carbs`, `fats`, `protein`) VALUES
+('Grilled chicken breast', 'F', 180.0, 0.0, 4.0, 36.0),
+('Beef steak', 'F', 250.0, 0.0, 15.0, 28.0),
+('Salmon fillet', 'F', 220.0, 0.0, 13.0, 23.0),
+('Brown rice', 'F', 218.0, 46.0, 2.0, 5.0),
+('Quinoa', 'F', 120.0, 21.0, 2.0, 4.0),
+('Lentils', 'F', 230.0, 40.0, 1.5, 18.0),
+('Spinach', 'F', 23.0, 3.6, 0.4, 2.9),
+('Broccoli', 'F', 55.0, 10.0, 1.0, 4.0),
+('Carrots', 'F', 41.0, 10.0, 0.2, 1.0),
+('Apples', 'F', 95.0, 25.0, 0.3, 0.5),
+('Bananas', 'F', 105.0, 27.0, 0.4, 1.3),
+('Almonds', 'F', 575.0, 22.0, 49.0, 21.0),
+('Peanut butter', 'F', 190.0, 6.0, 16.0, 7.0),
+('Greek yogurt', 'F', 100.0, 7.0, 0.4, 18.0),
+('Whey protein powder', 'F', 120.0, 2.0, 1.0, 25.0),
+('Green tea', 'B', 0.0, 0.0, 0.0, 0.0),
+('Black coffee', 'B', 0.0, 0.0, 0.0, 0.0),
+('Orange juice', 'B', 112.0, 26.0, 0.5, 2.0),
+('Water', 'B', 0.0, 0.0, 0.0, 0.0),
+('Salt', 'S', 0.0, 0.0, 0.0, 0.0);
 
 INSERT INTO diet_custom_food (food_ptr_id, trainee_id) VALUES
     (14, 4),
@@ -102,7 +102,7 @@ INSERT INTO gym_custom_exercise (exercise_ptr_id, trainee_id) VALUES
     (3, 2),
     (4, 2),
     (5, 3),
-    (6, 3),
+    (6, 5),
     (7, 4);
 
 
