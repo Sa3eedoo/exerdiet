@@ -15,6 +15,8 @@ djoser = "*"
 djangorestframework-simplejwt = "*"
 gunicorn = "*"
 python-dotenv = "*"
+redis = "*"
+celery = "*"
 
 [dev-packages]
 flake8 = "*"
