@@ -1,0 +1,4 @@
+python manage.py loader --create-users --show-total
+python manage.py loader --create-trainees --show-total
+python manage.py gym_loader --create-exercises --show-total 
+python manage.py gym_loader --create-workouts --show-total  
