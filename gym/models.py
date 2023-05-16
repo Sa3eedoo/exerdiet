@@ -15,8 +15,7 @@ class Exercise(models.Model):
 
     name = models.CharField(max_length=150)
     body_part = models.CharField(max_length=2,
-                                 choices=BodyPart.choices,
-                                 default=BodyPart.CARDIO)
+                                 choices=BodyPart.choices)
     calories_burned = models.IntegerField(validators=[MinValueValidator(0)])
     is_repetitive = models.BooleanField()
 
@@ -85,8 +84,8 @@ class PerformedWorkout(models.Model):
 
 
 class ExerciseInstance(models.Model):
-    duration = models.PositiveIntegerField()
-    sets = models.PositiveSmallIntegerField()
+    duration = models.PositiveIntegerField(validators=[MinValueValidator(1)])
+    sets = models.PositiveSmallIntegerField(validators=[MinValueValidator(1)])
     exercise = models.ForeignKey(
         Exercise, on_delete=models.CASCADE, related_name='exercise_instances'
     )
