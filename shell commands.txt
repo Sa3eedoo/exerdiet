@@ -1,3 +1,8 @@
+python manage.py shell
+
+from exerdiet.utils import *
+load_food_data(5)
+
 
 from gym.utils import *
 get_fake_workouts(1)
