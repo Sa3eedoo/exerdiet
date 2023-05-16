@@ -1,6 +1,7 @@
 from django.core.validators import MinValueValidator
 from django.db import models
 from core.models import Trainee
+from datetime import datetime
 
 
 class Exercise(models.Model):
@@ -63,7 +64,7 @@ class Workout(models.Model):
 
 class PerformedWorkout(models.Model):
     name = models.CharField(max_length=150)
-    time_performed = models.DateTimeField(auto_now=True)
+    time_performed = models.DateTimeField(auto_now_add=True)
     trainee = models.ForeignKey(
         Trainee, on_delete=models.CASCADE, related_name='performed_workouts'
     )
@@ -81,6 +82,11 @@ class PerformedWorkout(models.Model):
         for exercise_instance in self.exercise_instances.all():
             total_calories += exercise_instance.get_total_calories()
         return int(total_calories)
+
+    def save(self, *args, **kwargs):
+        if not self.name:
+            self.name = str(datetime.today())
+        super().save(*args, **kwargs)
 
 
 class ExerciseInstance(models.Model):

@@ -80,7 +80,7 @@ class Recipe(models.Model):
 
 class Meal(models.Model):
     name = models.CharField(max_length=150)
-    time_eaten = models.DateTimeField(auto_now=True)
+    time_eaten = models.DateTimeField(auto_now_add=True)
     trainee = models.ForeignKey(
         Trainee, on_delete=models.CASCADE, related_name='meals'
     )
@@ -170,7 +170,7 @@ class FoodInstance(models.Model):
 
 class Water(models.Model):
     amount = models.PositiveIntegerField()
-    drinking_date = models.DateField(auto_now=True)
+    drinking_date = models.DateField(auto_now_add=True)
     trainee = models.ForeignKey(
         Trainee, on_delete=models.CASCADE, related_name='waters'
     )
