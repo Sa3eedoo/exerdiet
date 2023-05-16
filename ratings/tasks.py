@@ -3,8 +3,9 @@ from core.models import Trainee
 from gym.models import Workout
 from .models import Rating, RatingChoice
 from django.contrib.contenttypes.models import ContentType
+from celery import shared_task
 
-
+@shared_task(name='generate_fake_reviews')
 def generate_fake_reviews(count=100, trainees=10, null_avg=False):
     trainee_s = Trainee.objects.first().id # 1
     trainee_e = Trainee.objects.last().id

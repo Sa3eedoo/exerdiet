@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 import os
 from pathlib import Path
+from celery.schedules import crontab
+from decouple import config # python-dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -33,6 +35,10 @@ INSTALLED_APPS = [
     'rest_framework',
     'djoser',
     'debug_toolbar',
+    # external apps,
+    'django_celery_beat', # scheduler
+    'django_celery_results', # saves our task results
+    # internal apps,
     'gym',
     'diet',
     'core',
@@ -55,6 +61,10 @@ INTERNAL_IPS = [
 ]
 
 ROOT_URLCONF = 'exerdiet.urls'
+
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers.DatabaseScheduler'
+CELERY_BROKER_URL = config('CELERY_BROKER_REDIS_URL', default='redis://localhost:6379')
+CELERY_RESULT_BACKEND = 'django-db'
 
 TEMPLATES = [
     {
@@ -147,3 +157,12 @@ DJOSER = {
     'PASSWORD_RESET_CONFIRM_URL': 'password/reset/confirm/{uid}/{token}',
     'USERNAME_RESET_CONFIRM_URL': 'username/reset/confirm/{uid}/{token}',
 }
+
+# CELERY_BROKER_URL = 'redis://localhost:6379/1'
+# CELERY_BEAT_SCHEDULE = {
+#     'task_calculate_workout_ratings': {
+#         'task': 'gym.tasks.task_calculate_workout_ratings',
+#         'schedule': 5,
+#         # 'args': ['Hello World'],
+#     }
+# }
