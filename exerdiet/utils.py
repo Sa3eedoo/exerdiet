@@ -9,6 +9,7 @@ from passlib.hash import pbkdf2_sha256
 from pprint import pprint
 from decimal import Decimal
 from core.models import User, Trainee
+from django.db import IntegrityError
 
 
 FOOD_CSV = settings.DATA_DIR / "nutrition.csv"
@@ -89,7 +90,14 @@ def get_fake_trainees(count=10):
         #     fake_user = existing_users[0]
         # else:
         fake_users = get_fake_users(1)
-        fake_user = User.objects.create(**fake_users[0])
+        # fake_user = User.objects.create(**fake_users[0])
+        
+        try:
+            fake_user = User.objects.create(**fake_users[0])
+            success_count += 1
+        except IntegrityError:
+            error_count += 1
+            continue
             
         trainee = Trainee()
         trainee.user = fake_user
