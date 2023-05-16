@@ -1,6 +1,7 @@
 import datetime
 from django.core.validators import MinValueValidator
 from django.contrib.contenttypes.fields import GenericRelation
+from django.db.models import Q
 from django.db import models
 from django.utils import timezone
 from core.models import Trainee
@@ -48,6 +49,23 @@ class CustomExercise(Exercise):
         temp = '10rep' if self.is_repetitive else '60sec'
         return self.name + ' (' + str(self.calories_burned) + 'cals/' + temp + ')' + ' / ' + str(self.trainee)
 
+RATING_CALC_TIME_IN_DAYS = 3
+
+class WorkoutQuerySet(models.QuerySet):
+    def needs_updating(self):
+        now = timezone.now()
+        days_ago = now - datetime.timedelta(days=RATING_CALC_TIME_IN_DAYS)
+        return self.filter(
+            Q(rating_last_updated__isnull=True)|
+            Q(rating_last_updated__lte=days_ago)
+        )
+
+class WorkoutManager(models.Manager):
+    def get_queryset(self, *args, **kwargs):
+        return WorkoutQuerySet(self.model, using=self._db)
+    
+    def needs_updating(self):
+        return self.get_queryset().needs_updating()
 
 class Workout(models.Model):
     name = models.CharField(max_length=150)
@@ -62,6 +80,8 @@ class Workout(models.Model):
     rating_last_updated = models.DateTimeField(auto_now=False, auto_now_add=False, blank=True, null=True)
     rating_count = models.IntegerField(blank=True, null=True)
     rating_avg = models.DecimalField(decimal_places=2, max_digits=5, blank=True, null=True) # 5.00, 0.00
+    
+    objects = WorkoutManager()
     
     def rating_avg_display(self):
         now = timezone.now()
