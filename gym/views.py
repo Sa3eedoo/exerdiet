@@ -133,7 +133,7 @@ class PerformedWorkoutWorkoutViewSet(ModelViewSet):
 
     def get_serializer_class(self):
         if self.request.method == 'POST':
-            return serializers.PerformedWorkoutWorkoutCreateSerializer
+            return serializers.PerformedWorkoutAddWorkoutSerializer
         return serializers.SimpleWorkoutSerializer
 
     def get_serializer_context(self):

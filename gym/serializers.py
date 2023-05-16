@@ -178,7 +178,7 @@ class PerformedWorkoutUpdateSerializer(serializers.ModelSerializer):
         fields = ['name', 'time_performed']
 
 
-class PerformedWorkoutWorkoutCreateSerializer(serializers.ModelSerializer):
+class PerformedWorkoutAddWorkoutSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField()
 
     def validate_id(self, workout_id):
