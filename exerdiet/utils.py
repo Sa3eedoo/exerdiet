@@ -66,8 +66,8 @@ def get_fake_users(count=10):
             "password": encrypted_password,
             "is_active": False,
             "date_joined": timezone.make_aware(fake.date_time_this_decade(), timezone=pytz.UTC),
-            "is_superuser": fake.boolean(),
-            "is_staff": fake.boolean(),
+            "is_superuser": False,
+            "is_staff": False,
             # "last_login": datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f'),
         }
         
@@ -82,14 +82,14 @@ def get_fake_users(count=10):
 def get_fake_trainees(count=10):
     trainees_data = []
     for _ in range(count):
-        existing_users = User.objects.filter(trainee__isnull=True, is_superuser=False)
-        users_count = existing_users.count()
+        # existing_users = User.objects.filter(trainee__isnull=True, is_staff=False, is_superuser=False)
+        # users_count = existing_users.count()
         
-        if users_count > 0:
-            fake_user = existing_users[0]
-        else:
-            fake_users = get_fake_users(1)
-            fake_user = User.objects.create(**fake_users[0])
+        # if users_count > 0:
+        #     fake_user = existing_users[0]
+        # else:
+        fake_users = get_fake_users(1)
+        fake_user = User.objects.create(**fake_users[0])
             
         trainee = Trainee()
         trainee.user = fake_user
