@@ -47,7 +47,7 @@ class CustomExerciseViewSet(ModelViewSet):
 
 
 class WorkoutViewSet(ModelViewSet):
-    serializer_class = serializers.WorkoutSerializer
+    http_method_names = ['get', 'post', 'patch', 'delete', 'head', 'options']
     permission_classes = [IsAuthenticatedAndTrainee]
 
     # filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
@@ -60,6 +60,11 @@ class WorkoutViewSet(ModelViewSet):
             filter(trainee=trainee).\
             prefetch_related('exercise_instances__exercise').\
             order_by('name')
+
+    def get_serializer_class(self):
+        if self.request.method == 'PATCH':
+            return serializers.WorkoutUpdateSerializer
+        return serializers.WorkoutSerializer
 
     def get_serializer_context(self):
         return {'user_id': self.request.user.id}

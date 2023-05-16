@@ -117,6 +117,12 @@ class WorkoutSerializer(serializers.ModelSerializer):
         return workout
 
 
+class WorkoutUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Workout
+        fields = ['name', 'instructions', 'image']
+
+
 class PerformedWorkoutSerializer(serializers.ModelSerializer):
     class Meta:
         model = PerformedWorkout
