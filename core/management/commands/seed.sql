@@ -45,12 +45,13 @@ INSERT INTO diet_custom_food (food_ptr_id, trainee_id) VALUES
     (19, 5),
     (20, 5);
 
-INSERT INTO `diet_recipe` (`name`, `instructions`, `trainee_id`) VALUES
-  ('Chicken Stir Fry', 'Stir fry chicken with vegetables and serve over rice.', 1),
-  ('Veggie Omelette', 'Whisk eggs, add vegetables, and cook until golden brown.', 2),
-  ('Beef Tacos', 'Season and cook beef, serve in taco shells with toppings.', 3),
-  ('Avocado Toast', 'Toast bread, spread avocado, and add toppings.', 4),
-  ('Pesto Pasta', 'Cook pasta, mix pesto sauce and serve.', 5);
+INSERT INTO `diet_recipe` (`name`, `instructions`, `trainee_id`, `is_public`) VALUES
+('Chicken Stir Fry', 'Stir fry chicken with vegetables and serve over rice.', 1, TRUE),
+('Veggie Omelette', 'Whisk eggs, add vegetables, and cook until golden brown.', 2, TRUE),
+('Beef Tacos', 'Season and cook beef, serve in taco shells with toppings.', 3, TRUE),
+('Avocado Toast', 'Toast bread, spread avocado, and add toppings.', 4, TRUE),
+('Pesto Pasta', 'Cook pasta, mix pesto sauce and serve.', 5, TRUE);
+
   
 INSERT INTO `diet_meal` (`name`, `time_eaten`, `trainee_id`) VALUES
   ('Breakfast', '2022-01-01 08:00:00', 1),
@@ -105,14 +106,15 @@ INSERT INTO gym_custom_exercise (exercise_ptr_id, trainee_id) VALUES
     (7, 4);
 
 
-INSERT INTO gym_workout (name, instructions, image, trainee_id) VALUES
-    ('Chest Day', '5 sets of 5 reps each for bench press, incline bench press, and dumbbell flyes', NULL, 1),
-    ('Back Day', '4 sets of 8 reps each for lat pulldowns, barbell rows, and pull-ups', NULL, 1),
-    ('Arm Day', '3 sets of 10 reps each for bicep curls, tricep extensions, and hammer curls', NULL, 2),
-    ('Leg Day', '4 sets of 8 reps each for squats, leg press, and lunges', NULL, 2),
-    ('Cardio Day', '45 minutes on the treadmill, 30 minutes on the elliptical', NULL, 3),
-    ('Shoulder Day', '3 sets of 12 reps each for shoulder press, upright rows, and lateral raises', NULL, 3),
-    ('Ab Day', '4 sets of 15 reps each for crunches, Russian twists, and leg raises', NULL, 4);
+INSERT INTO `gym_workout` (name, instructions, image, trainee_id, is_public) VALUES
+('Chest Day', '5 sets of 5 reps each for bench press, incline bench press, and dumbbell flyes', NULL, 1, TRUE),
+('Back Day', '4 sets of 8 reps each for lat pulldowns, barbell rows, and pull-ups', NULL, 1, TRUE),
+('Arm Day', '3 sets of 10 reps each for bicep curls, tricep extensions, and hammer curls', NULL, 2, TRUE),
+('Leg Day', '4 sets of 8 reps each for squats, leg press, and lunges', NULL, 2, TRUE),
+('Cardio Day', '45 minutes on the treadmill, 30 minutes on the elliptical', NULL, 3, TRUE),
+('Shoulder Day', '3 sets of 12 reps each for shoulder press, upright rows, and lateral raises', NULL, 3, TRUE),
+('Ab Day', '4 sets of 15 reps each for crunches, Russian twists, and leg raises', NULL, 4, TRUE);
+
 
 
 INSERT INTO gym_performedworkout (name, time_performed, trainee_id) VALUES
