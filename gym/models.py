@@ -1,6 +1,9 @@
 from django.core.validators import MinValueValidator
+from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 from core.models import Trainee
+
+from ratings.models import Rating
 
 
 class Exercise(models.Model):
@@ -52,6 +55,10 @@ class Workout(models.Model):
     trainee = models.ForeignKey(
         Trainee, on_delete=models.CASCADE, related_name='workouts'
     )
+    ratings = GenericRelation(Rating) # queryset 
+    
+    def calculate_ratings_count(self):
+        return self.ratings.all().count()
 
     def __str__(self) -> str:
         return self.name + ' (' + str(self.get_total_calories()) + 'cals)' + ' / ' + str(self.trainee)

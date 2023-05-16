@@ -190,7 +190,8 @@ class ExerciseInstanceWorkoutInline(admin.TabularInline):
 @admin.register(models.Workout)
 class WorkoutAdmin(admin.ModelAdmin):
     autocomplete_fields = ['trainee']
-    list_display = ['id', 'name', 'trainee_username', 'performed_count', 'is_public']
+    list_display = ['id', 'name', 'trainee_username', 'performed_count', 'is_public', 'calculate_ratings_count']
+    readonly_fields = ['calculate_ratings_count']
     list_select_related = ['trainee__user']
     list_per_page = 100
     ordering = ['name']
