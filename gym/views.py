@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from core.models import Trainee
 from core.permissions import IsAuthenticatedAndTrainee
-from .models import Exercise, CustomExercise, Workout, PerformedWorkout
+from .models import Exercise, CustomExercise, ExerciseInstance, Workout, PerformedWorkout
 from .filters import ExerciseFilter, CustomExerciseFilter, WorkoutFilter, PerformedWorkoutFilter
 from . import serializers
 
@@ -70,6 +70,28 @@ class WorkoutViewSet(ModelViewSet):
             return Response({'error': 'Workout cannot be deleted because it is associated with a performed workout.'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
         self.perform_destroy(workout)
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class WorkoutExerciseInstanceViewSet(ModelViewSet):
+    http_method_names = ['get', 'post', 'patch', 'delete', 'head', 'options']
+
+    def get_queryset(self):
+        workout_id = self.kwargs['workout_pk']
+        return ExerciseInstance.objects\
+            .filter(workout_id=workout_id)\
+            .select_related('exercise')\
+            .order_by('id')
+
+    def get_serializer_class(self):
+        if self.request.method == 'POST':
+            return serializers.ExerciseInstanceCreateSerializer
+        if self.request.method == 'PATCH':
+            return serializers.ExerciseInstanceUpdateSerializer
+        return serializers.ExerciseInstanceSerializer
+
+    def get_serializer_context(self):
+        return {'workout_id': self.kwargs['workout_pk'],
+                'user_id': self.request.user.id}
 
 
 class PerformedWorkoutViewSet(ModelViewSet):
