@@ -3,6 +3,7 @@ from django.core.management.base import BaseCommand
 from core.models import Trainee, User
 from diet.models import Food
 from exerdiet import utils as exerdiet_utils
+from django.db import IntegrityError
 
 class Command(BaseCommand):
     def add_arguments(self, parser):
@@ -26,6 +27,18 @@ class Command(BaseCommand):
             print(f"New food data: {len(food_bulk)}")
         
         if create_users:
+            # fake_users = exerdiet_utils.get_fake_users(count=count)
+            # new_users = [User(**fake_user) for fake_user in fake_users]
+
+            # success_count = 0
+            # for user_batch in chunks(new_users, batch_size=1000):  # Process users in smaller batches
+            #     try:
+            #         User.objects.bulk_create(user_batch, ignore_conflicts=True)
+            #         success_count += len(user_batch)
+            #     except IntegrityError:
+            #         continue
+
+            # print(f"New users inserted: {success_count}")
             fake_users = exerdiet_utils.get_fake_users(count=count)
             new_users = [User(**fake_user) for fake_user in fake_users]
             user_bulk = User.objects.bulk_create(new_users, ignore_conflicts=True)
