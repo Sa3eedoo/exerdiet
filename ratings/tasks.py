@@ -2,6 +2,7 @@ import random
 from core.models import Trainee
 from gym.models import Workout
 from .models import Rating, RatingChoice
+from django.contrib.contenttypes.models import ContentType
 
 
 def generate_fake_reviews(count=100, trainees=10, null_avg=False):
@@ -9,7 +10,8 @@ def generate_fake_reviews(count=100, trainees=10, null_avg=False):
     trainee_e = Trainee.objects.last().id
     random_trainee_ids = random.sample(range(trainee_s, trainee_e), trainees)
     trainees = Trainee.objects.filter(id__in=random_trainee_ids)
-    workouts = Workout.objects.all().order_by("?")[:count]
+    # trainee_ctype = ContentType.objects.get_for_model(Trainee())
+    workouts = Workout.objects.filter(is_public=True).order_by("?")[:count]
     if null_avg:
         workouts = Workout.objects.filter(rating_avg__isnull=True).order_by("?")[:count]
     n_ratings = workouts.count()
@@ -20,6 +22,8 @@ def generate_fake_reviews(count=100, trainees=10, null_avg=False):
     for workout in workouts:
         rating_obj = Rating.objects.create(
             content_object=workout,
+            # content_type=trainee_ctype,
+            # object_id=trainee.id,
             value=trainee_ratings.pop(),
             trainee=random.choice(trainees)
         )
