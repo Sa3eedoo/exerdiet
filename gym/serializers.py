@@ -71,10 +71,11 @@ class ExerciseInstanceCreateSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 'No exercise with the given id was found.'
             )
-        if not CustomExercise.objects.filter(exercise_ptr_id=value, trainee=trainee).exists():
-            raise serializers.ValidationError(
-                'No exercise with the given id was found.'
-            )
+        if Exercise.objects.filter(id=value, customexercise__isnull=False).exists():
+            if not CustomExercise.objects.filter(exercise_ptr_id=value, trainee=trainee).exists():
+                raise serializers.ValidationError(
+                    'No exercise with the given id was found.'
+                )
         return value
 
     class Meta:
