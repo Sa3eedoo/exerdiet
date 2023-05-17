@@ -19,3 +19,9 @@ docker run -p 6379:6379 redis
 
 python -m pip install -r requirements.ml.txt
 jupyter notebook
+pip install scikit-surprise==1.1.0
+python -m pip install -U scikit-image
+
+pip install python-decouple
+pip install django-celery-beat
+pip install django_celery_results
