@@ -16,3 +16,6 @@ python manage.py fake_ratings 1000 --trainees 500 --show-total
 python manage.py calculate_ratings
 
 docker run -p 6379:6379 redis  
+
+python -m pip install -r requirements.ml.txt
+jupyter notebook
