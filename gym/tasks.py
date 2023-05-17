@@ -1,7 +1,7 @@
 from .models import Workout
-from celery import shared_task
+# from celery import shared_task
 
-@shared_task(name='task_calculate_movie_ratings')
+# @shared_task(name='task_calculate_movie_ratings')
 def task_calculate_workout_ratings(all=False, count=None):
     '''
     task_calculate_movie_ratings(all=False, count=None)
