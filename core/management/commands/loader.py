@@ -3,7 +3,7 @@ from django.core.management.base import BaseCommand
 from core.models import Trainee, User
 from diet.models import Food
 from exerdiet import utils as exerdiet_utils
-from django.db import IntegrityError
+# from django.db import IntegrityError
 
 class Command(BaseCommand):
     def add_arguments(self, parser):
