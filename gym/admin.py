@@ -1,6 +1,6 @@
 from typing import Any
 from django.contrib import admin
-from django.db.models import Count
+from django.db.models import Count, Q, F, Sum, FloatField
 from django.http import HttpRequest
 from django.utils.html import format_html
 from django.urls import reverse
@@ -186,17 +186,39 @@ class ExerciseInstanceWorkoutInline(admin.TabularInline):
             field.widget.attrs['placeholder'] = 'sec|reps'
         return field
 
+class PopularityFilter(admin.SimpleListFilter):
+    title = 'Popularity'
+    parameter_name = 'popularity'
+
+    def lookups(self, request, model_admin):
+        return [
+            ('popular', 'Most Popular'),
+            ('unpopular', 'Least Popular')
+        ]
+
+    def queryset(self, request, queryset):
+        if self.value() == 'popular':
+            return queryset.annotate(
+                score=Sum(F('rating_avg') * F('rating_count'), output_field=FloatField())
+            ).order_by('-score')
+        elif self.value() == 'unpopular':
+            return queryset.annotate(
+                score=Sum(F('rating_avg') * F('rating_count'), output_field=FloatField())
+            ).order_by('score')
 
 @admin.register(models.Workout)
 class WorkoutAdmin(admin.ModelAdmin):
     autocomplete_fields = ['trainee']
-    list_display = ['id', 'name', 'trainee_username', 'performed_count', 'is_public', 'rating_count',  'rating_avg', 'rating_last_updated']
+    list_display = ['id', 'name', 'trainee_username', 'performed_count', 'is_public', 'rating_count',
+                    'rating_avg', 'rating_last_updated', 'score']
     readonly_fields = ['rating_avg', 'rating_count', 'rating_avg_display']
     list_select_related = ['trainee__user']
     list_per_page = 100
     ordering = ['name']
     search_fields = ['name', 'trainee__user__username__istartswith']
     inlines = [ExerciseInstanceWorkoutInline]
+    
+    list_filter = [PopularityFilter] # Add custom popularity filter
 
     @admin.display(ordering='trainee__user__username')
     def trainee_username(self, workout):
@@ -210,8 +232,20 @@ class WorkoutAdmin(admin.ModelAdmin):
     def performed_count(self, workout):
         return workout.performed_count
 
+    # def get_queryset(self, request):
+    #     return super().get_queryset(request).annotate(performed_count=Count('performed_workouts'))
+    
     def get_queryset(self, request):
-        return super().get_queryset(request).annotate(performed_count=Count('performed_workouts'))
+        queryset = super().get_queryset(request)
+        queryset = queryset.annotate(
+            performed_count=Count('performed_workouts'),
+            score=Sum(F('rating_avg') * F('rating_count'), output_field=models.FloatField())
+        )#.order_by('-score')  # Order by popularity (descending)
+        return queryset
+    
+    @admin.display(description='Score')
+    def score(self, obj):
+        return obj.score
 
 
 class ExerciseInstancePerformedWorkoutInline(admin.TabularInline):
