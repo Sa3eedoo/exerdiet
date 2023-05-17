@@ -1,10 +1,12 @@
 import datetime
 from django.core.validators import MinValueValidator
 from django.contrib.contenttypes.fields import GenericRelation
-from django.db.models import Q
+from django.db.models import Avg, Count, F, Q, Sum, FloatField
 from django.db import models
 from django.utils import timezone
 from core.models import Trainee
+from django.utils.html import format_html
+from django.urls import reverse
 
 from ratings.models import Rating
 
@@ -52,6 +54,23 @@ class CustomExercise(Exercise):
 RATING_CALC_TIME_IN_DAYS = 3
 
 class WorkoutQuerySet(models.QuerySet):
+    def popular(self, reverse=False):
+        ordering = '-score'
+        if reverse:
+            ordering = 'score'
+        return self.order_by(ordering)
+    
+    def popular_calc(self, reverse=False):
+        ordering = '-score'
+        if reverse:
+            ordering = 'score'
+        return self.annotate(score=Sum(
+                F('rating_avg') * F('rating_count'),
+                output_field=models.FloatField()
+            )
+        ).order_by(ordering)
+        
+        
     def needs_updating(self):
         now = timezone.now()
         days_ago = now - datetime.timedelta(days=RATING_CALC_TIME_IN_DAYS)
