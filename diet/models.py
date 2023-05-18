@@ -1,5 +1,6 @@
 from django.core.validators import MinValueValidator
 from django.db import models
+from datetime import datetime
 from core.models import Trainee
 
 
@@ -120,6 +121,11 @@ class Meal(models.Model):
         for food_instance in self.food_instances.all():
             total_protein += food_instance.get_total_protein()
         return total_protein
+
+    def save(self, *args, **kwargs):
+        if not self.name:
+            self.name = 'Meal @ ' + str(datetime.today())
+        super().save(*args, **kwargs)
 
 
 class FoodInstance(models.Model):

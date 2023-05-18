@@ -1,7 +1,7 @@
 from django.core.validators import MinValueValidator
 from django.db import models
-from core.models import Trainee
 from datetime import datetime
+from core.models import Trainee
 
 
 class Exercise(models.Model):
@@ -85,7 +85,7 @@ class PerformedWorkout(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.name:
-            self.name = str(datetime.today())
+            self.name = 'Workout @ ' + str(datetime.today())
         super().save(*args, **kwargs)
 
 
