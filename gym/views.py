@@ -1,12 +1,12 @@
-from django_filters.rest_framework import DjangoFilterBackend
 from django.shortcuts import get_object_or_404
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.response import Response
 from rest_framework import status
 from core.models import Trainee
+from .filters import ExerciseFilter, PerformedWorkoutFilter
 from .models import Exercise, CustomExercise, ExerciseInstance, Workout, PerformedWorkout
-from .filters import ExerciseFilter, CustomExerciseFilter, WorkoutFilter, PerformedWorkoutFilter
 from . import serializers
 
 
@@ -14,15 +14,18 @@ class ExerciseViewSet(ReadOnlyModelViewSet):
     queryset = Exercise.objects.\
         filter(customexercise__isnull=True).order_by('name')
     serializer_class = serializers.ExerciseSerializer
-
-    # filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
-    # filterset_class = ExerciseFilter
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filterset_class = ExerciseFilter
+    search_fields = ['name']
+    ordering_fields = ['calories_burned']
 
 
 class CustomExerciseViewSet(ModelViewSet):
     http_method_names = ['get', 'post', 'patch', 'delete', 'head', 'options']
-    # filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
-    # filterset_class = CustomExerciseFilter
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filterset_class = ExerciseFilter
+    search_fields = ['name']
+    ordering_fields = ['calories_burned']
 
     def get_queryset(self):
         user_id = self.request.user.id
@@ -49,8 +52,8 @@ class CustomExerciseViewSet(ModelViewSet):
 
 class WorkoutViewSet(ModelViewSet):
     http_method_names = ['get', 'post', 'patch', 'delete', 'head', 'options']
-    # filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
-    # filterset_class = WorkoutFilter
+    filter_backends = [SearchFilter]
+    search_fields = ['name', 'instructions']
 
     def get_queryset(self):
         user_id = self.request.user.id
@@ -100,8 +103,10 @@ class WorkoutExerciseInstanceViewSet(ModelViewSet):
 
 class PerformedWorkoutViewSet(ModelViewSet):
     http_method_names = ['get', 'post', 'patch', 'delete', 'head', 'options']
-    # filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
-    # filterset_class = PerformedWorkoutFilter
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filterset_class = PerformedWorkoutFilter
+    search_fields = ['name']
+    ordering_fields = ['time_performed']
 
     def get_queryset(self):
         user_id = self.request.user.id
