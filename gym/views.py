@@ -5,6 +5,7 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.response import Response
 from rest_framework import status
 from core.models import Trainee
+from core.pagination import DefaultPagination
 from .filters import ExerciseFilter, PerformedWorkoutFilter
 from .models import Exercise, CustomExercise, ExerciseInstance, Workout, PerformedWorkout
 from . import serializers
@@ -16,6 +17,7 @@ class ExerciseViewSet(ReadOnlyModelViewSet):
     serializer_class = serializers.ExerciseSerializer
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_class = ExerciseFilter
+    pagination_class = DefaultPagination
     search_fields = ['name']
     ordering_fields = ['calories_burned']
 
@@ -24,6 +26,7 @@ class CustomExerciseViewSet(ModelViewSet):
     http_method_names = ['get', 'post', 'patch', 'delete', 'head', 'options']
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_class = ExerciseFilter
+    pagination_class = DefaultPagination
     search_fields = ['name']
     ordering_fields = ['calories_burned']
 
@@ -53,6 +56,7 @@ class CustomExerciseViewSet(ModelViewSet):
 class WorkoutViewSet(ModelViewSet):
     http_method_names = ['get', 'post', 'patch', 'delete', 'head', 'options']
     filter_backends = [SearchFilter]
+    pagination_class = DefaultPagination
     search_fields = ['name', 'instructions']
 
     def get_queryset(self):
@@ -105,6 +109,7 @@ class PerformedWorkoutViewSet(ModelViewSet):
     http_method_names = ['get', 'post', 'patch', 'delete', 'head', 'options']
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_class = PerformedWorkoutFilter
+    pagination_class = DefaultPagination
     search_fields = ['name']
     ordering_fields = ['time_performed']
 
