@@ -11,7 +11,8 @@ from .serializers import TraineeSerializer, TraineeCreateUpdateSerializer, Train
 
 
 class TraineeViewSet(CreateModelMixin, GenericViewSet):
-    queryset = Trainee.objects.all()
+    def get_queryset(self):
+        return Trainee.objects.filter(user_id=self.request.user.id)
 
     def get_serializer_class(self):
         if self.request.method == 'POST':
