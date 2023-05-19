@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from core.models import Trainee
-from .models import Food, CustomFood, Recipe, Meal, FoodInstance
+from .models import Food, CustomFood, Recipe, Meal, FoodInstance, Water
 
 
 class FoodSerializer(serializers.ModelSerializer):
@@ -238,3 +238,25 @@ class MealAddRecipeSerializer(serializers.ModelSerializer):
         meal = Meal.objects.get(id=meal_id)
         meal.recipes.add(recipe)
         return recipe
+
+
+class WaterSerializer(serializers.ModelSerializer):
+    drinking_date = serializers.DateField(read_only=True)
+
+    class Meta:
+        model = Water
+        fields = ['id', 'amount', 'drinking_date']
+
+    def create(self, validated_data):
+        user_id = self.context['user_id']
+        trainee = Trainee.objects.get(user_id=user_id)
+        water = Water(**validated_data)
+        water.trainee = trainee
+        water.save()
+        return water
+
+
+class WaterUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Water
+        fields = ['amount', 'drinking_date']

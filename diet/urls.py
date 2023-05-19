@@ -10,6 +10,7 @@ router.register('recipes', views.RecipeViewSet, basename='recipes')
 router.register('meals',
                 views.MealViewSet,
                 basename='meals')
+router.register('waters', views.WaterViewSet, basename='waters')
 
 recipes_router = routers.NestedDefaultRouter(router,
                                              'recipes',

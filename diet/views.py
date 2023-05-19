@@ -6,8 +6,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from core.models import Trainee
 from core.pagination import DefaultPagination
-from .filters import FoodFilter, MealFilter
-from .models import Food, CustomFood, FoodInstance, Recipe, Meal
+from .filters import FoodFilter, MealFilter, WaterFilter
+from .models import Food, CustomFood, FoodInstance, Recipe, Meal, Water
 from . import serializers
 
 
@@ -181,3 +181,23 @@ class MealFoodInstanceViewSet(ModelViewSet):
     def get_serializer_context(self):
         return {'meal_id': self.kwargs['meal_pk'],
                 'user_id': self.request.user.id}
+
+
+class WaterViewSet(ModelViewSet):
+    http_method_names = ['get', 'post', 'patch', 'delete', 'head', 'options']
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = WaterFilter
+    pagination_class = DefaultPagination
+
+    def get_queryset(self):
+        user_id = self.request.user.id
+        trainee = get_object_or_404(Trainee, user_id=user_id)
+        return Water.objects.filter(trainee=trainee).order_by('-drinking_date')
+
+    def get_serializer_class(self):
+        if self.request.method == 'PATCH':
+            return serializers.WaterUpdateSerializer
+        return serializers.WaterSerializer
+
+    def get_serializer_context(self):
+        return {'user_id': self.request.user.id}

@@ -1,6 +1,6 @@
 from django.core.validators import MinValueValidator
 from django.db import models
-from datetime import datetime
+from datetime import datetime, date
 from core.models import Trainee
 
 
@@ -176,7 +176,12 @@ class FoodInstance(models.Model):
 
 class Water(models.Model):
     amount = models.PositiveIntegerField()
-    drinking_date = models.DateField(auto_now_add=True)
+    drinking_date = models.DateField()
     trainee = models.ForeignKey(
         Trainee, on_delete=models.CASCADE, related_name='waters'
     )
+
+    def save(self, *args, **kwargs):
+        if not self.drinking_date:
+            self.drinking_date = date.today()
+        super().save(*args, **kwargs)

@@ -1,5 +1,5 @@
 from django_filters import rest_framework as filters
-from .models import Food, Meal
+from .models import Food, Meal, Water
 
 
 class FoodFilter(filters.FilterSet):
@@ -19,4 +19,12 @@ class MealFilter(filters.FilterSet):
         model = Meal
         fields = {
             'time_eaten': ['gte', 'lte'],
+        }
+
+
+class WaterFilter(filters.FilterSet):
+    class Meta:
+        model = Water
+        fields = {
+            'drinking_date': ['exact', 'gte', 'lte'],
         }
