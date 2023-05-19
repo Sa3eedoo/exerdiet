@@ -1,5 +1,5 @@
 from django_filters import rest_framework as filters
-from .models import Exercise, CustomExercise, Workout, PerformedWorkout
+from .models import Exercise, PerformedWorkout
 
 
 class ExerciseFilter(filters.FilterSet):
