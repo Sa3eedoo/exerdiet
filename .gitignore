@@ -1,4 +1,5 @@
 *.jpg
 *.pyc
 .vscode/
+.env
 celerybeat-schedule
