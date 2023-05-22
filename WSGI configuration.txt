@@ -21,6 +21,3 @@ application = get_wsgi_application()
 # /static/	/home/exerdiet/exerdiet/static	 
 # /media/	/home/exerdiet/exerdiet/static/media
 # set -a; source ~/exerdiet/.env; set +a
-# export DJANGO_SETTINGS_MODULE='exerdiet.settings.prod'
-# export SECRET_KEY=''
-# export DATABASE_PASSWORD=''
