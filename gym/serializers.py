@@ -1,3 +1,4 @@
+from django.shortcuts import get_object_or_404
 from rest_framework import serializers
 from core.models import Trainee
 from .models import Exercise, CustomExercise, Workout, PerformedWorkout, ExerciseInstance
@@ -76,12 +77,18 @@ class ExerciseInstanceCreateSerializer(serializers.ModelSerializer):
         fields = ['id', 'exercise_id', 'duration', 'sets']
 
     def create(self, validated_data):
+        user_id = self.context['user_id']
+        trainee = get_object_or_404(Trainee, user_id=user_id)
         workout_id = self.context.get('workout_id')
         performed_workout_id = self.context.get('performed_workout_id')
         if workout_id:
+            get_object_or_404(Workout, id=workout_id, trainee=trainee)
             exercise_instance = ExerciseInstance(workout_id=workout_id,
                                                  **validated_data)
         if performed_workout_id:
+            get_object_or_404(PerformedWorkout,
+                              id=performed_workout_id,
+                              trainee=trainee)
             exercise_instance = ExerciseInstance(performed_workout_id=performed_workout_id,
                                                  **validated_data)
         exercise_instance.save()
@@ -182,10 +189,13 @@ class PerformedWorkoutAddWorkoutSerializer(serializers.ModelSerializer):
         fields = ['id']
 
     def create(self, validated_data):
+        user_id = self.context['user_id']
+        trainee = get_object_or_404(Trainee, user_id=user_id)
         workout_id = validated_data['id']
         performed_workout_id = self.context['performed_workout_id']
+        performed_workout = get_object_or_404(PerformedWorkout,
+                                              id=performed_workout_id,
+                                              trainee=trainee)
         workout = Workout.objects.get(id=workout_id)
-        performed_workout = PerformedWorkout.objects\
-            .get(id=performed_workout_id)
         performed_workout.workouts.add(workout)
         return workout

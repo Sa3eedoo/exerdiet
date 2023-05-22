@@ -87,9 +87,11 @@ class WorkoutExerciseInstanceViewSet(ModelViewSet):
     http_method_names = ['get', 'post', 'patch', 'delete', 'head', 'options']
 
     def get_queryset(self):
+        user_id = self.request.user.id
+        trainee = get_object_or_404(Trainee, user_id=user_id)
         workout_id = self.kwargs['workout_pk']
-        return ExerciseInstance.objects\
-            .filter(workout_id=workout_id)\
+        workout = get_object_or_404(Workout, id=workout_id, trainee=trainee)
+        return workout.exercise_instances\
             .select_related('exercise')\
             .order_by('id')
 
@@ -135,9 +137,13 @@ class PerformedWorkoutWorkoutViewSet(ModelViewSet):
     http_method_names = ['get', 'post', 'delete', 'head', 'options']
 
     def get_queryset(self):
+        user_id = self.request.user.id
+        trainee = get_object_or_404(Trainee, user_id=user_id)
         performed_workout_id = self.kwargs['performed_workout_pk']
-        return Workout.objects\
-            .filter(performed_workouts=performed_workout_id)\
+        performed_workout = get_object_or_404(PerformedWorkout,
+                                              id=performed_workout_id,
+                                              trainee=trainee)
+        return performed_workout.workouts\
             .prefetch_related('exercise_instances__exercise')\
             .order_by('name')
 
@@ -164,9 +170,13 @@ class PerformedWorkoutExerciseInstanceViewSet(ModelViewSet):
     http_method_names = ['get', 'post', 'patch', 'delete', 'head', 'options']
 
     def get_queryset(self):
+        user_id = self.request.user.id
+        trainee = get_object_or_404(Trainee, user_id=user_id)
         performed_workout_id = self.kwargs['performed_workout_pk']
-        return ExerciseInstance.objects\
-            .filter(performed_workout_id=performed_workout_id)\
+        performed_workout = get_object_or_404(PerformedWorkout,
+                                              id=performed_workout_id,
+                                              trainee=trainee)
+        return performed_workout.exercise_instances\
             .select_related('exercise')\
             .order_by('id')
 
