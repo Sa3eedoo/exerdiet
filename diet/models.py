@@ -64,19 +64,19 @@ class Recipe(models.Model):
         total_carbs = 0
         for food_instance in self.food_instances.all():
             total_carbs += food_instance.get_total_carbs()
-        return total_carbs
+        return round(total_carbs, 1)
 
     def get_total_fats(self):
         total_fats = 0
         for food_instance in self.food_instances.all():
             total_fats += food_instance.get_total_fats()
-        return total_fats
+        return round(total_fats, 1)
 
     def get_total_protein(self):
         total_protein = 0
         for food_instance in self.food_instances.all():
             total_protein += food_instance.get_total_protein()
-        return total_protein
+        return round(total_protein, 1)
 
 
 class Meal(models.Model):
@@ -104,7 +104,7 @@ class Meal(models.Model):
             total_carbs += recipe.get_total_carbs()
         for food_instance in self.food_instances.all():
             total_carbs += food_instance.get_total_carbs()
-        return total_carbs
+        return round(total_carbs, 1)
 
     def get_total_fats(self):
         total_fats = 0
@@ -112,7 +112,7 @@ class Meal(models.Model):
             total_fats += recipe.get_total_fats()
         for food_instance in self.food_instances.all():
             total_fats += food_instance.get_total_fats()
-        return total_fats
+        return round(total_fats, 1)
 
     def get_total_protein(self):
         total_protein = 0
@@ -120,7 +120,7 @@ class Meal(models.Model):
             total_protein += recipe.get_total_protein()
         for food_instance in self.food_instances.all():
             total_protein += food_instance.get_total_protein()
-        return total_protein
+        return round(total_protein, 1)
 
     def save(self, *args, **kwargs):
         if not self.name:
@@ -159,19 +159,19 @@ class FoodInstance(models.Model):
         total_carbs = 0
         if self.food:
             total_carbs += self.food.carbs * self.quantity / 100
-        return total_carbs
+        return round(total_carbs, 1)
 
     def get_total_fats(self):
         total_fats = 0
         if self.food:
             total_fats += self.food.fats * self.quantity / 100
-        return total_fats
+        return round(total_fats, 1)
 
     def get_total_protein(self):
         total_protein = 0
         if self.food:
             total_protein += self.food.protein * self.quantity / 100
-        return total_protein
+        return round(total_protein, 1)
 
 
 class Water(models.Model):
