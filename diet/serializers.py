@@ -1,3 +1,4 @@
+from django.shortcuts import get_object_or_404
 from rest_framework import serializers
 from core.models import Trainee
 from .models import Food, CustomFood, Recipe, Meal, FoodInstance, Water
@@ -89,12 +90,16 @@ class FoodInstanceCreateSerializer(serializers.ModelSerializer):
         fields = ['id', 'food_id', 'quantity']
 
     def create(self, validated_data):
+        user_id = self.context['user_id']
+        trainee = get_object_or_404(Trainee, user_id=user_id)
         recipe_id = self.context.get('recipe_id')
         meal_id = self.context.get('meal_id')
         if recipe_id:
+            get_object_or_404(Recipe, id=recipe_id, trainee=trainee)
             food_instance = FoodInstance(recipe_id=recipe_id,
                                          **validated_data)
         if meal_id:
+            get_object_or_404(Meal, id=meal_id, trainee=trainee)
             food_instance = FoodInstance(meal_id=meal_id,
                                          **validated_data)
         food_instance.save()
@@ -232,10 +237,12 @@ class MealAddRecipeSerializer(serializers.ModelSerializer):
         fields = ['id']
 
     def create(self, validated_data):
+        user_id = self.context['user_id']
+        trainee = get_object_or_404(Trainee, user_id=user_id)
         recipe_id = validated_data['id']
         meal_id = self.context['meal_id']
+        meal = get_object_or_404(Meal, id=meal_id, trainee=trainee)
         recipe = Recipe.objects.get(id=recipe_id)
-        meal = Meal.objects.get(id=meal_id)
         meal.recipes.add(recipe)
         return recipe
 

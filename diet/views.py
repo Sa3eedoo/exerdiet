@@ -89,9 +89,11 @@ class RecipeFoodInstanceViewSet(ModelViewSet):
     http_method_names = ['get', 'post', 'patch', 'delete', 'head', 'options']
 
     def get_queryset(self):
+        user_id = self.request.user.id
+        trainee = get_object_or_404(Trainee, user_id=user_id)
         recipe_id = self.kwargs['recipe_pk']
-        return FoodInstance.objects\
-            .filter(recipe_id=recipe_id)\
+        recipe = get_object_or_404(Recipe, id=recipe_id, trainee=trainee)
+        return recipe.food_instances\
             .select_related('food')\
             .order_by('id')
 
@@ -137,9 +139,11 @@ class MealRecipeViewSet(ModelViewSet):
     http_method_names = ['get', 'post', 'delete', 'head', 'options']
 
     def get_queryset(self):
+        user_id = self.request.user.id
+        trainee = get_object_or_404(Trainee, user_id=user_id)
         meal_id = self.kwargs['meal_pk']
-        return Recipe.objects\
-            .filter(meals=meal_id)\
+        meal = get_object_or_404(Meal, id=meal_id, trainee=trainee)
+        return meal.recipes\
             .prefetch_related('food_instances__food')\
             .order_by('name')
 
@@ -165,9 +169,11 @@ class MealFoodInstanceViewSet(ModelViewSet):
     http_method_names = ['get', 'post', 'patch', 'delete', 'head', 'options']
 
     def get_queryset(self):
+        user_id = self.request.user.id
+        trainee = get_object_or_404(Trainee, user_id=user_id)
         meal_id = self.kwargs['meal_pk']
-        return FoodInstance.objects\
-            .filter(meal_id=meal_id)\
+        meal = get_object_or_404(Meal, id=meal_id, trainee=trainee)
+        return meal.food_instances\
             .select_related('food')\
             .order_by('id')
 
