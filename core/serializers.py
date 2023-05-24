@@ -135,14 +135,14 @@ class TraineeSerializer(serializers.ModelSerializer):
                   'carbs_ratio', 'fats_ratio', 'protein_ratio',
                   'carbs_needs', 'fats_needs', 'protein_needs',
                   'carbs_intake_today', 'fats_intake_today', 'protein_intake_today',
-                  'activity_level', 'goal', 'daily_streak']
+                  'activity_level', 'goal', 'daily_streak', 'image']
 
 
 class TraineeCreateUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Trainee
         fields = ['birthdate', 'gender', 'height',
-                  'weight', 'activity_level', 'goal']
+                  'weight', 'activity_level', 'goal', 'image']
 
     def create(self, validated_data):
         trainee = Trainee(**validated_data)
