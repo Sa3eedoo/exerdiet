@@ -2,6 +2,7 @@ from datetime import date
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from .validators import validate_image_size
 
 
 class User(AbstractUser):
@@ -63,7 +64,7 @@ class Trainee(models.Model):
                             default=Goal.KEEP,
                             blank=True)
     image = models.ImageField(
-        upload_to='core/images/trainees', null=True, blank=True
+        upload_to='core/images/trainees', null=True, blank=True, validators=[validate_image_size]
     )
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 

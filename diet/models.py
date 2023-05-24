@@ -2,6 +2,7 @@ from django.core.validators import MinValueValidator
 from django.db import models
 from datetime import datetime, date
 from core.models import Trainee
+from core.validators import validate_image_size
 
 
 class Food(models.Model):
@@ -22,7 +23,7 @@ class Food(models.Model):
     protein = models.DecimalField(
         max_digits=3, decimal_places=1, validators=[MinValueValidator(0)])
     image = models.ImageField(
-        upload_to='diet/images/foods', null=True, blank=True)
+        upload_to='diet/images/foods', null=True, blank=True, validators=[validate_image_size])
 
     def __str__(self) -> str:
         return self.name + ' (' + str(self.calories) + ' cals/100gm)'
@@ -46,7 +47,7 @@ class Recipe(models.Model):
     name = models.CharField(max_length=150)
     instructions = models.TextField(null=True, blank=True)
     image = models.ImageField(
-        upload_to='diet/images/recipes', null=True, blank=True)
+        upload_to='diet/images/recipes', null=True, blank=True, validators=[validate_image_size])
     trainee = models.ForeignKey(
         Trainee, on_delete=models.CASCADE, related_name='recipes'
     )

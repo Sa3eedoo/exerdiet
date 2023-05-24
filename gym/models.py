@@ -2,6 +2,7 @@ from django.core.validators import MinValueValidator
 from django.db import models
 from datetime import datetime
 from core.models import Trainee
+from core.validators import validate_image_size
 
 
 class Exercise(models.Model):
@@ -21,7 +22,7 @@ class Exercise(models.Model):
     is_repetitive = models.BooleanField()
 
     image = models.ImageField(
-        upload_to='gym/images/exercises', null=True, blank=True)
+        upload_to='gym/images/exercises', null=True, blank=True, validators=[validate_image_size])
 
     def __str__(self) -> str:
         temp = '10rep' if self.is_repetitive else '60sec'
@@ -47,7 +48,7 @@ class Workout(models.Model):
     name = models.CharField(max_length=150)
     instructions = models.TextField(null=True, blank=True)
     image = models.ImageField(
-        upload_to='gym/images/workouts', null=True, blank=True)
+        upload_to='gym/images/workouts', null=True, blank=True, validators=[validate_image_size])
     trainee = models.ForeignKey(
         Trainee, on_delete=models.CASCADE, related_name='workouts'
     )
