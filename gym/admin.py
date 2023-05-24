@@ -66,7 +66,18 @@ class ExerciseAdmin(admin.ModelAdmin):
                    'body_part', CalorieBurnedLevelFilter]
     list_per_page = 100
     ordering = ['name']
+    readonly_fields = ['thumbnail']
     search_fields = ['name']
+
+    class Media:
+        css = {
+            'all': ['core/styles.css']
+        }
+
+    def thumbnail(self, exercise: models.Exercise):
+        if exercise.image.name != '':
+            return format_html(f'<img src="{exercise.image.url}" class="thumbnail"/>')
+        return ''
 
     @admin.display(ordering='calories_burned')
     def calories_burned_level(self, exercise):
@@ -95,7 +106,18 @@ class CustomExerciseAdmin(admin.ModelAdmin):
     list_select_related = ['trainee__user']
     list_per_page = 100
     ordering = ['name']
+    readonly_fields = ['thumbnail']
     search_fields = ['name', 'trainee__user__username__istartswith']
+
+    class Media:
+        css = {
+            'all': ['core/styles.css']
+        }
+
+    def thumbnail(self, custom_exercise: models.CustomExercise):
+        if custom_exercise.image.name != '':
+            return format_html(f'<img src="{custom_exercise.image.url}" class="thumbnail"/>')
+        return ''
 
     @admin.display(ordering='trainee__user__username')
     def trainee_username(self, custom_exercise):
@@ -194,8 +216,19 @@ class WorkoutAdmin(admin.ModelAdmin):
     list_select_related = ['trainee__user']
     list_per_page = 100
     ordering = ['name']
+    readonly_fields = ['thumbnail']
     search_fields = ['name', 'trainee__user__username__istartswith']
     inlines = [ExerciseInstanceWorkoutInline]
+
+    class Media:
+        css = {
+            'all': ['core/styles.css']
+        }
+
+    def thumbnail(self, workout: models.Workout):
+        if workout.image.name != '':
+            return format_html(f'<img src="{workout.image.url}" class="thumbnail"/>')
+        return ''
 
     @admin.display(ordering='trainee__user__username')
     def trainee_username(self, workout):

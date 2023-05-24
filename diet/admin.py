@@ -153,7 +153,18 @@ class FoodAdmin(admin.ModelAdmin):
                    CarbLevelFilter, FatLevelFilter, ProteinLevelFilter]
     list_per_page = 100
     ordering = ['name']
+    readonly_fields = ['thumbnail']
     search_fields = ['name']
+
+    class Media:
+        css = {
+            'all': ['core/styles.css']
+        }
+
+    def thumbnail(self, food: models.Food):
+        if food.image.name != '':
+            return format_html(f'<img src="{food.image.url}" class="thumbnail"/>')
+        return ''
 
     @admin.display(ordering='calories')
     def calorie_level(self, food):
@@ -186,7 +197,18 @@ class CustomFoodAdmin(admin.ModelAdmin):
     list_select_related = ['trainee__user']
     list_per_page = 100
     ordering = ['name']
+    readonly_fields = ['thumbnail']
     search_fields = ['name', 'trainee__user__username__istartswith']
+
+    class Media:
+        css = {
+            'all': ['core/styles.css']
+        }
+
+    def thumbnail(self, custom_food: models.CustomFood):
+        if custom_food.image.name != '':
+            return format_html(f'<img src="{custom_food.image.url}" class="thumbnail"/>')
+        return ''
 
     @admin.display(ordering='trainee__user__username')
     def trainee_username(self, custom_food):
@@ -287,8 +309,19 @@ class RecipeAdmin(admin.ModelAdmin):
     list_select_related = ['trainee__user']
     list_per_page = 100
     ordering = ['name']
+    readonly_fields = ['thumbnail']
     search_fields = ['name', 'trainee__user__username__istartswith']
     inlines = [FoodInstanceRecipeInline]
+
+    class Media:
+        css = {
+            'all': ['core/styles.css']
+        }
+
+    def thumbnail(self, recipe: models.Recipe):
+        if recipe.image.name != '':
+            return format_html(f'<img src="{recipe.image.url}" class="thumbnail"/>')
+        return ''
 
     @admin.display(ordering='trainee__user__username')
     def trainee_username(self, recipe):

@@ -198,8 +198,19 @@ class TraineeAdmin(admin.ModelAdmin):
     list_select_related = ['user']
     list_per_page = 100
     ordering = ['user__first_name', 'user__last_name']
+    readonly_fields = ['thumbnail']
     search_fields = ['user__username__istartswith', 'user__first_name__istartswith',
                      'user__last_name__istartswith', 'user__email']
+
+    class Media:
+        css = {
+            'all': ['core/styles.css']
+        }
+
+    def thumbnail(self, trainee: models.Trainee):
+        if trainee.image.name != '':
+            return format_html(f'<img src="{trainee.image.url}" class="thumbnail"/>')
+        return ''
 
     def get_form(self, request: Any, obj: Any | None = ..., change: bool = ..., **kwargs: Any) -> Any:
         form = super().get_form(request, obj, change, **kwargs)
