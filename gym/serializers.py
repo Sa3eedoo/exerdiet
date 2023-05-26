@@ -38,7 +38,8 @@ class CustomExerciseUpdateSerializer(serializers.ModelSerializer):
 class SimpleExerciseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Exercise
-        fields = ['id', 'name', 'body_part']
+        fields = ['id', 'name', 'body_part', 'calories_burned',
+                  'is_repetitive', 'image']
 
 
 class ExerciseInstanceSerializer(serializers.ModelSerializer):
@@ -137,7 +138,8 @@ class SimpleWorkoutSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Workout
-        fields = ['id', 'name', 'exercise_instances', 'total_calories']
+        fields = ['id', 'name', 'instructions', 'image',
+                  'exercise_instances', 'total_calories']
 
 
 class PerformedWorkoutSerializer(serializers.ModelSerializer):
