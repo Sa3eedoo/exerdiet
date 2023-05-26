@@ -1,4 +1,6 @@
-from django.shortcuts import get_object_or_404
+from django.conf import settings
+from django.shortcuts import get_object_or_404, render
+from django.http import HttpResponse
 from rest_framework.decorators import action
 from rest_framework.mixins import CreateModelMixin
 from rest_framework.permissions import IsAuthenticated
@@ -8,6 +10,7 @@ from rest_framework import status
 from .models import Trainee
 from .permissions import IsAuthenticatedAndNotTrainee
 from .serializers import TraineeSerializer, TraineeCreateUpdateSerializer, TraineeUpdateCaloriesSerializer, TraineeUpdateWaterSerializer, TraineeUpdateMacronutrientsRatiosSerializer
+import requests
 
 
 class TraineeViewSet(CreateModelMixin, GenericViewSet):
@@ -122,3 +125,44 @@ class TraineeViewSet(CreateModelMixin, GenericViewSet):
             serializer.is_valid(raise_exception=True)
             serializer.save()
             return Response(serializer.data)
+
+
+def activate_user(request, uid, token):
+    if settings.DEBUG:
+        url = 'http://127.0.0.1:8000/auth/users/activation/'
+    else:
+        url = 'https://exerdiet.pythonanywhere.com/auth/users/activation/'
+
+    data = {
+        'uid': uid,
+        'token': token
+    }
+
+    response = requests.post(url, data=data)
+    if response.status_code == 204:
+        return HttpResponse('Your account has been activated and is ready to use!')
+    return HttpResponse('An error occured please try again.')
+
+
+def reset_password(request, uid, token):
+    if request.method == 'POST':
+        return process_reset_password(request.POST.get('password'), uid, token)
+    return render(request, 'reset_password.html')
+
+
+def process_reset_password(password, uid, token):
+    if settings.DEBUG:
+        url = 'http://127.0.0.1:8000/auth/users/reset_password_confirm/'
+    else:
+        url = 'https://exerdiet.pythonanywhere.com/auth/users/reset_password_confirm/'
+
+    data = {
+        'uid': uid,
+        'token': token,
+        'new_password': password
+    }
+
+    response = requests.post(url, data=data)
+    if response.status_code == 204:
+        return HttpResponse('Your password has been changed successfully!')
+    return HttpResponse('An error occured please try again.')
