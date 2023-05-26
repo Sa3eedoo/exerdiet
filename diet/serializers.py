@@ -38,7 +38,8 @@ class CustomFoodUpdateSerializer(serializers.ModelSerializer):
 class SimpleFoodSerializer(serializers.ModelSerializer):
     class Meta:
         model = Food
-        fields = ['id', 'name', 'calories', 'carbs', 'fats', 'protein']
+        fields = ['id', 'name', 'category', 'calories',
+                  'carbs', 'fats', 'protein', 'image']
 
 
 class FoodInstanceSerializer(serializers.ModelSerializer):
@@ -172,8 +173,8 @@ class SimpleRecipeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Recipe
-        fields = ['id', 'name', 'food_instances', 'total_calories',
-                  'total_carbs', 'total_fats', 'total_protein']
+        fields = ['id', 'name', 'instructions', 'image', 'food_instances',
+                  'total_calories', 'total_carbs', 'total_fats', 'total_protein']
 
 
 class MealSerializer(serializers.ModelSerializer):
