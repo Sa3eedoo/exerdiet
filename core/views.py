@@ -1,6 +1,8 @@
 from django.conf import settings
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse
+from requests import post
+from requests.exceptions import Timeout
 from rest_framework.decorators import action
 from rest_framework.mixins import CreateModelMixin
 from rest_framework.permissions import IsAuthenticated
@@ -10,7 +12,6 @@ from rest_framework import status
 from .models import Trainee
 from .permissions import IsAuthenticatedAndNotTrainee
 from .serializers import TraineeSerializer, TraineeCreateUpdateSerializer, TraineeUpdateCaloriesSerializer, TraineeUpdateWaterSerializer, TraineeUpdateMacronutrientsRatiosSerializer
-import requests
 
 
 class TraineeViewSet(CreateModelMixin, GenericViewSet):
@@ -138,10 +139,13 @@ def activate_user(request, uid, token):
         'token': token
     }
 
-    response = requests.post(url, data=data, timeout=10)
-    if response.status_code == 204:
-        return HttpResponse('Your account has been activated and is ready to use!')
-    return HttpResponse('An error occured please try again.')
+    try:
+        response = post(url, data=data, timeout=10)
+        if response.status_code == 204:
+            return HttpResponse('Your account has been activated and is ready to use!')
+        return HttpResponse('An error occured please try again.')
+    except Timeout:
+        return HttpResponse('Timeout!!!')
 
 
 def reset_password(request, uid, token):
@@ -162,7 +166,10 @@ def process_reset_password(password, uid, token):
         'new_password': password
     }
 
-    response = requests.post(url, data=data, timeout=10)
-    if response.status_code == 204:
-        return HttpResponse('Your password has been changed successfully!')
-    return HttpResponse('An error occured please try again.')
+    try:
+        response = post(url, data=data, timeout=10)
+        if response.status_code == 204:
+            return HttpResponse('Your password has been changed successfully!')
+        return HttpResponse('An error occured please try again.')
+    except Timeout:
+        return HttpResponse('Timeout!!!')
