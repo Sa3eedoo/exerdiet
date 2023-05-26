@@ -138,7 +138,7 @@ def activate_user(request, uid, token):
         'token': token
     }
 
-    response = requests.post(url, data=data)
+    response = requests.post(url, data=data, timeout=10)
     if response.status_code == 204:
         return HttpResponse('Your account has been activated and is ready to use!')
     return HttpResponse('An error occured please try again.')
@@ -162,7 +162,7 @@ def process_reset_password(password, uid, token):
         'new_password': password
     }
 
-    response = requests.post(url, data=data)
+    response = requests.post(url, data=data, timeout=10)
     if response.status_code == 204:
         return HttpResponse('Your password has been changed successfully!')
     return HttpResponse('An error occured please try again.')
