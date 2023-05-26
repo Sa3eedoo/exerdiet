@@ -79,13 +79,7 @@ WSGI_APPLICATION = 'exerdiet.wsgi.application'
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
     },
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
@@ -136,11 +130,12 @@ DJOSER = {
         'user_create': 'core.serializers.UserCreateSerializer',
         'current_user': 'core.serializers.UserSerializer'
     },
-    # 'SEND_ACTIVATION_EMAIL': True,
-    # 'ACTIVATION_URL': 'activate/{uid}/{token}',
-    # 'SEND_CONFIRMATION_EMAIL': True,
-    # 'USERNAME_CHANGED_EMAIL_CONFIRMATION': True,
-    # 'PASSWORD_CHANGED_EMAIL_CONFIRMATION': True,
-    # 'PASSWORD_RESET_CONFIRM_URL': 'password/reset/confirm/{uid}/{token}',
-    # 'USERNAME_RESET_CONFIRM_URL': 'username/reset/confirm/{uid}/{token}',
+    'SEND_ACTIVATION_EMAIL': True,
+    'ACTIVATION_URL': 'core/activate/{uid}/{token}/',
+    'SEND_CONFIRMATION_EMAIL': True,
+    'USERNAME_CHANGED_EMAIL_CONFIRMATION': True,
+    'PASSWORD_CHANGED_EMAIL_CONFIRMATION': True,
+    'PASSWORD_RESET_CONFIRM_URL': 'core/password/reset/confirm/{uid}/{token}/',
 }
+
+DEFAULT_FROM_EMAIL = 'exercise.diet.exerdiet@gmail.com'
