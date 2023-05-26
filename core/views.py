@@ -145,7 +145,7 @@ def activate_user(request, uid, token):
             return HttpResponse('Your account has been activated and is ready to use!')
         return HttpResponse('An error occured please try again.')
     except Timeout:
-        return HttpResponse('Your password has been changed successfully!')
+        return HttpResponse('Your account has been activated and is ready to use!')
 
 
 def reset_password(request, uid, token):
