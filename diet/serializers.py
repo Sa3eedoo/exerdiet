@@ -5,6 +5,13 @@ from .models import Food, CustomFood, Recipe, Meal, FoodInstance, Water
 
 
 class FoodSerializer(serializers.ModelSerializer):
+    image = serializers.SerializerMethodField()
+
+    def get_image(self, food: Food):
+        if food.image:
+            return food.image.url
+        return None
+
     class Meta:
         model = Food
         fields = ['id', 'name', 'category', 'calories',
