@@ -5,6 +5,13 @@ from .models import Exercise, CustomExercise, Workout, PerformedWorkout, Exercis
 
 
 class ExerciseSerializer(serializers.ModelSerializer):
+    image = serializers.SerializerMethodField()
+
+    def get_image(self, exercise: Exercise):
+        if exercise.image:
+            return exercise.image.url
+        return None
+
     class Meta:
         model = Exercise
         fields = ['id', 'name', 'body_part', 'calories_burned',
