@@ -109,7 +109,13 @@ class ExerciseInstance(models.Model):
         verbose_name_plural = "Exercises Instance"
 
     def __str__(self) -> str:
-        return self.exercise.name + ' (' + str(self.sets) + ')'
+        exercise_instance_str = self.exercise.name + ' ('
+        if self.exercise.is_repetitive:
+            exercise_instance_str += str(self.sets * self.duration) + 'reps)'
+        else:
+            exercise_instance_str += str(int(self.sets *
+                                         self.duration / 60)) + 'mins)'
+        return exercise_instance_str
 
     def get_total_calories(self):
         total_calories = 0
