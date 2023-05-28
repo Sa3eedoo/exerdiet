@@ -179,10 +179,10 @@ class FoodAdmin(admin.ModelAdmin):
     def get_form(self, request: Any, obj: Any | None = ..., change: bool = ..., **kwargs: Any) -> Any:
         form = super().get_form(request, obj, change, **kwargs)
 
-        form.base_fields['calories'].widget.attrs['placeholder'] = 'cal/100gm'
-        form.base_fields['carbs'].widget.attrs['placeholder'] = 'grams/100gm'
-        form.base_fields['fats'].widget.attrs['placeholder'] = 'grams/100gm'
-        form.base_fields['protein'].widget.attrs['placeholder'] = 'grams/100gm'
+        form.base_fields['calories'].widget.attrs['placeholder'] = 'cal/(100gm,ml)(1tsp)'
+        form.base_fields['carbs'].widget.attrs['placeholder'] = 'gram/(100gm,ml)(1tsp)'
+        form.base_fields['fats'].widget.attrs['placeholder'] = 'gram/(100gm,ml)(1tsp)'
+        form.base_fields['protein'].widget.attrs['placeholder'] = 'gram/(100gm,ml)(1tsp)'
 
         return form
 
@@ -231,10 +231,10 @@ class CustomFoodAdmin(admin.ModelAdmin):
     def get_form(self, request: Any, obj: Any | None = ..., change: bool = ..., **kwargs: Any) -> Any:
         form = super().get_form(request, obj, change, **kwargs)
 
-        form.base_fields['calories'].widget.attrs['placeholder'] = 'cal/100gm'
-        form.base_fields['carbs'].widget.attrs['placeholder'] = 'grams/100gm'
-        form.base_fields['fats'].widget.attrs['placeholder'] = 'grams/100gm'
-        form.base_fields['protein'].widget.attrs['placeholder'] = 'grams/100gm'
+        form.base_fields['calories'].widget.attrs['placeholder'] = 'cal/(100gm,ml)(1tsp)'
+        form.base_fields['carbs'].widget.attrs['placeholder'] = 'gram/(100gm,ml)(1tsp)'
+        form.base_fields['fats'].widget.attrs['placeholder'] = 'gram/(100gm,ml)(1tsp)'
+        form.base_fields['protein'].widget.attrs['placeholder'] = 'gram/(100gm,ml)(1tsp)'
 
         return form
 
@@ -283,7 +283,7 @@ class FoodInstanceAdmin(admin.ModelAdmin):
     def get_form(self, request: Any, obj: Any | None = ..., change: bool = ..., **kwargs: Any) -> Any:
         form = super().get_form(request, obj, change, **kwargs)
 
-        form.base_fields['quantity'].widget.attrs['placeholder'] = 'in grams'
+        form.base_fields['quantity'].widget.attrs['placeholder'] = 'in gm,ml,tsp'
 
         return form
 
@@ -298,7 +298,7 @@ class FoodInstanceRecipeInline(admin.TabularInline):
     def formfield_for_dbfield(self, db_field, request: HttpRequest | None, **kwargs: Any):
         field = super().formfield_for_dbfield(db_field, request, **kwargs)
         if db_field.name == 'quantity':
-            field.widget.attrs['placeholder'] = 'in grams'
+            field.widget.attrs['placeholder'] = 'in gm,ml,tsp'
         return field
 
 
@@ -349,7 +349,7 @@ class FoodInstanceMealInline(admin.TabularInline):
     def formfield_for_dbfield(self, db_field, request: HttpRequest | None, **kwargs: Any):
         field = super().formfield_for_dbfield(db_field, request, **kwargs)
         if db_field.name == 'quantity':
-            field.widget.attrs['placeholder'] = 'in grams'
+            field.widget.attrs['placeholder'] = 'in gm,ml,tsp'
         return field
 
 
@@ -402,6 +402,6 @@ class WaterAdmin(admin.ModelAdmin):
     def get_form(self, request: Any, obj: Any | None = ..., change: bool = ..., **kwargs: Any) -> Any:
         form = super().get_form(request, obj, change, **kwargs)
 
-        form.base_fields['amount'].widget.attrs['placeholder'] = 'in mL'
+        form.base_fields['amount'].widget.attrs['placeholder'] = 'in ml'
 
         return form
