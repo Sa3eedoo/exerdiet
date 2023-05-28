@@ -26,7 +26,14 @@ class Food(models.Model):
         upload_to='diet/images/foods', null=True, blank=True, validators=[validate_image_size])
 
     def __str__(self) -> str:
-        return self.name + ' (' + str(self.calories) + ' cals/100gm)'
+        food_str = self.name + ' (' + str(self.calories) + ' cals/'
+        if self.category == self.Category.FOOD:
+            food_str += '100gm)'
+        elif self.category == self.Category.BEVERAGE:
+            food_str += '100ml)'
+        else:
+            food_str += '1tsp)'
+        return food_str
 
 
 class CustomFood(Food):
@@ -40,7 +47,15 @@ class CustomFood(Food):
         verbose_name_plural = "Custom Foods"
 
     def __str__(self) -> str:
-        return self.name + ' (' + str(self.calories) + ' cals/100gm)' + ' / ' + str(self.trainee)
+        custom_food_str = self.name + ' (' + str(self.calories) + ' cals/'
+        if self.category == self.Category.FOOD:
+            custom_food_str += '100gm)'
+        elif self.category == self.Category.BEVERAGE:
+            custom_food_str += '100ml)'
+        else:
+            custom_food_str += '1tsp)'
+        custom_food_str += ' / ' + str(self.trainee)
+        return custom_food_str
 
 
 class Recipe(models.Model):
@@ -148,11 +163,20 @@ class FoodInstance(models.Model):
         verbose_name_plural = "Food Instances"
 
     def __str__(self) -> str:
-        return self.food.name + ' (' + str(self.quantity) + ' gm/ml)'
+        food_instance_str = self.food.name + ' (' + str(self.quantity)
+        if self.food.category == self.food.Category.FOOD:
+            food_instance_str += ' gm)'
+        elif self.food.category == self.food.Category.BEVERAGE:
+            food_instance_str += ' ml)'
+        else:
+            food_instance_str += ' tsp)'
+        return food_instance_str
 
     def get_total_calories(self):
         total_calories = 0
         if self.food:
+            if self.food.category == self.food.Category.SEASONING:
+                total_calories += self.food.calories * self.quantity
             total_calories += self.food.calories * self.quantity / 100
         return int(total_calories)
 
