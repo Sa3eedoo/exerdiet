@@ -17,11 +17,11 @@ class Food(models.Model):
                                 default=Category.FOOD)
     calories = models.IntegerField(validators=[MinValueValidator(0)])
     carbs = models.DecimalField(
-        max_digits=3, decimal_places=1, validators=[MinValueValidator(0)])
+        max_digits=4, decimal_places=1, validators=[MinValueValidator(0)])
     fats = models.DecimalField(
-        max_digits=3, decimal_places=1, validators=[MinValueValidator(0)])
+        max_digits=4, decimal_places=1, validators=[MinValueValidator(0)])
     protein = models.DecimalField(
-        max_digits=3, decimal_places=1, validators=[MinValueValidator(0)])
+        max_digits=4, decimal_places=1, validators=[MinValueValidator(0)])
     image = models.ImageField(
         upload_to='diet/images/foods', null=True, blank=True, validators=[validate_image_size])
 
