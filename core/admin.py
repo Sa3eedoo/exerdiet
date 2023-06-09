@@ -50,7 +50,7 @@ class UserAdmin(BaseUserAdmin):
         ),
     )
     list_display = ["username", "email", "first_name",
-                    "last_name", "is_staff", 'trainee_status']
+                    "last_name", "is_staff", 'is_active', 'trainee_status']
     list_filter = ("is_staff", "is_superuser", "is_active",
                    "groups", TraineeStatusFilter)
     list_per_page = 100
