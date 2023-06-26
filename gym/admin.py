@@ -145,56 +145,6 @@ class CustomExerciseAdmin(admin.ModelAdmin):
         return form
 
 
-@admin.register(models.ExerciseInstance)
-class ExerciseInstanceAdmin(admin.ModelAdmin):
-    autocomplete_fields = ['exercise', 'workout', 'performed_workout']
-    list_display = ['exercise_name', 'duration', 'sets',
-                    'workout_name', 'performed_workout_name']
-    list_display_links = ['duration', 'sets']
-    list_per_page = 100
-    list_select_related = [
-        'exercise', 'workout__trainee__user', 'performed_workout__trainee__user'
-    ]
-    ordering = ['exercise__name']
-    search_fields = ['food__name', 'workouts__name',
-                     'performed_workout__trainee__user__username__istartswith']
-
-    @admin.display(ordering='exercise__name')
-    def exercise_name(self, exercise_instacne):
-        url = (
-            reverse('admin:gym_exercise_changelist') +
-            str(exercise_instacne.exercise.id)
-        )
-        return format_html('<a href="{}">{}</a>', url, exercise_instacne.exercise)
-
-    @admin.display(ordering='workout__name')
-    def workout_name(self, exercise_instacne):
-        if exercise_instacne.workout:
-            url = (
-                reverse('admin:gym_workout_changelist') +
-                str(exercise_instacne.workout.id)
-            )
-            return format_html('<a href="{}">{}</a>', url, exercise_instacne.workout)
-        return exercise_instacne.workout
-
-    @admin.display(ordering='performed_workout_name')
-    def performed_workout_name(self, exercise_instacne):
-        if exercise_instacne.performed_workout:
-            url = (
-                reverse('admin:gym_performedworkout_changelist') +
-                str(exercise_instacne.performed_workout.id)
-            )
-            return format_html('<a href="{}">{}</a>', url, exercise_instacne.performed_workout)
-        return exercise_instacne.performed_workout
-
-    def get_form(self, request: Any, obj: Any | None = ..., change: bool = ..., **kwargs: Any) -> Any:
-        form = super().get_form(request, obj, change, **kwargs)
-
-        form.base_fields['duration'].widget.attrs['placeholder'] = 'sec|reps'
-
-        return form
-
-
 class ExerciseInstanceWorkoutInline(admin.TabularInline):
     model = models.ExerciseInstance
     autocomplete_fields = ['exercise']

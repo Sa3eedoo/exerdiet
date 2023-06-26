@@ -238,20 +238,6 @@ class CustomFoodAdmin(admin.ModelAdmin):
 
         return form
 
-
-@admin.register(models.FoodInstance)
-class FoodInstanceAdmin(admin.ModelAdmin):
-    autocomplete_fields = ['food', 'recipe', 'meal']
-    list_display = ['food_name', 'quantity', 'recipe_name', 'meal_name']
-    list_display_links = ['quantity']
-    list_per_page = 100
-    list_select_related = [
-        'food', 'recipe__trainee__user', 'meal__trainee__user'
-    ]
-    ordering = ['food__name']
-    search_fields = ['food__name', 'recipe__name',
-                     'meal__trainee__user__username__istartswith']
-
     @admin.display(ordering='food__name')
     def food_name(self, food_instance):
         url = (
