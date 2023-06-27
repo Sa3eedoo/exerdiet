@@ -5,10 +5,10 @@ import os
 
 
 class Command(BaseCommand):
-    help = 'Populates the database'
+    help = 'Populates the database with the food dataset'
 
     def handle(self, *args, **options):
-        print('Populating the database...')
+        print('Populating the database with the food dataset...')
         current_dir = os.path.dirname(__file__)
         file_path = os.path.join(current_dir, 'food.sql')
         sql = Path(file_path).read_text()
