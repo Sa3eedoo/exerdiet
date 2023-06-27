@@ -45,6 +45,8 @@ class TraineeViewSet(CreateModelMixin, GenericViewSet):
     def me(self, request):
         trainee = get_object_or_404(Trainee, user_id=request.user.id)
         if request.method == 'GET':
+            trainee.was_active_today = True
+            trainee.save()
             serializer = TraineeSerializer(trainee)
             return Response(serializer.data)
         elif request.method == 'PATCH':
