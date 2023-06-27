@@ -20,4 +20,5 @@ application = get_wsgi_application()
 
 # /static/	/home/exerdiet/exerdiet/static	 
 # /media/	/home/exerdiet/exerdiet/static/media
-# set -a; source ~/exerdiet/.env; set +a
+# set -a; source /home/exerdiet/exerdiet/.env; set +a
+# set -a; source /home/exerdiet/exerdiet/.env; set +a && /home/exerdiet/.virtualenvs/exerdiet/bin/python /home/exerdiet/exerdiet/manage.py update_streak
