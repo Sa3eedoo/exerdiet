@@ -10,7 +10,7 @@ from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 from rest_framework import status
 from .models import Trainee
-from .permissions import IsAuthenticatedAndNotTrainee
+from .permissions import IsAuthenticatedAndNotTraineeAndNotAdmin
 from .serializers import TraineeSerializer, TraineeCreateUpdateSerializer, TraineeUpdateCaloriesSerializer, TraineeUpdateWaterSerializer, TraineeUpdateMacronutrientsRatiosSerializer
 
 
@@ -38,7 +38,7 @@ class TraineeViewSet(CreateModelMixin, GenericViewSet):
 
     def get_permissions(self):
         if self.request.method == 'POST':
-            return [IsAuthenticatedAndNotTrainee()]
+            return [IsAuthenticatedAndNotTraineeAndNotAdmin()]
         return [IsAuthenticated()]
 
     @action(detail=False, methods=['GET', 'PATCH', 'DELETE'])
