@@ -12,7 +12,7 @@ class Command(BaseCommand):
             for trainee in Trainee.objects.all():
                 if trainee.was_active_today:
                     trainee.daily_streak += 1
+                    trainee.was_active_today = False
                 else:
                     trainee.daily_streak = 0
-                trainee.was_active_today = False
                 trainee.save()
