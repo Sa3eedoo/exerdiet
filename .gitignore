@@ -2,7 +2,7 @@
 *.jpeg
 *.png
 *.raw
-*.pyc
+*.pyc*
 .vscode/
 .env
 celerybeat-schedule
