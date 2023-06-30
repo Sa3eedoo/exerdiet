@@ -19,6 +19,13 @@ def retrieve_custom_food(api_client):
     return do_retrieve_custom_food
 
 
+@pytest.fixture
+def list_custom_food(api_client):
+    def do_list_custom_food():
+        return api_client.get('/diet/custom_foods/')
+    return do_list_custom_food
+
+
 @pytest.mark.django_db
 class TestCreateCustomFood:
     def test_if_user_is_anonymous_returns_401(self, create_custom_food):
@@ -63,6 +70,11 @@ class TestCreateCustomFood:
 
 @pytest.mark.django_db
 class TestRetrieveCustomFood:
+    def test_if_user_is_anonymous_returns_401(self, retrieve_custom_food):
+        response = retrieve_custom_food(1)
+
+        assert response.status_code == status.HTTP_401_UNAUTHORIZED
+
     def test_if_custom_food_Not_exists_returns_404(self, retrieve_custom_food, authenticate_with_trainee):
         authenticate_with_trainee()
 
@@ -97,3 +109,18 @@ class TestRetrieveCustomFood:
         response = retrieve_custom_food(custom_food.id)
 
         assert response.status_code == status.HTTP_404_NOT_FOUND
+
+
+@pytest.mark.django_db
+class TestListCustomFood:
+    def test_if_user_is_anonymous_returns_401(self, list_custom_food):
+        response = list_custom_food()
+
+        assert response.status_code == status.HTTP_401_UNAUTHORIZED
+
+    def test_if_user_is_authenticated_returns_200(self, authenticate_with_trainee, list_custom_food):
+        authenticate_with_trainee()
+
+        response = list_custom_food()
+
+        assert response.status_code == status.HTTP_200_OK
