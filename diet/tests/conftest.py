@@ -20,5 +20,6 @@ def authenticate_without_trainee(api_client):
 def authenticate_with_trainee(api_client):
     def do_authenticate_with_trainee(is_staff=False):
         trainee = baker.make(Trainee)
+        trainee.user.is_staff = is_staff
         return api_client.force_authenticate(user=trainee.user)
     return do_authenticate_with_trainee
