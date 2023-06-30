@@ -33,16 +33,17 @@ def delete_custom_food(api_client):
     return do_delete_custom_food
 
 
+@pytest.fixture
+def update_custom_food(api_client):
+    def do_update_custom_food(id, custom_food):
+        return api_client.patch(f'/diet/custom_foods/{id}/', custom_food)
+    return do_update_custom_food
+
+
 @pytest.mark.django_db
 class TestCreateCustomFood:
     def test_if_user_is_anonymous_returns_401(self, create_custom_food):
-        response = create_custom_food({
-            "name": "a",
-            "calories": 0,
-            "carbs": 0,
-            "fats": 0,
-            "protein": 0
-        })
+        response = create_custom_food({})
 
         assert response.status_code == status.HTTP_401_UNAUTHORIZED
 
@@ -162,5 +163,39 @@ class TestDeleteCustomFood:
         custom_food = baker.make(CustomFood, trainee=trainees[1])
 
         response = delete_custom_food(custom_food.id)
+
+        assert response.status_code == status.HTTP_404_NOT_FOUND
+
+
+@pytest.mark.django_db
+class TestUpdateCustomFood:
+    def test_if_user_is_anonymous_returns_401(self, update_custom_food):
+        response = update_custom_food(1, {})
+
+        assert response.status_code == status.HTTP_401_UNAUTHORIZED
+
+    def test_if_custom_food_Not_exists_returns_404(self, update_custom_food, authenticate_with_trainee):
+        authenticate_with_trainee()
+
+        response = update_custom_food(1, {})
+
+        assert response.status_code == status.HTTP_404_NOT_FOUND
+
+    def test_if_custom_food_exists_with_same_trainee_returns_200(self, api_client, update_custom_food):
+        trainee = baker.make(Trainee)
+        api_client.force_authenticate(user=trainee.user)
+        custom_food = baker.make(CustomFood, trainee=trainee, name='food_1')
+
+        response = update_custom_food(custom_food.id, {'name': 'food_2'})
+
+        assert response.status_code == status.HTTP_200_OK
+        assert response.data['name'] == 'food_2'
+
+    def test_if_custom_food_exists_with_other_trainee_returns_404(self, api_client, update_custom_food):
+        trainees = baker.make(Trainee, _quantity=2)
+        api_client.force_authenticate(user=trainees[0].user)
+        custom_food = baker.make(CustomFood, trainee=trainees[1])
+
+        response = update_custom_food(custom_food.id, {})
 
         assert response.status_code == status.HTTP_404_NOT_FOUND
