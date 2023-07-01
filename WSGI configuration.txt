@@ -2,7 +2,11 @@
 # To use your own Django app use code like this:
 import os
 import sys
+import time
 from dotenv import load_dotenv
+
+os.environ["TZ"] = "Africa/Cairo"
+time.tzset()
 
 project_folder = os.path.expanduser('/home/exerdiet/exerdiet')  # adjust as appropriate
 load_dotenv(os.path.join(project_folder, '.env'))
