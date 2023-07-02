@@ -186,10 +186,10 @@ class TestListMeal:
             "time_eaten": response.data['results'][0]["time_eaten"],
             "recipes": [],
             "food_instances": [],
-            "total_calories": meal.get_total_calories(),
-            "total_carbs": meal.get_total_carbs(),
-            "total_fats": meal.get_total_fats(),
-            "total_protein": meal.get_total_protein()
+            "total_calories": 0,
+            "total_carbs": 0,
+            "total_fats": 0,
+            "total_protein": 0
         }
 
 
