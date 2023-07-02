@@ -287,7 +287,7 @@ class FoodInstanceRecipeInline(admin.TabularInline):
     def formfield_for_dbfield(self, db_field, request: HttpRequest | None, **kwargs: Any):
         field = super().formfield_for_dbfield(db_field, request, **kwargs)
         if db_field.name == 'quantity':
-            field.widget.attrs['placeholder'] = 'in gm,ml,tsp'
+            field.widget.attrs['placeholder'] = 'gm|mL|tsp'
         return field
 
 
@@ -338,7 +338,7 @@ class FoodInstanceMealInline(admin.TabularInline):
     def formfield_for_dbfield(self, db_field, request: HttpRequest | None, **kwargs: Any):
         field = super().formfield_for_dbfield(db_field, request, **kwargs)
         if db_field.name == 'quantity':
-            field.widget.attrs['placeholder'] = 'in gm,ml,tsp'
+            field.widget.attrs['placeholder'] = 'gm|mL|tsp'
         return field
 
 
@@ -391,6 +391,6 @@ class WaterAdmin(admin.ModelAdmin):
     def get_form(self, request: Any, obj: Any | None = ..., change: bool = ..., **kwargs: Any) -> Any:
         form = super().get_form(request, obj, change, **kwargs)
 
-        form.base_fields['amount'].widget.attrs['placeholder'] = 'in ml'
+        form.base_fields['amount'].widget.attrs['placeholder'] = 'mL'
 
         return form
