@@ -190,9 +190,11 @@ class TestUpdateCustomExercise:
     def test_if_custom_exercise_exists_with_same_trainee_returns_200(self, api_client, update_custom_exercise):
         trainee = baker.make(Trainee)
         api_client.force_authenticate(user=trainee.user)
-        custom_exercise = baker.make(CustomExercise, trainee=trainee, name='exercise_1')
+        custom_exercise = baker.make(
+            CustomExercise, trainee=trainee, name='exercise_1')
 
-        response = update_custom_exercise(custom_exercise.id, {'name': 'exercise_2'})
+        response = update_custom_exercise(
+            custom_exercise.id, {'name': 'exercise_2'})
 
         assert response.status_code == status.HTTP_200_OK
         assert response.data['name'] == 'exercise_2'
