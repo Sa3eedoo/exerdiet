@@ -82,7 +82,18 @@ class TestListFood:
 
     def test_if_user_is_authenticated_returns_200(self, authenticate_with_trainee, list_food):
         authenticate_with_trainee()
+        food = baker.make(Food)
 
         response = list_food()
 
         assert response.status_code == status.HTTP_200_OK
+        assert response.data['results'][0] == {
+            "id": food.id,
+            "name": food.name,
+            "category": food.category,
+            "calories": food.calories,
+            "carbs": food.carbs,
+            "fats": food.fats,
+            "protein": food.protein,
+            "image": food.image
+        }
