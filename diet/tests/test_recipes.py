@@ -170,10 +170,10 @@ class TestListRecipe:
             "instructions": recipe.instructions,
             "image": recipe.image,
             "food_instances": [],
-            "total_calories": recipe.get_total_calories(),
-            "total_carbs": recipe.get_total_carbs(),
-            "total_fats": recipe.get_total_fats(),
-            "total_protein": recipe.get_total_protein()
+            "total_calories": 0,
+            "total_carbs": 0,
+            "total_fats": 0,
+            "total_protein": 0
         }
 
 
