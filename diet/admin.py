@@ -269,7 +269,10 @@ class CustomFoodAdmin(admin.ModelAdmin):
     def get_form(self, request: Any, obj: Any | None = ..., change: bool = ..., **kwargs: Any) -> Any:
         form = super().get_form(request, obj, change, **kwargs)
 
-        form.base_fields['quantity'].widget.attrs['placeholder'] = 'in gm,ml,tsp'
+        form.base_fields['calories'].widget.attrs['placeholder'] = 'cal/(100gm,ml)(1tsp)'
+        form.base_fields['carbs'].widget.attrs['placeholder'] = 'gram/(100gm,ml)(1tsp)'
+        form.base_fields['fats'].widget.attrs['placeholder'] = 'gram/(100gm,ml)(1tsp)'
+        form.base_fields['protein'].widget.attrs['placeholder'] = 'gram/(100gm,ml)(1tsp)'
 
         return form
 
