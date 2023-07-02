@@ -126,12 +126,24 @@ class TestListCustomFood:
 
         assert response.status_code == status.HTTP_401_UNAUTHORIZED
 
-    def test_if_user_is_authenticated_returns_200(self, authenticate_with_trainee, list_custom_food):
-        authenticate_with_trainee()
+    def test_if_user_is_authenticated_returns_200(self, api_client, list_custom_food):
+        trainee = baker.make(Trainee)
+        api_client.force_authenticate(user=trainee.user)
+        custom_food = baker.make(CustomFood, trainee=trainee)
 
         response = list_custom_food()
 
         assert response.status_code == status.HTTP_200_OK
+        assert response.data['results'][0] == {
+            "id": custom_food.id,
+            "name": custom_food.name,
+            "category": custom_food.category,
+            "calories": custom_food.calories,
+            "carbs": custom_food.carbs,
+            "fats": custom_food.fats,
+            "protein": custom_food.protein,
+            "image": custom_food.image
+        }
 
 
 @pytest.mark.django_db
