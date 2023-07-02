@@ -167,7 +167,7 @@ class TestListWorkout:
             "instructions": workout.instructions,
             "image": workout.image,
             "exercise_instances": [],
-            "total_calories": workout.get_total_calories()
+            "total_calories": 0
         }
 
 
@@ -370,7 +370,8 @@ class TestRetrieveExerciseInstance:
         workout = baker.make(Workout, trainee=trainees, _quantity=2)
         exercise_instance = baker.make(ExerciseInstance, workout=workout[1])
 
-        response = retrieve_exercise_instance(workout[0].id, exercise_instance.id)
+        response = retrieve_exercise_instance(
+            workout[0].id, exercise_instance.id)
 
         assert response.status_code == status.HTTP_404_NOT_FOUND
 
@@ -386,7 +387,8 @@ class TestListExerciseInstance:
         trainee = baker.make(Trainee)
         api_client.force_authenticate(user=trainee.user)
         workout = baker.make(Workout, trainee=trainee)
-        exercise_instances = baker.make(ExerciseInstance, workout=workout, _quantity=2)
+        exercise_instances = baker.make(
+            ExerciseInstance, workout=workout, _quantity=2)
 
         response = list_exercise_instance(workout.id)
 
@@ -398,7 +400,6 @@ class TestListExerciseInstance:
             assert response.data[i]['sets'] == exercise_instances[i].sets
             assert response.data[i]['total_calories'] == exercise_instances[i].get_total_calories(
             )
-
 
     def test_if_workout_Not_exists_returns_404(self, list_exercise_instance, authenticate_with_trainee):
         authenticate_with_trainee()
@@ -457,7 +458,8 @@ class TestDeleteExerciseInstance:
         workout = baker.make(Workout, trainee=trainees, _quantity=2)
         exercise_instance = baker.make(ExerciseInstance, workout=workout[1])
 
-        response = delete_exercise_instance(workout[0].id, exercise_instance.id)
+        response = delete_exercise_instance(
+            workout[0].id, exercise_instance.id)
 
         assert response.status_code == status.HTTP_404_NOT_FOUND
 
@@ -489,7 +491,8 @@ class TestUpdateExerciseInstance:
         trainee = baker.make(Trainee)
         api_client.force_authenticate(user=trainee.user)
         workout = baker.make(Workout, trainee=trainee)
-        exercise_instance = baker.make(ExerciseInstance, workout=workout, sets=1)
+        exercise_instance = baker.make(
+            ExerciseInstance, workout=workout, sets=1)
 
         response = update_exercise_instance(
             workout.id, exercise_instance.id, {"sets": 2}
@@ -504,7 +507,8 @@ class TestUpdateExerciseInstance:
         workout = baker.make(Workout, trainee=trainees[1])
         exercise_instance = baker.make(ExerciseInstance, workout=workout)
 
-        response = update_exercise_instance(workout.id, exercise_instance.id, {})
+        response = update_exercise_instance(
+            workout.id, exercise_instance.id, {})
 
         assert response.status_code == status.HTTP_404_NOT_FOUND
 
@@ -514,6 +518,7 @@ class TestUpdateExerciseInstance:
         workout = baker.make(Workout, trainee=trainees, _quantity=2)
         exercise_instance = baker.make(ExerciseInstance, workout=workout[1])
 
-        response = update_exercise_instance(workout[0].id, exercise_instance.id, {})
+        response = update_exercise_instance(
+            workout[0].id, exercise_instance.id, {})
 
         assert response.status_code == status.HTTP_404_NOT_FOUND
