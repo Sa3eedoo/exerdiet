@@ -10,13 +10,6 @@ def api_client():
 
 
 @pytest.fixture
-def authenticate_without_trainee(api_client):
-    def do_authenticate_without_trainee(is_staff=False):
-        return api_client.force_authenticate(user=User(is_staff=is_staff))
-    return do_authenticate_without_trainee
-
-
-@pytest.fixture
 def authenticate_with_trainee(api_client):
     def do_authenticate_with_trainee(is_staff=False):
         trainee = baker.make(Trainee)
