@@ -8,7 +8,7 @@ from core.validators import validate_image_size
 class Exercise(models.Model):
     class BodyPart(models.TextChoices):
         CHEST = 'CH', 'Chest'
-        BACk = 'BK', 'Back'
+        BACK = 'BK', 'Back'
         ARMS = 'AR', 'Arms'
         LEGS = 'LG', 'Legs'
         CARDIO = 'CR', 'Cardio'
