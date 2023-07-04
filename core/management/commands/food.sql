@@ -261,3 +261,5 @@ INSERT INTO diet_food (name, category, calories, carbs, fats, protein) VALUES ("
 INSERT INTO diet_food (name, category, calories, carbs, fats, protein) VALUES ("Frutta Secca", "F", 348, 78.4, 0.6, 3.5);
 INSERT INTO diet_food (name, category, calories, carbs, fats, protein) VALUES ("Salatini", "F", 486, 61.5, 22.5, 8.4);
 INSERT INTO diet_food (name, category, calories, carbs, fats, protein) VALUES ("Muffin", "F", 426, 57.8, 19.8, 5.4);
+INSERT INTO diet_food (name, category, calories, carbs, fats, protein) VALUES ("Ice Cream", "F", 207, 22.0, 11.0, 3.7);
+INSERT INTO diet_food (name, category, calories, carbs, fats, protein) VALUES ("Lemon", "F", 29, 9.3, 0.3, 1.1);
