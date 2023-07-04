@@ -1,7 +1,7 @@
 import pandas as pd
 
 # Read the CSV file
-data = pd.read_csv('food.csv')
+data = pd.read_csv('modified_food.csv')
 
 # Specify your column name
 column_name = 'name'
