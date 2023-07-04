@@ -1,0 +1,366 @@
+name,body_part,is_repetitive,calories_burned
+Push-ups,CH,TRUE,7
+Squats,LG,TRUE,8
+Pull-ups,BK,TRUE,9
+Lunges,LG,TRUE,6
+Bench press,CH,TRUE,7
+Plank,AB,TRUE,3
+Bicep curls,AR,TRUE,5
+Tricep dips,AR,TRUE,6
+Leg press,LG,TRUE,7
+Shoulder press,SH,TRUE,6
+Crunches,AB,TRUE,4
+Russian twists,AB,TRUE,5
+Dumbbell rows,BK,TRUE,6
+Calf raises,LG,TRUE,4
+Bicycle crunches,AB,TRUE,5
+Mountain climbers,CR,TRUE,8
+Side plank,AB,TRUE,4
+Hamstring curls,LG,TRUE,6
+Jumping jacks,CR,TRUE,9
+Skull crushers,AR,TRUE,5
+Deadlifts,BK,TRUE,9
+Step-ups,LG,TRUE,6
+Incline bench press,CH,TRUE,7
+Russian twists with medicine ball,AB,TRUE,5
+Bent-over rows,BK,TRUE,6
+Wall sits,LG,TRUE,5
+Flutter kicks,AB,TRUE,4
+Jump rope,CR,TRUE,10
+Arnold press,SH,TRUE,7
+Leg extensions,LG,TRUE,5
+Incline dumbbell curls,AR,TRUE,5
+Skull crushers with EZ bar,AR,TRUE,5
+Lat pulldowns,BK,TRUE,6
+Romanian deadlifts,BK,TRUE,7
+Russian twists with kettlebell,AB,TRUE,5
+Side lunges,LG,TRUE,6
+High knees,CR,TRUE,9
+Lateral raises,SH,TRUE,5
+Leg curls,LG,TRUE,5
+Hammer curls,AR,TRUE,5
+Close-grip bench press,CH,TRUE,7
+Stability ball crunches,AB,TRUE,4
+Seated cable rows,BK,TRUE,6
+Standing calf raises,LG,TRUE,4
+Burpees,CR,TRUE,10
+Military press,SH,TRUE,7
+Squat jumps,LG,TRUE,8
+Concentration curls,AR,TRUE,5
+Tricep kickbacks,AR,TRUE,5
+Glute bridges,LG,TRUE,5
+Ab wheel rollouts,AB,TRUE,5
+T-bar rows,BK,TRUE,6
+Reverse lunges,LG,TRUE,6
+Jump squats,LG,TRUE,8
+Push-up variations,CH,TRUE,7
+Front raises,SH,TRUE,5
+Step-ups with weights,LG,TRUE,7
+Preacher curls,AR,TRUE,5
+Diamond push-ups,CH,TRUE,7
+V-ups,AB,TRUE,5
+Bent-over flyes,BK,TRUE,6
+Romanian deadlifts with dumbbells,BK,TRUE,7
+Box jumps,LG,TRUE,9
+Tricep pushdowns,AR,TRUE,5
+Leg raises,AB,TRUE,4
+Running,CR,FALSE,12
+Cycling,CR,FALSE,9
+Swimming,CR,FALSE,10
+Jumping rope,CR,TRUE,10
+Walking,CR,FALSE,5
+Treadmill running,CR,FALSE,10
+Elliptical training,CR,FALSE,7
+Stair climbing,CR,FALSE,11
+High-intensity interval training,CR,TRUE,11
+Plank jacks,AB,TRUE,4
+Dumbbell bench press,CH,TRUE,7
+Bent-over reverse flyes,BK,TRUE,6
+Leg press machine,LG,TRUE,7
+Push-up and row,CH,TRUE,8
+Kettlebell swings,LG,TRUE,8
+Hammer curls with dumbbells,AR,TRUE,5
+Cable flyes,CH,TRUE,7
+Reverse crunches,AB,TRUE,4
+Lat pulldown machine,BK,TRUE,6
+Box squats,LG,TRUE,7
+Lateral shoulder raises,SH,TRUE,5
+Side plank dips,AB,TRUE,4
+Good mornings,BK,TRUE,7
+Bicycle crunches with weights,AB,TRUE,5
+Wall push-ups,CH,TRUE,6
+Leg press calf raises,LG,TRUE,4
+Standing overhead press,SH,TRUE,6
+Decline push-ups,CH,TRUE,7
+Sumo squats,LG,TRUE,8
+Renegade rows,BK,TRUE,6
+Split squats,LG,TRUE,6
+Dips,AR,TRUE,6
+Russian twists with stability ball,AB,TRUE,5
+Wide-grip pull-ups,BK,TRUE,7
+Barbell hip thrusts,LG,TRUE,6
+Hammer curls with cable,AR,TRUE,5
+Hack squats,LG,TRUE,7
+Hanging leg raises,AB,TRUE,5
+Plyometric push-ups,CH,TRUE,8
+Single-leg deadlifts,BK,TRUE,7
+Seated dumbbell shoulder press,SH,TRUE,6
+Weighted sit-ups,AB,TRUE,4
+Standing barbell curls,AR,TRUE,5
+Close-grip pull-downs,BK,TRUE,6
+Side lunges with dumbbells,LG,TRUE,6
+Russian twists on stability ball,AB,TRUE,5
+Jumping lunges,LG,TRUE,8
+Reverse grip barbell curls,AR,TRUE,5
+Dumbbell pullovers,BK,TRUE,6
+Reverse flyes with bands,BK,TRUE,6
+Skater lunges,LG,TRUE,7
+Medicine ball slams,CR,TRUE,9
+Plate front raises,SH,TRUE,5
+Weighted step-ups,LG,TRUE,7
+Spiderman planks,AB,TRUE,4
+Burpee box jumps,CR,TRUE,10
+Incline dumbbell flyes,CH,TRUE,7
+Bent-over dumbbell rows,BK,TRUE,6
+Barbell lunges,LG,TRUE,7
+Dumbbell shoulder raises,SH,TRUE,5
+Medicine ball twists,AB,TRUE,5
+Cable kickbacks,AR,TRUE,5
+Sumo deadlifts,BK,TRUE,9
+Reverse crunches on bench,AB,TRUE,4
+Single-arm cable rows,BK,TRUE,6
+Jumping rope with double unders,CR,TRUE,10
+Boxing punches,AR,TRUE,9
+Sissy squats,LG,TRUE,6
+Dumbbell hammer curls,AR,TRUE,5
+Standing cable chest press,CH,TRUE,7
+Side plank leg lifts,AB,TRUE,4
+Bulgarian split squats,LG,TRUE,6
+Medicine ball burpees,CR,TRUE,10
+Lateral shoulder raises with dumbbells,SH,TRUE,5
+Weighted Russian twists,AB,TRUE,5
+Donkey calf raises,LG,TRUE,4
+Seated military press,SH,TRUE,6
+Single-leg calf raises,LG,TRUE,4
+Barbell bench press,CH,TRUE,7
+Russian twist with resistance band,AB,TRUE,5
+Machine rows,BK,TRUE,6
+Jump squats with weight,AR,TRUE,8
+Seated leg press,LG,TRUE,7
+Resistance band curls,AR,TRUE,5
+Lateral lunges,LG,TRUE,6
+Mountain climbers on sliders,AB,TRUE,4
+Dumbbell incline bench press,CH,TRUE,7
+Plate twists,AB,TRUE,5
+Cable lat pull-downs,BK,TRUE,6
+Curtsy lunges,LG,TRUE,6
+Medicine ball chest pass,CH,TRUE,7
+Zottman curls,AR,TRUE,5
+Roman chair leg raises,AB,TRUE,4
+Jumping jacks with resistance band,CR,TRUE,8
+Cable bicep curls,AR,TRUE,5
+Hack squats with dumbbells,LG,TRUE,7
+Single-arm dumbbell shoulder press,SH,TRUE,6
+Resistance band pull-aparts,SH,TRUE,5
+Weighted Russian twists on bench,AB,TRUE,5
+Dumbbell pullover on stability ball,BK,TRUE,6
+Scissor kicks,AB,TRUE,4
+Medicine ball woodchoppers,LG,TRUE,6
+Plate front raises with rotation,SH,TRUE,5
+Cable tricep push-downs,AR,TRUE,5
+Single-leg glute bridges,LG,TRUE,5
+Dumbbell renegade rows,BK,TRUE,6
+Incline push-ups,CH,TRUE,7
+Banded squats,LG,TRUE,8
+Dumbbell hammer curls with twist,AR,TRUE,5
+Resistance band pull-throughs,LG,TRUE,6
+Cable crunches,AB,TRUE,4
+Jumping lunges with dumbbells,LG,TRUE,8
+Barbell curls,AR,TRUE,5
+Standing cable flyes,CH,TRUE,7
+Kettlebell goblet squats,LG,TRUE,8
+Roman chair back extensions,BK,TRUE,6
+Cable upright rows,SH,TRUE,5
+Bosu ball Russian twists,AB,TRUE,5
+Dumbbell kickbacks,AR,TRUE,5
+Seated calf raises,LG,TRUE,4
+Incline dumbbell curls,AR,TRUE,5
+Bench dips,AR,TRUE,6
+Overhead tricep extensions,AR,TRUE,5
+Decline sit-ups,AB,TRUE,4
+Pike push-ups,SH,TRUE,7
+Resistance band squats,LG,TRUE,8
+Cable rows,BK,TRUE,6
+Goblet squats with kettlebell,LG,TRUE,8
+Standing calf raises with dumbbells,LG,TRUE,4
+Lying leg curls,LG,TRUE,5
+Cable curls,AR,TRUE,5
+Hamstring curls with stability ball,LG,TRUE,6
+Incline cable flyes,CH,TRUE,7
+Dumbbell shrugs,BK,TRUE,6
+Lateral lunges with dumbbells,LG,TRUE,6
+Burpee pull-ups,BK,TRUE,9
+Plank with leg lifts,AB,TRUE,4
+Lying tricep extensions,AR,TRUE,5
+Seated leg extensions,LG,TRUE,5
+Cable woodchoppers,LG,TRUE,6
+Concentration curls with dumbbell,AR,TRUE,5
+Reverse grip lat pull-downs,BK,TRUE,6
+Glute-ham raises,BK,TRUE,7
+Cable oblique crunches,AB,TRUE,4
+Reverse lunges with dumbbells,LG,TRUE,6
+Box jumps with dumbbells,LG,TRUE,9
+Push-up variations on medicine ball,CH,TRUE,7
+Reverse grip dumbbell bench press,CH,TRUE,7
+Plank with knee tucks,AB,TRUE,4
+Lying cable curls,AR,TRUE,5
+Single-arm dumbbell rows,BK,TRUE,6
+Seated leg curls,LG,TRUE,5
+Cable lateral raises,SH,TRUE,5
+Standing barbell calf raises,LG,TRUE,4
+Jumping lunges with weight,LG,TRUE,8
+Bosu ball plank,AB,TRUE,4
+Incline push-ups on stability ball,CH,TRUE,7
+Kettlebell sumo squats,LG,TRUE,8
+Behind-the-neck lat pull-downs,BK,TRUE,6
+Medicine ball push-ups,CH,TRUE,7
+Overhead press with dumbbells,SH,TRUE,6
+Cable rope crunches,AB,TRUE,4
+Dumbbell alternating curls,AR,TRUE,5
+Bent-over cable lateral raises,SH,TRUE,5
+Bulgarian split squats with dumbbells,LG,TRUE,6
+Cable tricep extensions,AR,TRUE,5
+Kettlebell swings with one arm,LG,TRUE,8
+Resistance band face pulls,SH,TRUE,5
+Incline dumbbell flyes on stability ball,CH,TRUE,7
+Dumbbell bent-over rear delt raises,SH,TRUE,5
+Single-leg press,LG,TRUE,7
+Cable hammer curls,AR,TRUE,5
+Seated dumbbell curls,AR,TRUE,5
+Dumbbell step-ups,LG,TRUE,7
+Single-leg Romanian deadlifts,BK,TRUE,7
+Cable crunches with rotation,AB,TRUE,4
+Plate curls,AR,TRUE,5
+Single-leg calf raises with dumbbell,LG,TRUE,4
+Front squats,LG,TRUE,8
+Plate twists on stability ball,AB,TRUE,5
+Cable lat push-downs,BK,TRUE,6
+Walking lunges,LG,TRUE,6
+Kettlebell clean and press,SH,TRUE,7
+Cable woodchoppers with rotation,LG,TRUE,6
+Lying tricep cable extensions,AR,TRUE,5
+Dumbbell lunges,LG,TRUE,6
+Standing cable reverse flyes,BK,TRUE,6
+Mountain climbers,CR,FALSE,10
+Burpees,CR,FALSE,12
+Jumping jacks,CR,FALSE,8
+Sprint intervals,CR,FALSE,14
+Mountain bike riding,CR,FALSE,10
+Rowing,CR,FALSE,9
+Hiking,CR,FALSE,7
+Cross-country skiing,CR,FALSE,12
+Battle ropes,AR,FALSE,10
+Deadlifts, BK,FALSE,9
+Boxing, AR,FALSE,11
+High knees, LG,FALSE,8
+Sledgehammer swings, AR,FALSE,10
+Jumping rope variations, CR,FALSE,10
+Swimming laps, CR,FALSE,10
+Kettlebell snatches, LG,FALSE,9
+Plyometric lunges, LG,FALSE,8
+Sprint cycling, CR,FALSE,11
+Sled pushes, LG,FALSE,10
+Battling ropes, AR,FALSE,10
+Circuit training, Various,FALSE,11
+Sprint intervals on a treadmill, CR,FALSE,12
+Mountain climbers with sliders, CR,FALSE,10
+Box jumps variations, LG,FALSE,9
+High-intensity interval training (HIIT), Various,FALSE,12
+Sprint swimming, CR,FALSE,11
+Rowing machine intervals, CR,FALSE,9
+Hill sprints, LG,FALSE,10
+Medicine ball slams, Various,FALSE,9
+Kickboxing, AR,FALSE,11
+Jump squats, LG,FALSE,8
+Circuit weight training, Various,FALSE,10
+Obstacle course training, Various,FALSE,11
+Interval running, CR,FALSE,10
+Sprint training, Various,FALSE,12
+Plyometric push-ups, CH,FALSE,8
+TRX exercises, Various,FALSE,9
+Sandbag training, Various,FALSE,10
+Rock climbing, Various,FALSE,11
+Jump lunges, LG,FALSE,8
+Sprint cycling on a stationary bike, CR,FALSE,11
+Plyometric box drills, LG,FALSE,9
+Aerobic dance workouts, Various,FALSE,8
+Sprint rowing, CR,FALSE,9
+Tire flips, LG,FALSE,11
+Explosive jumps, Various,FALSE,9
+Stair sprints, LG,FALSE,10
+Sprint intervals on an elliptical machine, CR,FALSE,10
+Tabata workouts, Various,FALSE,12
+Sprint intervals on a stationary bike, CR,FALSE,11
+Slam ball variations, Various,FALSE,9
+Tire drag, LG,FALSE,10
+Interval swimming, CR,FALSE,10
+Jumping lunges with weight, LG,FALSE,9
+Boxing combinations,AR,FALSE,11
+Jumping rope double unders,CR,FALSE,10
+Kettlebell swings,AR,FALSE,9
+Jumping lunges with rotation,LG,FALSE,8
+Rock climbing (indoor or outdoor),BK,FALSE,11
+Medicine ball slams,AR,FALSE,9
+Plyometric box jumps,LG,FALSE,9
+Sprint intervals on a stationary bike,CR,FALSE,11
+Tire flips,LG,FALSE,11
+Battle rope waves,AR,FALSE,10
+Rowing machine sprints,CR,FALSE,9
+HIIT workouts (High-Intensity Interval Training),Various,FALSE,12
+Boxing pad work,AR,FALSE,11
+Skiing or snowboarding,BK,FALSE,10
+Explosive push-ups,CH,FALSE,8
+Jumping squats with weight,LG,FALSE,8
+Barbell thrusters,LG,FALSE,9
+Kettlebell clean and press,SH,FALSE,9
+Cycling sprints,CR,FALSE,10
+Sprint intervals on a treadmill,CR,FALSE,12
+Plyometric burpees,Various,FALSE,11
+Jumping lunges with dumbbells,LG,FALSE,8
+Agility ladder drills,Various,FALSE,8
+Sprint swimming,CR,FALSE,11
+Plyometric push-ups with clap,CH,FALSE,8
+Battle rope slams,AR,FALSE,10
+High knees with resistance bands,CR,FALSE,9
+Sprint rowing,CR,FALSE,9
+Treadmill hill sprints,LG,FALSE,10
+Box jumps with height variations,LG,FALSE,9
+Kettlebell snatches,LG,FALSE,9
+Jumping lunges with kettlebell, LG,FALSE,8
+Plyometric step-ups,LG,FALSE,8
+Boxing speed bag training,AR,FALSE,9
+Sprint cycling on a stationary bike,CR,FALSE,11
+Kettlebell Turkish get-ups,Various,FALSE,9
+Jumping lunges with medicine ball,LG,FALSE,8
+Plyometric lateral jumps,LG,FALSE,8
+Parkour movements,Various,FALSE,10
+Sprint intervals on an elliptical machine,CR,FALSE,10
+Battling rope alternating waves,AR,FALSE,10
+Kettlebell snatches with one arm,LG,FALSE,9
+Explosive box squats,LG,FALSE,9
+Plyometric push-ups on medicine ball,CH,FALSE,8
+Jumping lunges with resistance bands,LG,FALSE,8
+Sprint intervals on a rowing machine,CR,FALSE,9
+Kettlebell windmills,LG,FALSE,9
+Plyometric lateral lunges,LG,FALSE,8
+Aggressive rope slams,AR,FALSE,10
+Sprint cycling with resistance,CR,FALSE,11
+Jumping lunges with sandbag,LG,FALSE,8
+Plyometric push-ups with medicine ball,CH,FALSE,8
+Sprint intervals on a stair climber,CR,FALSE,10
+Kettlebell figure 8s,LG,FALSE,9
+Plyometric single-leg hops,LG,FALSE,8
+Hill sprints with weight,LG,FALSE,10
+Agility ladder lateral drills,Various,FALSE,8
+Sprint swimming with resistance,CR,FALSE,11
+Jumping lunges with kettlebell swing,LG,FALSE,8
