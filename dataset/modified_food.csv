@@ -1,0 +1,236 @@
+name,category,calories,carbs,fats,protein
+Apple,F,52,14,0.2,0.3
+Banana,F,105,27,0.4,1.3
+Chicken Breast,F,165,0,3.6,31
+Salmon,F,206,0,13,22
+Broccoli,F,55,11,0.6,3.7
+Brown Rice (Cooked),F,111,23,0.9,2.6
+Whole Wheat Bread,F,247,49,2.7,10
+Eggs (Large),F,155,1.1,10.6,12.6
+Greek Yogurt,F,59,3.6,0,10
+Almonds,F,576,22,49,21
+Olive Oil,F,884,0,100,0
+Milk (2% Fat),F,50,4.8,1.8,3.3
+Spinach,F,23,3.6,0.4,2.9
+Carrot,F,41,10,0.2,0.9
+Lean Ground Beef (Cooked),F,250,0,17,23
+Oatmeal (Cooked),F,68,12,1.4,2.5
+Sweet Potato (Baked),F,86,20,0.1,1.6
+Cucumber,F,15,3.6,0.1,0.6
+Lentils (Cooked),F,116,20,0.4,9
+Peanut Butter (Natural),F,588,20,50,25
+Orange,F,43,11,0.2,0.9
+White Rice (Cooked),F,130,28,0.3,2.7
+Tuna (Canned in Water),F,116,0,0.8,26
+Cauliflower,F,25,5,0.3,2
+Pasta (Cooked),F,131,25,1.3,5
+Turkey Breast (Skinless),F,104,0,1,22
+Quinoa (Cooked),F,120,21,1.9,4
+Cottage Cheese (2% Fat),F,103,3.4,2.4,11
+Strawberries,F,32,8,0.3,0.7
+Avocado,F,160,8.5,14.7,2
+Ground Beef (80% Lean),F,250,0,20,18
+Green Beans,F,31,7,0.2,1.8
+Pineapple,F,50,13,0.1,0.5
+Tofu,F,144,1.7,8,15
+Yogurt,F,110,17,1.5,7
+Blueberries,F,57,14,0.3,0.7
+Walnuts,F,654,14,65,15
+Corn (Cooked),F,96,21,1.5,3.4
+Pork Tenderloin,F,143,0,3.5,26
+Bell Pepper (Red),F,31,6,0.3,1.3
+Mushrooms,F,22,3.3,0.3,2.5
+Peanuts,F,567,16.1,49.2,25.8
+Zucchini,F,17,3.1,0.3,1.2
+Grapes,F,69,18,0.2,0.7
+Romaine Lettuce,F,17,3.3,0.2,1.2
+Kidney Beans (Cooked),F,127,22.8,0.5,8.7
+Parmesan Cheese,F,431,3.4,29.2,38.4
+Honey,F,304,82,0,0.3
+Cantaloupe,F,34,8,0.2,0.8
+Green Peas (Cooked),F,81,14,0.4,5
+Flaxseeds,F,534,28.9,42.2,18.3
+Raspberries,F,53,12,0.7,1.2
+Mango,F,60,15,0.4,0.8
+Pasta Sauce (Tomato-based),F,56,9,1,1.8
+Cottage Cheese (Low-Fat),F,72,3.4,0.9,12
+Pork Ribs,F,272,0,19,26
+Pine Nuts,F,673,13,68,14
+Celery,F,16,3,0.2,0.7
+Coconut Milk,F,230,3.3,24,2.3
+Cottage Cheese (Fat-Free),F,72,3.4,0.4,14
+Grapefruit,F,42,11,0.1,0.8
+Hazelnut Butter,F,628,16.7,61.4,15
+Maple Syrup,F,260,67,0,0.1
+Rice Noodles (Cooked),F,96,23,0.4,2.1
+Sesame Seeds,F,573,23.4,49,17.7
+Tofu (Firm),F,144,2,8,15
+Apricot,F,48,12,0.1,0.5
+Green Lentils (Cooked),F,116,20,0.4,9
+Couscous (Cooked),F,112,24,0.2,4
+Pecans,F,691,14,72,9
+Cottage Cheese (1% Fat),F,72,3.4,1,13
+Lamb Chop,F,250,0,20,18
+Sour Cream,F,193,3.6,20,2.3
+Kiwi,F,41,9,0.5,1.1
+Pumpkin,F,26,7,0.1,1
+Sunflower Seeds,F,584,20,51,21
+Cantaloupe Melon,F,34,8,0.2,0.8
+Barley (Cooked),F,123,28,0.4,2.3
+Cashews,F,553,30,44,18
+Flour (All-Purpose),F,364,76.3,1.2,10.3
+Cherry,F,50,12,0.3,1
+Pasta (Whole Wheat Cooked),F,124,25,1.1,5
+Dates,F,282,75,0.4,2.5
+White Bread,F,265,49.7,2.9,9.8
+Mussels (Cooked),F,172,7,2.9,24
+Pita Bread,F,275,55,2.6,9.2
+Peanut Oil,F,884,0,100,0
+Beef Steak,F,250,0,20,23
+Pomegranate,F,83,18.7,1.2,1.7
+Naan Bread,F,320,58,5.4,9.2
+Pork Loin,F,143,0,4.2,25
+Chickpea Flour,F,387,57.8,6.7,22.4
+Custard,F,153,20,6.3,4.2
+Salad Dressing (Italian),F,418,1.6,45.6,1.1
+Hummus,F,177,17,9,6
+Pork Sausage,F,250,0.4,20,16
+Pita Chips,F,506,63,26.3,9.3
+Tilapia (Cooked),F,96,0,2,20
+Buttermilk,F,62,4.8,1.7,3.3
+Gouda Cheese,F,356,2.2,27.8,24.9
+Pumpkin Seeds,F,559,11.9,49,30.2
+Rice Noodles (Dry),F,364,86,2.2,6.5
+Feta Cheese,F,264,4.1,21.3,14.2
+Buckwheat (Cooked),F,92,19.9,0.9,3.4
+Beef Jerky,F,410,11.3,15.9,51.1
+Soybeans (Cooked),F,173,9.9,9.3,16.6
+Blue Cheese,F,353,0.7,28.7,21.4
+Pork Belly,F,525,0,55.3,8.4
+Bulgur (Cooked),F,83,18.6,0.2,3
+Canned Sardines,F,208,0,11.5,24.6
+White Wine,F,82,2.6,0,0.1
+Seaweed (Nori),F,35,5.1,0.5,5.5
+Provolone Cheese,F,351,2.1,27.7,25.6
+Pork Sausage Links,F,262,2,22,14
+Bran Flakes,F,346,76,2.7,9.7
+Peanut Butter (Crunchy),F,588,20,50,25
+Coconut Oil,F,862,0,100,0
+Hot Dog,F,155,2.2,13,5.7
+Oyster Sauce,F,58,12.9,0.5,1.2
+Red Wine,F,85,2.6,0,0.1
+Crab (Cooked),F,83,0,1.2,18.8
+Cottage Cheese (Whole Milk),F,103,3.4,4.3,11
+Ginger,F,80,17.8,0.8,1.8
+Chicken Breast (Grilled),F,165,0,3.6,31
+Salmon Fillet (Grilled),F,206,0,13.5,22
+Carrots,F,41,10,0.2,0.9
+Grilled Cheese Sandwich,F,291,23.9,16.9,11.3
+Tomato,F,18,3.9,0.2,0.9
+Steak (Grilled),F,250,0,20,25
+Lettuce,F,5,1,0.1,0.5
+Scrambled Eggs,F,155,1.1,11,13
+Rice (Cooked),F,130,28,0.3,2.7
+Watermelon,F,30,8,0.2,0.6
+Pizza (Cheese),F,285,36.2,10.7,11.8
+Grilled Chicken Salad,F,120,2,2.5,23
+Peanut Butter and Jelly Sandwich,F,429,52,19,12
+Potato,F,77,17,0.1,2
+Cheeseburger,F,295,19.5,16.4,16.7
+Onion,F,40,9.3,0.1,1.1
+Spaghetti (Cooked),F,157,31,1.5,5.8
+Fried Chicken,F,319,12.4,20.8,20.6
+Corn on the Cob,F,86,19,1.2,3.4
+Eggs (Hard-Boiled),F,155,1.1,11,13
+Strawberry Banana Smoothie,F,54,13.1,0.4,0.8
+Green Beans (Steamed),F,31,7,0.1,1.8
+Pancakes (Plain),F,227,31.3,9.2,5.4
+Water,F,0,0,0,0
+Sushi (Salmon Roll),F,231,38,6.1,6.1
+Chocolate Chip Cookie,F,488,64.1,24.5,5.2
+French Fries,F,365,52.3,17.5,3.4
+Fried Rice,F,163,26.1,4.5,4.7
+Chicken Caesar Salad,F,200,3,14,17
+Broccoli Cheddar Soup,F,103,8.4,6.3,3.7
+Peanut Butter,F,588,20,50,25
+Tuna Salad Sandwich,F,269,16.2,15.1,18.7
+Caesar Salad,F,154,2.6,15.3,1.9
+Chicken Fried Rice,F,222,28,8,7
+Pasta Salad,F,157,17.5,7.2,4.8
+Cheese Pizza,F,285,34,11,12
+Grilled Salmon,F,206,0,13.5,22
+Beef Stir-Fry,F,168,2.6,10.5,16.4
+Mashed Potatoes,F,94,17,2.2,1.9
+Fruit Salad,F,70,18,0.2,0.8
+Taco,F,217,17.4,11,12.7
+Veggie Burger,F,124,14.8,4.7,5.3
+Caesar Wrap,F,218,16.9,13.1,9.1
+Chicken Noodle Soup,F,38,4.8,0.7,3.3
+Hamburger,F,250,29,10,12
+Fajitas,F,159,9.3,6.1,16.4
+Shrimp Scampi,F,181,3.6,8.2,23.4
+Egg Fried Rice,F,218,27,9,6
+Lasagna,F,132,13.2,5.2,8.9
+Chicken Alfredo,F,199,3.3,7.7,26.7
+Fried Shrimp,F,240,19,12,14
+Eggplant Parmesan,F,143,9.4,9.5,5.5
+Grilled Chicken Wrap,F,178,24.1,4.5,10.4
+Pancakes with Syrup,F,227,31.3,9.2,5.4
+Steak Fajitas,F,198,5.5,6.7,29.8
+Falafel,F,333,36.3,18.3,13.3
+Tabbouleh,F,99,12.8,5.1,2.8
+Shawarma (Chicken),F,215,4.3,11.9,21.7
+Moutabal (Baba Ganoush),F,267,8.5,25,4.9
+Kabsa (Chicken),F,237,35.8,6.2,10.3
+Manakeesh (Cheese),F,322,39.6,13.1,11.2
+Mujadara,F,202,35.8,3.7,8.9
+Lamb Kofta,F,297,2.5,23.6,20.4
+Baklava,F,429,54,22.5,5
+Samosa (Vegetable),F,252,27.6,14.3,3.8
+Fattoush Salad,F,82,12.1,3.4,2.9
+Shish Taouk,F,162,3.5,4.3,26.6
+Makloubeh,F,153,18.9,5.9,6.6
+Kunafa,F,320,40,16,5
+Lentil Soup,F,111,20.3,0.6,6.8
+Mansaf,F,443,30.3,24.2,25.7
+Chicken Mandi,F,268,22.8,12.6,16.3
+Stuffed Grape Leaves (Warak Enab),F,162,22.4,7.3,2.5
+Labneh,F,116,3.6,10.9,1.8
+Chicken Parmesan,F,295,10.3,11.4,37.2
+Beef Burrito,F,163,20.4,5.3,8.6
+Chicken Tenders,F,319,13.7,17.8,25.4
+Beef Tacos,F,226,15.2,12.5,13.5
+Shrimp Fried Rice,F,207,26.7,6.9,9.3
+Beef and Broccoli Stir-Fry,F,168,9.9,8.6,14.4
+Chicken Quesadilla,F,247,20.2,11.6,16.8
+Fish and Chips,F,273,23.4,15.5,10.5
+Spaghetti Carbonara,F,286,23.2,15.6,11.2
+Chicken Caesar Wrap,F,219,15.5,13.2,12.3
+BBQ Ribs,F,361,10.5,22.6,27.6
+Turkey Club Sandwich,F,279,24.6,12.5,17.3
+Chicken Enchiladas,F,207,18.4,8.2,15.4
+Beef Stir-Fry with Vegetables,F,162,7.8,7.6,15.7
+Salmon Teriyaki,F,222,7.1,13.6,16.2
+Vegetable Curry,F,115,11.7,6.7,2.6
+Beef Stroganoff,F,214,6.6,12.5,18.4
+Tofu Stir-Fry,F,144,8,8,12
+Chicken Shawarma,F,213,17.8,6.1,20.4
+Mango Juice,F,60,15,0,0
+Tahini Sauce,F,595,5,60,15
+Laban,F,63,4.3,1.6,7.1
+Kanafeh,F,321,36.9,17.7,4.9
+Moroccan Mint Tea,F,49,12.3,0.1,0.1
+Za'atar,F,395,38,25,11
+Kunafa with Cheese,F,316,43.6,12.9,6.2
+Rose Water,F,0,0,0,0
+Basbousa,F,288,39.8,13.6,3.6
+Sumac,F,305,57.7,4.9,9.7
+Lemonade,F,29,8.1,0.1,0.4
+Luqaimat,F,328,49.6,13.4,4.3
+Cardamom,F,311,68,6.7,10.8
+Karak Chai,F,84,14.4,2.5,1.3
+Umm Ali,F,350,26,25,5
+Pomegranate Juice,F,83,18.7,0.2,1.2
+Harissa,F,84,15.2,2.1,1.9
+Saffron,F,310,65,6,11.9
+Jallab,F,110,27,0,0
